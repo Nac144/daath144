@@ -16,7 +16,7 @@
     .cube-outer{width:100%;height:100%;border:2px solid #444;position:absolute;animation:pulse 4s infinite}
     .cube-inner{width:70%;height:70%;border:2px solid #666;position:absolute;top:15%;left:15%;animation:pulse 4s infinite .5s}
     .wave{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,#888,transparent);top:50%;animation:wave 3s infinite}
-    @keyframes pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.8;transform:scale(1.05)}}
+    @keyframes pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.8;transform:scale(1.05)}
     @keyframes wave{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
     h1{font-size:2.8em;letter-spacing:10px;text-transform:uppercase;color:#888;margin-bottom:20px;text-shadow:0 0 20px rgba(136,136,136,.3)}
     .subtitle{color:#555;letter-spacing:4px;font-size:1em;line-height:1.8}
@@ -54,7 +54,7 @@
       position: relative; width: 400px; height: 400px; background: #111; border: 2px solid #222; border-radius: 8px; box-shadow: 0 4px 32px #000a;
     }
     #cube-coords-overlay {
-      position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.72);color:#98ffa7;font-family:monospace;font-size:1.05em;line-height:1.6;padding:10px 16px;border-radius:6px;box-shadow:0 2px 8px #040a;
+      position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.72);color:#98ffa7;font-family:monospace;font-size:1.05em;line-height:1.6;padding:10px 16px;border-radius:6px;box-shadow:0 2px 8px #0a0;
     }
     #cube-canvas { display:block; }
   </style>
@@ -127,8 +127,8 @@
         dir.position.set(2,3,2);
         scene.add(dir);
 
-        // Controls
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // Controls (FIXED)
+        const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.13;
         controls.enablePan = false;
@@ -155,7 +155,7 @@
 
       <div class="theory-block">
         <strong>Language as Measurement Apparatus</strong>
-        When a word is spoken, written, or thought—the conceptual waveform collapses. What existed as pure potentiality in the Platonic realm of Forms becomes fixed, positioned, bounded. This is not metaphor. This is the architecture of control.
+        When a word is spoken, written, or thought—the conceptual waveform collapses. What existed as pure potentiality in the Platonic realm of Forms becomes fixed, positioned, bounded. This is not the end of meaning, but the start of measurement.
       </div>
 
       <div class="equation">
@@ -163,7 +163,9 @@
       </div>
       <div class="theory-block">
         <strong>The Cube as Local Collapse</strong>
-        You inhabit a cube. Its walls are definitions you believe to be absolute. "Terrorist" means one thing. "Freedom" means one thing. "Truth" has a position. But these are <span class="highlight">local measurements</span>—your collapsed state. Others inhabit different cubes with different collapsed states. The system maintains <span class="highlight">global superposition</span> while you experience local rigidity.
+        You inhabit a cube. Its walls are definitions you believe to be absolute. "Terrorist" means one thing. "Freedom" means one thing. "Truth" has a position. But these are <span class="highlight">not fixed</span>—they are the result of observation, of collapse.
       </div>
     </section>
     <!-- ...rest of your file remains unchanged... -->
+</body>
+</html>
