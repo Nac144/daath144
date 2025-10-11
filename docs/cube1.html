@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cube1</title>
+  <style>
+    body { margin: 0; background: #111; }
+    #cube1-canvas { display: block; margin: 0 auto; background: #111; }
+    #cube1-coords { color: #98ffa7; font-family: monospace; font-size: 1.05em; text-align: center; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div id="cube1-coords">
+    <span style="color:#777;">Current Position:</span>
+    x: <span id="cube1-x">0.00</span>
+    y: <span id="cube1-y">0.00</span>
+    z: <span id="cube1-z">0.00</span>
+  </div>
+  <canvas id="cube1-canvas" width="400" height="400"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.min.js"></script>
+  <script>
+    const canvas = document.getElementById('cube1-canvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#111");
+    const camera = new THREE.PerspectiveCamera(70, 1, 0.1, 100);
+    camera.position.set(2.7, 2.7, 2.7);
+    camera.lookAt(0,0,0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false });
+    renderer.setClearColor(0x111111);
+    renderer.setSize(400, 400, false);
+
+    // Cube
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshStandardMaterial({
+      color: 0x111111,
+      emissive: 0x0,
+      metalness: 0.7,
+      roughness: 0.32
+    });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    // Edges for wireframe effect
+    const edges = new THREE.EdgesGeometry(geometry);
+    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x98ffa7, linewidth: 2 }));
+    cube.add(line);
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0x888888, 0.9));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+    dir.position.set(2,3,2);
+    scene.add(dir);
+
+    // Controls (use global OrbitControls, not THREE.OrbitControls)
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.13;
+    controls.enablePan = false;
+    controls.minDistance = 2.1;
+    controls.maxDistance = 6.5;
+    controls.autoRotate = false;
+    controls.enableZoom = false;
+
+    function updateCoords() {
+      document.getElementById('cube1-x').textContent = (cube.rotation.x).toFixed(2);
+      document.getElementById('cube1-y').textContent = (cube.rotation.y).toFixed(2);
+      document.getElementById('cube1-z').textContent = (cube.rotation.z).toFixed(2);
+    }
+
+    function animate() {
+      controls.update();
+      renderer.render(scene, camera);
+      updateCoords();
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
