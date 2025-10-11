@@ -57,42 +57,6 @@
       color: #66d9ff;
     }
     
-    #controls-panel {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px 25px;
-      border-radius: 10px;
-      border: 2px solid #98ffa7;
-      box-shadow: 0 0 30px rgba(152, 255, 167, 0.4);
-      pointer-events: all;
-    }
-    
-    .control-btn {
-      background: linear-gradient(135deg, #98ffa7 0%, #66d9ff 100%);
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 5px;
-      color: #0a0a0a;
-      font-weight: bold;
-      font-family: 'Courier New', monospace;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(152, 255, 167, 0.3);
-    }
-    
-    .control-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(152, 255, 167, 0.5);
-    }
-    
-    .control-btn:active {
-      transform: translateY(0);
-    }
-    
     #instructions {
       position: absolute;
       top: 80px;
@@ -148,13 +112,6 @@
   </div>
   
   <canvas id="cube1-canvas"></canvas>
-  
-  <div id="controls-panel">
-    <button class="control-btn" id="reset-btn">🔄 Reset</button>
-    <button class="control-btn" id="mode-btn">🎨 Mode: <span id="current-mode">Wireframe</span></button>
-    <button class="control-btn" id="auto-rotate-btn">▶️ Auto-Rotate</button>
-    <button class="control-btn" id="particles-btn">✨ Particles: ON</button>
-  </div>
   
   <script type="importmap">
     {
@@ -216,33 +173,8 @@
     const line = new THREE.LineSegments(edges, lineMaterial);
     cube.add(line);
     
-    // Particles
-    const particleCount = 1000;
-    const particleGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = [];
-    
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 10;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-      velocities.push({
-        x: (Math.random() - 0.5) * 0.02,
-        y: (Math.random() - 0.5) * 0.02,
-        z: (Math.random() - 0.5) * 0.02
-      });
-    }
-    
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const particleMaterial = new THREE.PointsMaterial({
-      color: 0x66d9ff,
-      size: 0.05,
-      transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending
-    });
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
+    // Particles - DISABLED
+    const particlesEnabled = false;
     
     // Lighting
     scene.add(new THREE.AmbientLight(0x404040, 1.5));
@@ -273,8 +205,6 @@
     let previousMousePosition = { x: 0, y: 0 };
     let velocity = { x: 0, y: 0 };
     let autoRotate = false;
-    let currentMode = 'wireframe';
-    let particlesEnabled = true;
     let colorTime = 0;
     
     // Mouse/Touch controls
@@ -334,69 +264,16 @@
         case 'ArrowRight': cube.rotation.y += rotSpeed; break;
         case 'ArrowUp': cube.rotation.x -= rotSpeed; break;
         case 'ArrowDown': cube.rotation.x += rotSpeed; break;
-        case ' ': autoRotate = !autoRotate; updateAutoRotateBtn(); break;
+        case ' ': autoRotate = !autoRotate; break;
         case 'r':
-        case 'R': resetCube(); break;
-      }
-    });
-    
-    // UI Controls
-    document.getElementById('reset-btn').addEventListener('click', resetCube);
-    document.getElementById('mode-btn').addEventListener('click', toggleMode);
-    document.getElementById('auto-rotate-btn').addEventListener('click', () => {
-      autoRotate = !autoRotate;
-      updateAutoRotateBtn();
-    });
-    document.getElementById('particles-btn').addEventListener('click', toggleParticles);
-    
-    function resetCube() {
-      cube.rotation.set(0, 0, 0);
-      velocity = { x: 0, y: 0 };
-      camera.position.set(3.5, 3.5, 3.5);
-      controls.reset();
-    }
-    
-    function toggleMode() {
-      const modes = ['wireframe', 'solid', 'transparent'];
-      const currentIndex = modes.indexOf(currentMode);
-      currentMode = modes[(currentIndex + 1) % modes.length];
-      
-      switch(currentMode) {
-        case 'wireframe':
-          material.transparent = false;
-          material.opacity = 1;
-          material.color.setHex(0x1a1a1a);
-          line.visible = true;
-          break;
-        case 'solid':
-          material.transparent = false;
-          material.opacity = 1;
-          material.color.setHex(0x98ffa7);
-          line.visible = false;
-          break;
-        case 'transparent':
-          material.transparent = true;
-          material.opacity = 0.3;
-          material.color.setHex(0x66d9ff);
-          line.visible = true;
+        case 'R': 
+          cube.rotation.set(0, 0, 0);
+          velocity = { x: 0, y: 0 };
+          camera.position.set(3.5, 3.5, 3.5);
+          controls.reset();
           break;
       }
-      
-      document.getElementById('current-mode').textContent = 
-        currentMode.charAt(0).toUpperCase() + currentMode.slice(1);
-    }
-    
-    function toggleParticles() {
-      particlesEnabled = !particlesEnabled;
-      particles.visible = particlesEnabled;
-      document.getElementById('particles-btn').textContent = 
-        `✨ Particles: ${particlesEnabled ? 'ON' : 'OFF'}`;
-    }
-    
-    function updateAutoRotateBtn() {
-      const btn = document.getElementById('auto-rotate-btn');
-      btn.textContent = autoRotate ? '⏸️ Stop' : '▶️ Auto-Rotate';
-    }
+    });
     
     // Resize handler
     function handleResize() {
@@ -439,21 +316,7 @@
       const hue = (Math.sin(colorTime) * 0.5 + 0.5) * 0.3 + 0.3;
       lineMaterial.color.setHSL(hue, 1, 0.6);
       
-      if (particlesEnabled) {
-        const positions = particles.geometry.attributes.position.array;
-        for (let i = 0; i < particleCount; i++) {
-          positions[i * 3] += velocities[i].x;
-          positions[i * 3 + 1] += velocities[i].y;
-          positions[i * 3 + 2] += velocities[i].z;
-          
-          if (Math.abs(positions[i * 3]) > 5) velocities[i].x *= -1;
-          if (Math.abs(positions[i * 3 + 1]) > 5) velocities[i].y *= -1;
-          if (Math.abs(positions[i * 3 + 2]) > 5) velocities[i].z *= -1;
-        }
-        particles.geometry.attributes.position.needsUpdate = true;
-        particles.rotation.y += 0.001;
-      }
-      
+      // Animate point light
       pointLight.position.x = Math.sin(colorTime) * 3;
       pointLight.position.z = Math.cos(colorTime) * 3;
       
