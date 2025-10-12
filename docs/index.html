@@ -11,7 +11,7 @@
     .video-float iframe{width:100%;height:100%;border:0}
     @media (max-width:768px){.video-float{width:280px;height:157px;bottom:10px;right:10px}}
     .container{max-width:1200px;margin:0 auto;padding:20px}
-    header{text-align:center;padding:80px 20px;background:linear-gradient(180deg,#000 0%,#0a0a0a 100%);border-bottom:2px solid #222}
+    header{text-align:center;padding:80px 20px;background:linear-gradient(180deg,#000 0%,#0a0a0a 100%);border-bottom:2px solid #222;position:relative;overflow:hidden}
     .quantum-symbol{width:140px;height:140px;margin:0 auto 40px;position:relative}
     .cube-outer{width:100%;height:100%;border:2px solid #444;position:absolute;animation:pulse 4s infinite}
     .cube-inner{width:70%;height:70%;border:2px solid #666;position:absolute;top:15%;left:15%;animation:pulse 4s infinite .5s}
@@ -20,7 +20,7 @@
     @keyframes wave{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
     h1{font-size:2.8em;letter-spacing:10px;text-transform:uppercase;color:#888;margin-bottom:20px;text-shadow:0 0 20px rgba(136,136,136,.3)}
     .subtitle{color:#555;letter-spacing:4px;font-size:1em;line-height:1.8}
-    .section{padding:80px 20px;border-bottom:1px solid #111}
+    .section{padding:80px 20px;border-bottom:1px solid #111;position:relative}
     .section h2{font-size:2.2em;margin-bottom:40px;color:#666;text-align:center;letter-spacing:6px;position:relative}
     .section h2::after{content:'';display:block;width:60px;height:2px;background:#333;margin:20px auto 0}
     .theory-block{background:#050505;border-left:3px solid #333;padding:40px;margin:40px 0;color:#777;line-height:2;font-size:1.1em}
@@ -48,27 +48,73 @@
     .highlight{color:#999;font-weight:bold}
     .cube-container{width:100%;height:600px;background:#000;border:2px solid #333;border-radius:4px;margin:40px 0;overflow:hidden}
     .cube-container iframe{width:100%;height:100%;border:none}
+    
+    /* New enhancements */
+    .floating-cubes {position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+    .floating-cube {position:absolute;border:1px solid rgba(136,136,136,0.2);animation:float 20s infinite linear}
+    @keyframes float {
+      0% {transform:translateY(0) rotate(0deg);opacity:0}
+      10% {opacity:0.3}
+      90% {opacity:0.3}
+      100% {transform:translateY(-100vh) rotate(360deg);opacity:0}
+    }
+    
+    .section-bg {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.03;z-index:-1;background-size:50px 50px;background-image:linear-gradient(to right, #333 1px, transparent 1px),linear-gradient(to bottom, #333 1px, transparent 1px)}
+    
+    .collapse-animation {position:relative;height:200px;margin:40px auto;max-width:800px;overflow:hidden}
+    .wave-particle {position:absolute;width:100%;height:100%;border-radius:50%;border:1px solid rgba(136,136,136,0.3);animation:wave-particle 4s infinite ease-in-out}
+    @keyframes wave-particle {
+      0%, 100% {transform:scale(1);opacity:0.3}
+      50% {transform:scale(1.5);opacity:0.7}
+    }
+    
+    .interactive-concept {cursor:pointer;position:relative}
+    .concept-overlay {position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;pointer-events:none}
+    .concept-overlay.active {opacity:1;pointer-events:auto}
+    .concept-expanded {background:#0a0a0a;padding:30px;border:1px solid #444;max-width:80%;max-height:80%;overflow-y:auto}
+    
+    .nav-dots {position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:1000}
+    .nav-dot {width:12px;height:12px;border-radius:50%;background:#333;margin:15px 0;cursor:pointer;transition:all 0.3s}
+    .nav-dot.active {background:#888;transform:scale(1.3)}
+    
+    .typing-text {overflow:hidden;border-right:2px solid #888;white-space:nowrap;margin:0 auto;animation:typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite}
+    @keyframes typing {from {width:0} to {width:100%}}
+    @keyframes blink-caret {from, to {border-color:transparent} 50% {border-color:#888}}
   </style>
 </head>
 <body>
   <canvas id="mouseTrail"></canvas>
+  
+  <div class="nav-dots">
+    <div class="nav-dot active" data-section="header"></div>
+    <div class="nav-dot" data-section="mechanism"></div>
+    <div class="nav-dot" data-section="visualize"></div>
+    <div class="nav-dot" data-section="levels"></div>
+    <div class="nav-dot" data-section="weaponized"></div>
+    <div class="nav-dot" data-section="narcissistic"></div>
+    <div class="nav-dot" data-section="daath"></div>
+    <div class="nav-dot" data-section="determinism"></div>
+    <div class="nav-dot" data-section="recognition"></div>
+  </div>
 
   <div class="video-float">
-    <iframe src="cube1.html" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/Z4ZfyQR77G8" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 
   <header>
+    <div class="floating-cubes" id="floatingCubes"></div>
     <div class="quantum-symbol">
       <div class="cube-outer"></div>
       <div class="cube-inner"></div>
       <div class="wave"></div>
     </div>
-    <h1>THE COLLAPSED STATE</h1>
+    <h1 class="typing-text">THE COLLAPSED STATE</h1>
     <p class="subtitle">LOCAL SUPERPOSITION · FIXED NARRATIVE · THE CUBE</p>
   </header>
 
   <div class="container">
-    <section class="section">
+    <section class="section" id="mechanism">
+      <div class="section-bg"></div>
       <h2>THE MECHANISM</h2>
       <div class="theory-block">
         <strong>Language as Measurement Apparatus</strong>
@@ -85,7 +131,8 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="visualize">
+      <div class="section-bg"></div>
       <h2>VISUALIZE THE CUBE</h2>
       <div class="theory-block">
         <strong>Interactive Manifestation</strong>
@@ -102,7 +149,8 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="levels">
+      <div class="section-bg"></div>
       <h2>LEVELS OF COLLAPSE</h2>
 
       <div class="layers">
@@ -126,28 +174,69 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="weaponized">
+      <div class="section-bg"></div>
       <h2>WEAPONIZED LINGUISTICS</h2>
 
       <div class="grid-concept">
-        <div class="concept-card">
+        <div class="concept-card interactive-concept" data-concept="superposition">
           <h3>Superposition</h3>
           <p>Strategic terms kept deliberately vague. "Misinformation," "extremist," "safe"—maintained in quantum flux to collapse into whatever position serves control in that moment.</p>
+          <div class="concept-overlay">
+            <div class="concept-expanded">
+              <h3>Superposition in Detail</h3>
+              <p>Weaponized superposition operates by maintaining strategic ambiguity in key terms. This allows controllers to:</p>
+              <ul>
+                <li>Adapt definitions to changing circumstances</li>
+                <li>Apply different standards to different groups</li>
+                <li>Create confusion and cognitive dissonance</li>
+                <li>Prevent formation of stable opposition</li>
+              </ul>
+              <p>The term "terrorist" exemplifies this - it can mean anything from armed insurgent to peaceful protester depending on geopolitical needs.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="concept-card">
+        <div class="concept-card interactive-concept" data-concept="measurement">
           <h3>Measurement</h3>
           <p>The media apparatus. The institutional voice. The expert consensus. Each utterance collapses the waveform for the local cube dwellers. You measure, you fix, you trap.</p>
+          <div class="concept-overlay">
+            <div class="concept-expanded">
+              <h3>Measurement Apparatus</h3>
+              <p>The measurement event occurs through various channels:</p>
+              <ul>
+                <li>Media narratives that frame events in specific ways</li>
+                <li>Academic consensus that establishes "truth"</li>
+                <li>Political rhetoric that defines enemies and allies</li>
+                <li>Social media algorithms that amplify certain perspectives</li>
+              </ul>
+              <p>Each measurement collapses the quantum possibilities into a single, fixed interpretation that becomes "reality" for those within that information sphere.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="concept-card">
+        <div class="concept-card interactive-concept" data-concept="cube-cult">
           <h3>The Cube Cult</h3>
           <p>Those who've accepted the collapsed narrative as ultimate reality. They fight to defend their fixed positions, unaware others have been measured into contradictory states by the same source term.</p>
+          <div class="concept-overlay">
+            <div class="concept-expanded">
+              <h3>The Cube Cult Phenomenon</h3>
+              <p>Cube cult members exhibit characteristic behaviors:</p>
+              <ul>
+                <li>Inability to consider alternative perspectives</li>
+                <li>Emotional investment in their collapsed position</li>
+                <li>Hostility toward those in different cubes</li>
+                <li>Unquestioning acceptance of authority-defined realities</li>
+              </ul>
+              <p>Their certainty becomes their prison, making them predictable and easily manipulated through trigger words and concepts.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="narcissistic">
+      <div class="section-bg"></div>
       <h2>THE NARCISSISTIC COLLAPSE</h2>
 
       <div class="theory-block">
@@ -155,9 +244,10 @@
         The narcissist measured themselves once—"I am exceptional"—and that observation locked them into a static Euclidean position. No re-superposition. No fluidity. The ego-cube becomes a prison of their own measurement, rigid and fragile, unable to return to quantum flux.
       </div>
 
-      <div class="collapse-viz">
-        <div class="wave-state"></div>
-        <div class="particle-state"></div>
+      <div class="collapse-animation">
+        <div class="wave-particle" style="animation-delay: 0s"></div>
+        <div class="wave-particle" style="animation-delay: 1s"></div>
+        <div class="wave-particle" style="animation-delay: 2s"></div>
       </div>
 
       <div class="theory-block">
@@ -165,7 +255,8 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="daath">
+      <div class="section-bg"></div>
       <h2>DAATH: THE FALSE SYNTHESIS</h2>
 
       <div class="theory-block">
@@ -179,7 +270,8 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="determinism">
+      <div class="section-bg"></div>
       <h2>EXTREME DETERMINISM</h2>
 
       <div class="theory-block">
@@ -211,7 +303,9 @@
 
       <div class="equation">TRIGGERED CERTAINTY = BEHAVIORAL DETERMINISM = HERD CONTROL</div>
     </section>
-    <section class="section">
+    
+    <section class="section" id="recognition">
+      <div class="section-bg"></div>
       <h2>RECOGNITION</h2>
 
       <div class="theory-block">
@@ -269,6 +363,73 @@
       requestAnimationFrame(animate);
     }
     animate();
+    
+    // New interactive features
+    // Create floating cubes
+    const floatingCubes = document.getElementById('floatingCubes');
+    for(let i=0; i<15; i++) {
+      const cube = document.createElement('div');
+      cube.className = 'floating-cube';
+      const size = Math.random() * 40 + 10;
+      cube.style.width = `${size}px`;
+      cube.style.height = `${size}px`;
+      cube.style.left = `${Math.random() * 100}%`;
+      cube.style.animationDuration = `${Math.random() * 20 + 10}s`;
+      cube.style.animationDelay = `${Math.random() * 5}s`;
+      floatingCubes.appendChild(cube);
+    }
+    
+    // Interactive concept cards
+    const conceptCards = document.querySelectorAll('.interactive-concept');
+    conceptCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const overlay = this.querySelector('.concept-overlay');
+        overlay.classList.toggle('active');
+      });
+    });
+    
+    // Navigation dots
+    const navDots = document.querySelectorAll('.nav-dot');
+    const sections = document.querySelectorAll('.section, header');
+    
+    function updateActiveDot() {
+      const scrollPos = window.scrollY + window.innerHeight / 2;
+      
+      sections.forEach((section, index) => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+          navDots.forEach(dot => dot.classList.remove('active'));
+          if (navDots[index]) navDots[index].classList.add('active');
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateActiveDot);
+    
+    navDots.forEach(dot => {
+      dot.addEventListener('click', function() {
+        const sectionId = this.getAttribute('data-section');
+        let targetElement;
+        
+        if (sectionId === 'header') {
+          targetElement = document.querySelector('header');
+        } else {
+          targetElement = document.getElementById(sectionId);
+        }
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Initialize
+    updateActiveDot();
   </script>
 </body>
 </html>
