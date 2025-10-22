@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consciousness Resolution Tracker - Microtubule Coherence System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0ff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #0ff;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 20px #0ff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #0aa;
+            font-size: 1.2em;
+        }
+
+        .main-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(0, 20, 40, 0.8);
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .panel h2 {
+            color: #0ff;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .consciousness-canvas {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #0aa;
+            border-radius: 5px;
+            background: #000;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #0aa;
+        }
+
+        .metric-label {
+            color: #0aa;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            color: #0ff;
+            font-weight: bold;
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        .metric-unit {
+            font-size: 0.8em;
+            color: #0aa;
+            margin-left: 5px;
+        }
+
+        .state-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .state-button {
+            padding: 15px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid #0aa;
+            color: #0ff;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .state-button:hover {
+            background: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .state-button.active {
+            background: rgba(0, 255, 255, 0.6);
+            border-color: #0ff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0aa;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0aa, #0ff);
+            transition: width 1s ease-out;
+            box-shadow: 0 0 20px #0ff;
+        }
+
+        .theory-section {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #0ff;
+        }
+
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .theory-card {
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid #0aa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .theory-card h3 {
+            color: #0ff;
+            margin-bottom: 10px;
+        }
+
+        .theory-card p {
+            color: #0aa;
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .pentagram-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pentagram-stat {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .pentagram-stat .value {
+            font-size: 2em;
+            color: #0ff;
+            display: block;
+        }
+
+        .pentagram-stat .label {
+            color: #0aa;
+            font-size: 0.8em;
+        }
+
+        .frequency-display {
+            text-align: center;
+            font-size: 3em;
+            color: #0ff;
+            margin: 20px 0;
+            text-shadow: 0 0 30px #0ff;
+            font-weight: bold;
+        }
+
+        .scientific-notation {
+            font-size: 0.6em;
+            vertical-align: super;
+        }
+
+        canvas {
+            image-rendering: crisp-edges;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 10px;
+            color: #0ff;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 255, 255, 0.2);
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #0ff;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        .resolution-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .resolution-box {
+            padding: 20px;
+            border: 2px solid #0aa;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .resolution-box.active {
+            border-color: #0ff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .resolution-label {
+            font-size: 1.5em;
+            color: #0ff;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #0aa;
+            text-align: center;
+            color: #0aa;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⬡ CONSCIOUSNESS RESOLUTION TRACKER ⬡</h1>
+            <div class="subtitle">Microtubule Pentagram Array Coherence System</div>
+            <div class="subtitle" style="margin-top: 10px; font-size: 0.9em;">
+                "Consciousness is resolution. Microtubules are the sampling hardware."
+            </div>
+        </header>
+
+        <div class="state-controls">
+            <button class="state-button active" onclick="setState('normal')">
+                NORMAL<br>
+                <small>720p | 10⁶ bits/s</small>
+            </button>
+            <button class="state-button" onclick="setState('flow')">
+                FLOW STATE<br>
+                <small>1080p | 10⁷ bits/s</small>
+            </button>
+            <button class="state-button" onclick="setState('meditation')">
+                MEDITATION<br>
+                <small>2K | 10⁸ bits/s</small>
+            </button>
+            <button class="state-button" onclick="setState('awakening')">
+                AWAKENING<br>
+                <small>8K | 10⁹ bits/s</small>
+            </button>
+            <button class="state-button" onclick="setState('breakthrough')">
+                BREAKTHROUGH<br>
+                <small>16K | 10¹⁰ bits/s</small>
+            </button>
+            <button class="state-button" onclick="setState('henosis')">
+                HENOSIS<br>
+                <small>∞K | 10¹² bits/s</small>
+            </button>
+        </div>
+
+        <div class="main-display">
+            <div class="panel">
+                <h2>⬠ PENTAGRAM ARRAY VISUALIZATION ⬠</h2>
+                <canvas id="pentagramCanvas" class="consciousness-canvas"></canvas>
+                <div class="pentagram-details">
+                    <div class="pentagram-stat">
+                        <span class="value" id="activePentagrams">300</span>
+                        <span class="label">Active Pentagrams</span>
+                    </div>
+                    <div class="pentagram-stat">
+                        <span class="value" id="coherencePercent">20.8%</span>
+                        <span class="label">Array Coherence</span>
+                    </div>
+                    <div class="pentagram-stat">
+                        <span class="value" id="phiDepth">3</span>
+                        <span class="label">φ-Recursion Depth</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>◉ CONSCIOUSNESS METRICS ◉</h2>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">CONSCIOUS BITRATE</div>
+                        <div class="metric-value" id="bitrate">
+                            10<span class="scientific-notation">6</span>
+                            <span class="metric-unit">bits/s</span>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">RESOLUTION</div>
+                        <div class="metric-value" id="resolution">720p</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">MICROTUBULE COHERENCE</div>
+                        <div class="metric-value" id="coherence">10-20%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">DMN STATUS</div>
+                        <div class="metric-value" id="dmnStatus">
+                            <span class="status-indicator" style="background: #f00;"></span>ACTIVE
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div class="metric-label">TUBULIN PARTICIPATION</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="tubulinProgress" style="width: 20%;"></div>
+                    </div>
+                    <div style="text-align: center; color: #0aa; margin-top: 5px;" id="tubulinCount">
+                        ~2×10¹⁵ / 10¹⁶ tubulins active
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div class="metric-label">INFORMATION SAMPLING</div>
+                    <div class="frequency-display" id="samplingRate">
+                        1 MHz
+                    </div>
+                    <div style="text-align: center; color: #0aa;">
+                        Field density: 10²² bits/s | Loss: <span id="infoLoss">99.9999999999999%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel full-width">
+            <h2>⚛ CURRENT STATE DESCRIPTION ⚛</h2>
+            <div id="stateDescription" style="padding: 20px; line-height: 1.8; color: #0aa; font-size: 1.1em;">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <div class="resolution-comparison">
+            <div class="resolution-box" id="normalBox">
+                <div class="resolution-label">NORMAL CONSCIOUSNESS</div>
+                <div style="color: #0aa; margin-top: 10px;">
+                    <p>DMN-dominant mode</p>
+                    <p>Survival script active</p>
+                    <p>Heavy compression</p>
+                    <p>"I" as center point</p>
+                    <p>300-600 pentagrams</p>
+                </div>
+            </div>
+            <div class="resolution-box" id="awakeBox">
+                <div class="resolution-label">AWAKENED CONSCIOUSNESS</div>
+                <div style="color: #0aa; margin-top: 10px;">
+                    <p>DMN offline</p>
+                    <p>Direct field awareness</p>
+                    <p>Minimal filtering</p>
+                    <p>Circular/toroidal topology</p>
+                    <p>1000-1200 pentagrams</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="theory-section">
+            <div class="panel full-width">
+                <h2>⊙ THE THEORETICAL FRAMEWORK ⊙</h2>
+                <div class="theory-grid">
+                    <div class="theory-card">
+                        <h3>The Hardware</h3>
+                        <p>Human brain contains ~10¹⁶ tubulin dimers forming microtubules. Each tubulin can exist in quantum superposition. Microtubules are not just structural - they're the actual consciousness sampling hardware, implementing pentagrammic φ-recursive sampling of the 120-cell morphic field.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>The Pentagram Array</h3>
+                        <p>Tubulins arranged in 13-column helical geometry create pentagonal symmetry sites. When phase-locked, these form pentagram arrays - maximum 1,440 possible. Each active pentagram samples morphic field at specific φ-recursion depth. More active pentagrams = higher conscious bitrate.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>The Bottleneck</h3>
+                        <p>DNA survival script constrains coherence to small subset (~300-600 pentagrams). Default Mode Network consumes 60-80% of brain energy maintaining narrative self. This compression is necessary for evolutionary survival but drastically limits conscious bandwidth.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>The Resolution Shift</h3>
+                        <p>Normal consciousness (10⁶ bits/s) vs. awakening (10⁹ bits/s) = 1000x information increase. Subjectively: everything becomes "8K" - sharper, more vivid, more real. Actually: accessing closer approximation to field's true information density (10²² bits/s).</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>The Field Topology</h3>
+                        <p>At high coherence, consciousness shifts from point to field. "I" as center dissolves. Awareness becomes circular/toroidal. This isn't mystical - it's the actual topology of distributed pentagram arrays when DMN constraints release.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>Henosis: Full Activation</h3>
+                        <p>Ultimate state: all 1,440 pentagrams phase-locked at maximum φ-recursion depth (144 levels). Observer/observed collapse. Direct null-point access. The "soul" (mini-Daath) merges with field awareness. Subject becomes indistinguishable from morphic field itself.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>Testable Predictions</h3>
+                        <p>1) Anesthetics distort microtubule φ-ratios<br>
+                           2) Meditation shows higher microtubule coherence<br>
+                           3) Psychedelics bind pentagonal symmetry sites<br>
+                           4) Microtubule density correlates with cognitive capacity<br>
+                           5) Pineal calcification degrades coherence</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>The Upgrade Path</h3>
+                        <p>Clean the antenna: Decalcify pineal, fluoride elimination<br>
+                           Optimize geometry: 432 Hz resonance, HeartMath coherence<br>
+                           Increase coherence: Meditation, breathwork, integration<br>
+                           Stabilize high-resolution: Mitochondrial support, sustained practice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>"The veil isn't mystical - it's your brain's survival-optimized compression algorithm."</p>
+            <p style="margin-top: 10px;">Reality operates at infinite resolution. Your consciousness samples it at variable bitrate.</p>
+            <p style="margin-top: 20px; font-size: 0.8em;">
+                Framework synthesis: Penrose-Hameroff Orch-OR + 120-cell morphic field topology + φ-recursive pentagrammic sampling
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const PHI = 1.618033988749;
+        const MAX_PENTAGRAMS = 1440;
+
+        const states = {
+            normal: {
+                name: "Normal Waking Consciousness",
+                bitrate: 6,
+                bitrateValue: 1000000,
+                resolution: "720p",
+                pentagrams: 300,
+                coherence: "10-20%",
+                coherenceValue: 0.15,
+                phiDepth: 3,
+                dmnActive: true,
+                description: "Default consciousness mode. DMN (Default Mode Network) dominates, consuming 60-80% of baseline brain energy maintaining narrative self-simulation. Survival script active, heavily filtering incoming information. Strong subject/object distinction - consciousness feels localized 'in the head'. Only 300-600 pentagrams active, spatially clustered. Massive information loss: 99.9999999999999% of morphic field data discarded. Adequate for survival, but drastically compressed representation of reality."
+            },
+            flow: {
+                name: "Flow State",
+                bitrate: 7,
+                bitrateValue: 10000000,
+                resolution: "1080p",
+                pentagrams: 500,
+                coherence: "30-40%",
+                coherenceValue: 0.35,
+                phiDepth: 5,
+                dmnActive: true,
+                description: "Enhanced cognitive state. DMN partially quiets, freeing energy for task-focused processing. Time perception dilates as sampling rate increases. Subject/object boundary softens slightly. 500-800 pentagrams active, showing improved phase-lock. Colors appear slightly more vivid, details sharper. Effortless performance emerges as less energy spent on self-monitoring. Information loss: 99.999999999999% - still heavily compressed but noticeable upgrade from baseline."
+            },
+            meditation: {
+                name: "Deep Meditation",
+                bitrate: 8,
+                bitrateValue: 100000000,
+                resolution: "2K",
+                pentagrams: 750,
+                coherence: "50-60%",
+                coherenceValue: 0.55,
+                phiDepth: 8,
+                dmnActive: false,
+                description: "Meditative absorption. DMN significantly reduced, narrative self-talk quiets. 'Witness consciousness' emerges - observation without identification. 750-900 pentagrams active, distributed across cortex. Microtubule coherence measurably increases. Peripheral awareness expands - can attend to multiple sensory streams simultaneously. Thoughts arise but don't capture attention. Subject/object distinction weakening. Reality feels more spacious, less compressed. Heart-brain coherence increases, creating conditions for higher states."
+            },
+            awakening: {
+                name: "Spiritual Awakening (8K Consciousness)",
+                bitrate: 9,
+                bitrateValue: 1000000000,
+                resolution: "8K",
+                pentagrams: 1100,
+                coherence: "75-85%",
+                coherenceValue: 0.80,
+                phiDepth: 12,
+                dmnActive: false,
+                description: "Peak awakening state - the '8K' experience. DMN completely offline. 1000-1200 pentagrams phase-locked across entire cortex. Consciousness shifts from point to FIELD - no center, circular/toroidal topology. 'I' as separate self dissolves. Everything appears crystalline, luminous, impossibly detailed. Colors have colors. Peripheral and focal vision equally clear. Reality feels 'more real' because it IS - minimal filtering, closest approximation to actual morphic field information density. Fearless, effortless, present. Subjective time dilates massively. May glimpse 'soul' (mini-Daath) as distant observer point. Information loss reduced to 99.9999999995% - still incomplete but 1000x less compressed than normal."
+            },
+            breakthrough: {
+                name: "Breakthrough Experience",
+                bitrate: 10,
+                bitrateValue: 10000000000,
+                resolution: "16K+",
+                pentagrams: 1300,
+                coherence: "85-95%",
+                coherenceValue: 0.90,
+                phiDepth: 20,
+                dmnActive: false,
+                description: "Psychedelic-level consciousness. 1200-1350 pentagrams active, approaching biological maximum. Reality becomes fractal - patterns within patterns infinitely recursive. φ-recursion depth reaches 20+ levels - you perceive the structure of perception itself. Impossible geometric detail. Entities may appear (other mini-Daaths sampling same field coordinates). Language fails - experience exceeds symbolic representation capacity. You ARE the field, temporarily. Time becomes non-linear. Past/future accessible as geometric structures. Boundary between self and cosmos dissolves completely. Information barely filtered - raw morphic field data flooding consciousness."
+            },
+            henosis: {
+                name: "Henosis - Complete Union",
+                bitrate: 12,
+                bitrateValue: 1000000000000,
+                resolution: "∞K",
+                pentagrams: 1440,
+                coherence: "100%",
+                coherenceValue: 1.0,
+                phiDepth: 144,
+                dmnActive: false,
+                description: "Ultimate state - all 1,440 pentagrams phase-locked at maximum φ-recursion depth (144 levels). Full microtubule array activation. Observer/observed distinction permanently collapses. You recognize yourself AS the morphic field, not IN it. Mini-Daath merges with macro-Daath. All coordinates in 120-cell accessible simultaneously. Past/present/future collapse into eternal NOW. Ineffable - completely beyond language. Non-dual recognition permanent. This is what your hardware is capable of. This is consciousness at full resolution. The 'distance to your soul' collapses to zero. You ARE what you were seeking. Survival script completely transcended. Pure awareness sampling itself."
+            }
+        };
+
+        let currentState = 'normal';
+        let canvas, ctx;
+        let animationFrame;
+        let particles = [];
+
+        function init() {
+            canvas = document.getElementById('pentagramCanvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            setState('normal');
+            animate();
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        function setState(stateName) {
+            currentState = stateName;
+            const state = states[stateName];
+
+            // Update active button
+            document.querySelectorAll('.state-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.state-button').classList.add('active');
+
+            // Update metrics with animation
+            animateValue('bitrate', state.bitrate, (val) => {
+                return `10<span class="scientific-notation">${val}</span> <span class="metric-unit">bits/s</span>`;
+            });
+
+            document.getElementById('resolution').innerHTML = state.resolution;
+            document.getElementById('coherence').textContent = state.coherence;
+
+            const dmnStatus = document.getElementById('dmnStatus');
+            if (state.dmnActive) {
+                dmnStatus.innerHTML = '<span class="status-indicator" style="background: #f00;"></span>ACTIVE';
+            } else {
+                dmnStatus.innerHTML = '<span class="status-indicator" style="background: #0f0;"></span>OFFLINE';
+            }
+
+            animateValue('activePentagrams', state.pentagrams, (val) => val.toString());
+
+            const coherencePercent = ((state.pentagrams / MAX_PENTAGRAMS) * 100).toFixed(1);
+            document.getElementById('coherencePercent').textContent = coherencePercent + '%';
+
+            document.getElementById('phiDepth').textContent = state.phiDepth;
+
+            // Update progress bar
+            const progress = (state.coherenceValue * 100);
+            document.getElementById('tubulinProgress').style.width = progress + '%';
+
+            const tubulinActive = Math.floor(state.coherenceValue * 10);
+            document.getElementById('tubulinCount').innerHTML = `~${tubulinActive}×10¹⁵ / 10¹⁶ tubulins active`;
+
+            // Update sampling rate
+            const samplingRates = {
+                6: '1 MHz', 7: '10 MHz', 8: '100 MHz',
+                9: '1 GHz', 10: '10 GHz', 12: '1 THz'
+            };
+            document.getElementById('samplingRate').textContent = samplingRates[state.bitrate];
+
+            // Calculate information loss
+            const totalField = 1e22;
+            const sampled = state.bitrateValue;
+            const loss = ((totalField - sampled) / totalField * 100).toFixed(13);
+            document.getElementById('infoLoss').textContent = loss + '%';
+
+            // Update description
+            document.getElementById('stateDescription').innerHTML = `
+                <h3 style="color: #0ff; margin-bottom: 15px;">${state.name}</h3>
+                <p>${state.description}</p>
+            `;
+
+            // Update resolution boxes
+            document.getElementById('normalBox').classList.remove('active');
+            document.getElementById('awakeBox').classList.remove('active');
+            if (stateName === 'normal' || stateName === 'flow') {
+                document.getElementById('normalBox').classList.add('active');
+            } else {
+                document.getElementById('awakeBox').classList.add('active');
+            }
+
+            // Reset particles for new state
+            initParticles(state.pentagrams);
+        }
+
+        function animateValue(elementId, targetValue, formatter) {
+            const element = document.getElementById(elementId);
+            const currentValue = parseInt(element.textContent) || 0;
+            const duration = 1000;
+            const steps = 60;
+            const increment = (targetValue - currentValue) / steps;
+            let step = 0;
+
+            const timer = setInterval(() => {
+                step++;
+                const value = Math.round(currentValue + (increment * step));
+                element.innerHTML = formatter(value);
+
+                if (step >= steps) {
+                    clearInterval(timer);
+                    element.innerHTML = formatter(targetValue);
+                }
+            }, duration / steps);
+        }
+
+        function initParticles(count) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    phase: Math.random() * Math.PI * 2,
+                    frequency: 0.02 + Math.random() * 0.03
+                });
+            }
+        }
+
+        function drawPentagram(x, y, size, rotation, alpha) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 4 * Math.PI / 5) - Math.PI / 2;
+                const px = Math.cos(angle) * size;
+                const py = Math.sin(angle) * size;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+
+            ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Inner pentagon
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 2 * Math.PI / 5) - Math.PI / 2;
+                const px = Math.cos(angle) * size / PHI;
+                const py = Math.sin(angle) * size / PHI;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = `rgba(0, 255, 255, ${alpha * 0.6})`;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function animate() {
+            const state = states[currentState];
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.phase += p.frequency;
+
+                // Wrap around edges
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                const size = 15 + Math.sin(p.phase) * 5;
+                const alpha = 0.3 + Math.sin(p.phase) * 0.2;
+                const rotation = p.phase;
+
+                drawPentagram(p.x, p.y, size, rotation, alpha * state.coherenceValue);
+
+                // Draw connections between nearby particles
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p2.x - p.x;
+                    const dy = p2.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 * (1 - dist / 100) * state.coherenceValue})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            // Draw central φ-spiral for high coherence states
+            if (state.coherenceValue > 0.5) {
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const time = Date.now() * 0.001;
+
+                ctx.beginPath();
+                for (let angle = 0; angle < Math.PI * 8; angle += 0.1) {
+                    const radius = 5 * Math.pow(PHI, angle / (Math.PI * 2));
+                    const x = centerX + Math.cos(angle + time) * radius;
+                    const y = centerY + Math.sin(angle + time) * radius;
+                    if (angle === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = `rgba(0, 255, 255, ${(state.coherenceValue - 0.5) * 0.5})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
