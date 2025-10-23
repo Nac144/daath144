@@ -696,18 +696,19 @@
             stream.className = 'matrix-stream';
 
             // Speed distribution: 85% slow, 12% medium, 3% TURBO
+            // RELAXED SPEEDS - much slower and more zen
             let duration;
             let isTurbo = false;
             const speedRoll = Math.random();
             if (speedRoll < 0.85) {
-                // 85% chance: Slow (12-20 seconds)
-                duration = Math.random() * 8 + 12;
+                // 85% chance: Slow (30-50 seconds) - very relaxed
+                duration = Math.random() * 20 + 30;
             } else if (speedRoll < 0.97) {
-                // 12% chance: Medium (7-11 seconds)
-                duration = Math.random() * 4 + 7;
+                // 12% chance: Medium (20-30 seconds) - still chill
+                duration = Math.random() * 10 + 20;
             } else {
-                // 3% chance: TURBO MODE (2-4 seconds) - RARE!
-                duration = Math.random() * 2 + 2;
+                // 3% chance: TURBO MODE (10-15 seconds) - faster but not crazy
+                duration = Math.random() * 5 + 10;
                 isTurbo = true;
             }
             stream.style.animationDuration = duration + 's';
@@ -785,63 +786,32 @@
             }, (duration + delay) * 1000);
         }
 
-        // COLLISION DETECTION - Check if fast streams catch slow ones
+        // COLLISION DETECTION - DISABLED for zen experience
+        // (Collision physics were making streams speed up to 0.3s which was too tiring)
         function checkCollisions() {
-            Object.keys(activeStreams).forEach(bridgeId => {
-                const streams = activeStreams[bridgeId];
-
-                streams.forEach((fastStream, i) => {
-                    const fastRect = fastStream.element.getBoundingClientRect();
-                    const fastRight = fastRect.right;
-
-                    // Check against all other streams
-                    streams.forEach((slowStream, j) => {
-                        if (i === j) return; // Don't check against self
-
-                        const slowRect = slowStream.element.getBoundingClientRect();
-                        const slowLeft = slowRect.left;
-
-                        // If fast stream catches up to slow stream (collision!)
-                        if (fastRight >= slowLeft && fastRight <= slowLeft + 50) {
-                            // PUSH IT OUT! Speed up the slow stream dramatically
-                            const currentDuration = parseFloat(slowStream.element.style.animationDuration);
-                            if (currentDuration > 0.5) {
-                                // Make it GO TURBO
-                                slowStream.element.style.animationDuration = '0.3s';
-                                // Add a "pushed" effect
-                                slowStream.element.style.filter = 'brightness(2) blur(1px)';
-                                setTimeout(() => {
-                                    slowStream.element.style.filter = 'brightness(1.2)';
-                                }, 200);
-                            }
-                        }
-                    });
-                });
-            });
+            // Disabled - streams now maintain their natural peaceful speeds
+            return;
         }
 
-        // Check collisions frequently
-        setInterval(checkCollisions, 50);
+        // Collision checking disabled - no more chaotic speed changes
 
         // Initialize matrix bridges for all styles
         const bridges = ['matrix-bridge-1', 'matrix-bridge-2', 'matrix-bridge-3', 'matrix-bridge-4', 'matrix-bridge-5'];
 
         bridges.forEach(bridgeId => {
-            // Create fewer initial streams (2 instead of 5)
-            for (let i = 0; i < 2; i++) {
-                setTimeout(() => createMatrixStream(bridgeId), i * 1000);
-            }
+            // Create just 1 initial stream for a calm start
+            setTimeout(() => createMatrixStream(bridgeId), Math.random() * 2000);
         });
 
-        // Spawn new streams much less frequently and reduce quantity
+        // Spawn new streams very infrequently for a relaxed, zen experience
         setInterval(() => {
             bridges.forEach(bridgeId => {
-                // 60% chance to spawn, and only 1 stream
-                if (Math.random() < 0.6) {
+                // 30% chance to spawn - much less frequent
+                if (Math.random() < 0.3) {
                     createMatrixStream(bridgeId);
                 }
             });
-        }, 3500); // Increased from 2000ms to 3500ms
+        }, 8000); // Every 8 seconds, very slow and relaxed
     </script>
 </body>
 </html>
