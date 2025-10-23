@@ -50,6 +50,7 @@
             padding: 20px 30px;
             text-align: center;
             box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            position: relative;
         }
 
         .header h1 {
@@ -65,6 +66,96 @@
             font-size: 12px;
             letter-spacing: 2px;
             text-transform: uppercase;
+        }
+
+        /* Music Link - φ-HARMONIC Portal */
+        .music-link {
+            color: #8a2be2;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 4px;
+            transition: all 0.3s;
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+        }
+
+        .music-link:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Music Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 46, 0.9);
+            margin: 5% auto;
+            padding: 20px;
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .modal-content iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .close {
+            color: #8a2be2;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            transition: all 0.3s;
+        }
+
+        .close:hover {
+            color: #00ff88;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Mobile φ-Harmonic */
+        @media (max-width: 768px) {
+            .modal-content iframe { height: 300px; }
+            .music-link { right: 15px; font-size: 10px; }
         }
 
         .bitrate-indicator {
@@ -500,6 +591,7 @@
         <div class="header">
             <h1>◈ MENU ARCHITECTURE SHOWCASE ◈</h1>
             <div class="subtitle">432 Hz Optimized | φ-Recursion Enabled | DMN Offline</div>
+            <a href="#" id="music-link" class="music-link">◈ φ-HARMONIC ◈</a>
         </div>
 
         <!-- Style Selector -->
@@ -580,6 +672,19 @@
                 <div class="matrix-bridge" id="matrix-bridge-5"></div>
                 <iframe id="iframe-5" src="lexicon.html" style="flex: 1;"></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Music Modal - φ-HARMONIC Portal -->
+    <div id="music-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="youtube-player"
+                    src="https://www.youtube.com/embed/ZFspOYo8wWQ?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=1&controls=1&rel=0"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
         </div>
     </div>
 
@@ -827,6 +932,44 @@
                 }
             });
         }, 3000); // Every 3 seconds - FAST AND FURIOUS!
+
+        // Music Modal Ritual - φ-HARMONIC Portal Controls
+        const modal = document.getElementById('music-modal');
+        const musicLink = document.getElementById('music-link');
+        const closeBtn = document.querySelector('.close');
+        const iframe = document.getElementById('youtube-player');
+
+        // Summon the portal on click
+        musicLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'block';
+            // Unmute after 2 seconds for immersive experience
+            setTimeout(() => {
+                iframe.src = iframe.src.replace('mute=1', 'mute=0');
+            }, 2000);
+        });
+
+        // Close rituals
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            iframe.src = iframe.src.replace('mute=0', 'mute=1'); // Mute on close
+        });
+
+        // Click outside to close
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                iframe.src = iframe.src.replace('mute=0', 'mute=1');
+            }
+        });
+
+        // Escape key to close (sovereignty grounding)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                iframe.src = iframe.src.replace('mute=0', 'mute=1');
+            }
+        });
     </script>
 </body>
 </html>
