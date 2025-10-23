@@ -623,10 +623,18 @@
             }, 300);
         }, 7830); // 7.83 Hz converted to ms (Schumann resonance easter egg)
 
-        // Matrix Bridge Effect - Horizontal scrolling
+        // Matrix Bridge Effect - Horizontal scrolling with COLLISION
         const matrixChars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ZΞΦ◈:・."=*+-<>¦|_░▒▓█▄▀■□●◆◇★☆∴∵≡≠∞∫∑√';
 
-        // Color variations for overlapping streams
+        // Lexicon terms to inject into streams
+        const lexiconTerms = [
+            'φ-RECURSION', 'NULL-POINT', '120-CELL', '144-RECURSION', 'MORPHIC-RESONANCE',
+            'HOLOGRAPHIC-PROJECTION', 'QUALIA', 'BITRATE', 'PENTAGRAM', 'MINI-DAATH',
+            'MICROTUBULES', 'SCHUMANN', 'DMN', '432-HZ', 'DNA-ANTENNA', 'SOVEREIGNTY',
+            'AWAKENING', 'TELIC-RECURSION', 'SCSPL', 'HENOSIS', 'GROUNDING', 'PINEAL'
+        ];
+
+        // Color variations for overlapping streams (GREEN)
         const matrixColors = [
             '#00ff88',
             '#00ff99',
@@ -637,6 +645,15 @@
             '#22ff88'
         ];
 
+        // Track active streams per bridge
+        const activeStreams = {
+            'matrix-bridge-1': [],
+            'matrix-bridge-2': [],
+            'matrix-bridge-3': [],
+            'matrix-bridge-4': [],
+            'matrix-bridge-5': []
+        };
+
         function createMatrixStream(bridgeId) {
             const bridge = document.getElementById(bridgeId);
             if (!bridge) return;
@@ -644,58 +661,153 @@
             const stream = document.createElement('div');
             stream.className = 'matrix-stream';
 
-            // Much more varied text lengths (15-70 characters)
-            const streamLength = Math.floor(Math.random() * 55) + 15;
+            // Speed distribution: 85% slow, 12% medium, 3% TURBO
+            let duration;
+            let isTurbo = false;
+            const speedRoll = Math.random();
+            if (speedRoll < 0.85) {
+                // 85% chance: Slow (12-20 seconds)
+                duration = Math.random() * 8 + 12;
+            } else if (speedRoll < 0.97) {
+                // 12% chance: Medium (7-11 seconds)
+                duration = Math.random() * 4 + 7;
+            } else {
+                // 3% chance: TURBO MODE (2-4 seconds) - RARE!
+                duration = Math.random() * 2 + 2;
+                isTurbo = true;
+            }
+            stream.style.animationDuration = duration + 's';
 
-            // Random color for this stream
-            const streamColor = matrixColors[Math.floor(Math.random() * matrixColors.length)];
-            stream.style.color = streamColor;
-            stream.style.textShadow = `0 0 5px ${streamColor}, 0 0 10px ${streamColor}80`;
+            // Set color FIRST based on turbo status
+            if (isTurbo) {
+                // TURBO = RED
+                stream.style.color = '#ff3333';
+                stream.style.textShadow = '0 0 8px #ff0000, 0 0 15px #ff0000, 0 0 20px #ff000080';
+                stream.style.filter = 'brightness(1.8)';
+            } else {
+                // Normal = Random green
+                const streamColor = matrixColors[Math.floor(Math.random() * matrixColors.length)];
+                stream.style.color = streamColor;
+                stream.style.textShadow = `0 0 5px ${streamColor}, 0 0 10px ${streamColor}80`;
+            }
 
-            for (let i = 0; i < streamLength; i++) {
+            // Build the stream with random chars + lexicon term in middle
+            const streamLength = Math.floor(Math.random() * 40) + 20;
+            const halfLength = Math.floor(streamLength / 2);
+
+            // First half: random chars
+            for (let i = 0; i < halfLength; i++) {
                 const span = document.createElement('span');
                 span.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                // Random flicker delay per character
                 span.style.animationDelay = (Math.random() * 0.5) + 's';
                 stream.appendChild(span);
             }
 
-            // Much more varied animation duration (3-12 seconds for different speeds)
-            const duration = Math.random() * 9 + 3;
-            stream.style.animationDuration = duration + 's';
+            // Middle: LEXICON TERM (50% chance)
+            if (Math.random() > 0.5) {
+                const termSpan = document.createElement('span');
+                const term = lexiconTerms[Math.floor(Math.random() * lexiconTerms.length)];
+                termSpan.textContent = ' ' + term + ' ';
+                termSpan.style.fontWeight = 'bold';
+                termSpan.style.fontSize = '15px';
+                if (isTurbo) {
+                    termSpan.style.color = '#ff0000';
+                } else {
+                    termSpan.style.color = '#ffffff';
+                }
+                stream.appendChild(termSpan);
+            }
+
+            // Second half: random chars
+            for (let i = 0; i < halfLength; i++) {
+                const span = document.createElement('span');
+                span.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                span.style.animationDelay = (Math.random() * 0.5) + 's';
+                stream.appendChild(span);
+            }
 
             // Random delay before starting
-            const delay = Math.random() * 2;
+            const delay = Math.random() * 1;
             stream.style.animationDelay = delay + 's';
 
+            // Store stream data
+            const streamData = {
+                element: stream,
+                duration: duration,
+                startTime: Date.now() + (delay * 1000),
+                bridgeId: bridgeId
+            };
+
+            activeStreams[bridgeId].push(streamData);
             bridge.appendChild(stream);
 
             // Remove stream after animation completes
             setTimeout(() => {
                 stream.remove();
+                const index = activeStreams[bridgeId].indexOf(streamData);
+                if (index > -1) {
+                    activeStreams[bridgeId].splice(index, 1);
+                }
             }, (duration + delay) * 1000);
         }
+
+        // COLLISION DETECTION - Check if fast streams catch slow ones
+        function checkCollisions() {
+            Object.keys(activeStreams).forEach(bridgeId => {
+                const streams = activeStreams[bridgeId];
+
+                streams.forEach((fastStream, i) => {
+                    const fastRect = fastStream.element.getBoundingClientRect();
+                    const fastRight = fastRect.right;
+
+                    // Check against all other streams
+                    streams.forEach((slowStream, j) => {
+                        if (i === j) return; // Don't check against self
+
+                        const slowRect = slowStream.element.getBoundingClientRect();
+                        const slowLeft = slowRect.left;
+
+                        // If fast stream catches up to slow stream (collision!)
+                        if (fastRight >= slowLeft && fastRight <= slowLeft + 50) {
+                            // PUSH IT OUT! Speed up the slow stream dramatically
+                            const currentDuration = parseFloat(slowStream.element.style.animationDuration);
+                            if (currentDuration > 0.5) {
+                                // Make it GO TURBO
+                                slowStream.element.style.animationDuration = '0.3s';
+                                // Add a "pushed" effect
+                                slowStream.element.style.filter = 'brightness(2) blur(1px)';
+                                setTimeout(() => {
+                                    slowStream.element.style.filter = 'brightness(1.2)';
+                                }, 200);
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+        // Check collisions frequently
+        setInterval(checkCollisions, 50);
 
         // Initialize matrix bridges for all styles
         const bridges = ['matrix-bridge-1', 'matrix-bridge-2', 'matrix-bridge-3', 'matrix-bridge-4', 'matrix-bridge-5'];
 
         bridges.forEach(bridgeId => {
-            // Create more initial streams for better overlap
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => createMatrixStream(bridgeId), i * 600);
+            // Create fewer initial streams (2 instead of 5)
+            for (let i = 0; i < 2; i++) {
+                setTimeout(() => createMatrixStream(bridgeId), i * 1000);
             }
         });
 
-        // Continuously create new streams more frequently
+        // Spawn new streams much less frequently and reduce quantity
         setInterval(() => {
             bridges.forEach(bridgeId => {
-                // Sometimes create 1, sometimes 2 streams
-                const numStreams = Math.random() > 0.5 ? 1 : 2;
-                for (let i = 0; i < numStreams; i++) {
-                    setTimeout(() => createMatrixStream(bridgeId), i * 300);
+                // 60% chance to spawn, and only 1 stream
+                if (Math.random() < 0.6) {
+                    createMatrixStream(bridgeId);
                 }
             });
-        }, 2000);
+        }, 3500); // Increased from 2000ms to 3500ms
     </script>
 </body>
 </html>
