@@ -430,6 +430,63 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #8a2be2;
         }
+
+        /* Matrix Rain Bridge - Horizontal between menu and iframe */
+        .matrix-bridge {
+            width: 100%;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.95);
+            border-top: 1px solid rgba(0, 255, 136, 0.3);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .matrix-stream {
+            position: absolute;
+            left: -100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 5px #00ff88, 0 0 10px rgba(0, 255, 136, 0.5);
+            white-space: nowrap;
+            animation: matrixScroll linear infinite;
+            filter: brightness(1.2);
+        }
+
+        @keyframes matrixScroll {
+            0% {
+                left: -100%;
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        .matrix-stream span {
+            display: inline-block;
+            animation: matrixFlicker 0.5s infinite;
+        }
+
+        @keyframes matrixFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
     </style>
 </head>
 <body>
@@ -465,6 +522,7 @@
                 <a class="menu-item" onclick="loadPage(this, 'your-page3.html')">CONSCIOUSNESS</a>
                 <a class="menu-item" onclick="loadPage(this, 'your-page4.html')">SOVEREIGNTY</a>
             </div>
+            <div class="matrix-bridge" id="matrix-bridge-1"></div>
             <iframe id="iframe-1" src="lexicon.html"></iframe>
         </div>
 
@@ -477,7 +535,10 @@
                 <a class="menu-item" onclick="loadPage(this, 'your-page3.html')">CONSCIOUSNESS</a>
                 <a class="menu-item" onclick="loadPage(this, 'your-page4.html')">SOVEREIGNTY</a>
             </div>
-            <iframe id="iframe-2" src="lexicon.html"></iframe>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="matrix-bridge" id="matrix-bridge-2"></div>
+                <iframe id="iframe-2" src="lexicon.html" style="flex: 1;"></iframe>
+            </div>
         </div>
 
         <!-- STYLE 3: Minimal Top Bar -->
@@ -491,6 +552,7 @@
                     <a class="menu-item" onclick="loadPage(this, 'your-page4.html')">SOVEREIGNTY</a>
                 </div>
             </div>
+            <div class="matrix-bridge" id="matrix-bridge-3"></div>
             <iframe id="iframe-3" src="lexicon.html"></iframe>
         </div>
 
@@ -502,6 +564,7 @@
                 <a class="menu-item" onclick="loadPage(this, 'your-page3.html')">◈ CONSCIOUSNESS</a>
                 <a class="menu-item" onclick="loadPage(this, 'your-page4.html')">◈ SOVEREIGNTY</a>
             </div>
+            <div class="matrix-bridge" id="matrix-bridge-4"></div>
             <iframe id="iframe-4" src="lexicon.html"></iframe>
         </div>
 
@@ -513,7 +576,10 @@
                 <a class="menu-item" onclick="loadPage(this, 'your-page3.html')">CONSCIOUSNESS</a>
                 <a class="menu-item" onclick="loadPage(this, 'your-page4.html')">SOVEREIGNTY</a>
             </div>
-            <iframe id="iframe-5" src="lexicon.html"></iframe>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="matrix-bridge" id="matrix-bridge-5"></div>
+                <iframe id="iframe-5" src="lexicon.html" style="flex: 1;"></iframe>
+            </div>
         </div>
     </div>
 
@@ -556,6 +622,80 @@
                 bitrate.style.textShadow = 'none';
             }, 300);
         }, 7830); // 7.83 Hz converted to ms (Schumann resonance easter egg)
+
+        // Matrix Bridge Effect - Horizontal scrolling
+        const matrixChars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ZΞΦ◈:・."=*+-<>¦|_░▒▓█▄▀■□●◆◇★☆∴∵≡≠∞∫∑√';
+
+        // Color variations for overlapping streams
+        const matrixColors = [
+            '#00ff88',
+            '#00ff99',
+            '#00ffaa',
+            '#00ee88',
+            '#00dd88',
+            '#33ff99',
+            '#22ff88'
+        ];
+
+        function createMatrixStream(bridgeId) {
+            const bridge = document.getElementById(bridgeId);
+            if (!bridge) return;
+
+            const stream = document.createElement('div');
+            stream.className = 'matrix-stream';
+
+            // Much more varied text lengths (15-70 characters)
+            const streamLength = Math.floor(Math.random() * 55) + 15;
+
+            // Random color for this stream
+            const streamColor = matrixColors[Math.floor(Math.random() * matrixColors.length)];
+            stream.style.color = streamColor;
+            stream.style.textShadow = `0 0 5px ${streamColor}, 0 0 10px ${streamColor}80`;
+
+            for (let i = 0; i < streamLength; i++) {
+                const span = document.createElement('span');
+                span.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                // Random flicker delay per character
+                span.style.animationDelay = (Math.random() * 0.5) + 's';
+                stream.appendChild(span);
+            }
+
+            // Much more varied animation duration (3-12 seconds for different speeds)
+            const duration = Math.random() * 9 + 3;
+            stream.style.animationDuration = duration + 's';
+
+            // Random delay before starting
+            const delay = Math.random() * 2;
+            stream.style.animationDelay = delay + 's';
+
+            bridge.appendChild(stream);
+
+            // Remove stream after animation completes
+            setTimeout(() => {
+                stream.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Initialize matrix bridges for all styles
+        const bridges = ['matrix-bridge-1', 'matrix-bridge-2', 'matrix-bridge-3', 'matrix-bridge-4', 'matrix-bridge-5'];
+
+        bridges.forEach(bridgeId => {
+            // Create more initial streams for better overlap
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createMatrixStream(bridgeId), i * 600);
+            }
+        });
+
+        // Continuously create new streams more frequently
+        setInterval(() => {
+            bridges.forEach(bridgeId => {
+                // Sometimes create 1, sometimes 2 streams
+                const numStreams = Math.random() > 0.5 ? 1 : 2;
+                for (let i = 0; i < numStreams; i++) {
+                    setTimeout(() => createMatrixStream(bridgeId), i * 300);
+                }
+            });
+        }, 2000);
     </script>
 </body>
 </html>
