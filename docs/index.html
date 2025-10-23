@@ -696,19 +696,19 @@
             stream.className = 'matrix-stream';
 
             // Speed distribution: 85% slow, 12% medium, 3% TURBO
-            // RELAXED SPEEDS - much slower and more zen
+            // Balanced speeds - relaxing but not too slow, with §þêêÐ-Ðêmðñ turbo mode
             let duration;
             let isTurbo = false;
             const speedRoll = Math.random();
             if (speedRoll < 0.85) {
-                // 85% chance: Slow (30-50 seconds) - very relaxed
-                duration = Math.random() * 20 + 30;
+                // 85% chance: Slow (20-35 seconds) - relaxed and pleasant
+                duration = Math.random() * 15 + 20;
             } else if (speedRoll < 0.97) {
-                // 12% chance: Medium (20-30 seconds) - still chill
-                duration = Math.random() * 10 + 20;
+                // 12% chance: Medium (12-20 seconds) - moderate flow
+                duration = Math.random() * 8 + 12;
             } else {
-                // 3% chance: TURBO MODE (10-15 seconds) - faster but not crazy
-                duration = Math.random() * 5 + 10;
+                // 3% chance: §þêêÐ-Ðêmðñ TURBO MODE (4-7 seconds) - FAST but readable!
+                duration = Math.random() * 3 + 4;
                 isTurbo = true;
             }
             stream.style.animationDuration = duration + 's';
