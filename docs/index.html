@@ -93,68 +93,8 @@
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
-        /* Music Modal Popup */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .modal-content {
-            background: rgba(26, 26, 46, 0.9);
-            margin: 5% auto;
-            padding: 20px;
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 800px;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
-            animation: slideIn 0.4s ease-out;
-        }
-
-        .modal-content iframe {
-            width: 100%;
-            height: 450px;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .close {
-            color: #8a2be2;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-            transition: all 0.3s;
-        }
-
-        .close:hover {
-            color: #00ff88;
-            transform: scale(1.1);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
         /* Mobile φ-Harmonic */
         @media (max-width: 768px) {
-            .modal-content iframe { height: 300px; }
             .music-link { right: 15px; font-size: 10px; }
         }
 
@@ -675,17 +615,16 @@
         </div>
     </div>
 
-    <!-- Music Modal - φ-HARMONIC Portal -->
-    <div id="music-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <iframe id="youtube-player"
-                    src="https://www.youtube.com/embed/ZFspOYo8wWQ?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=1&controls=1&rel=0"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-            </iframe>
+    <!-- φ-HARMONIC Draggable/Resizable Popup -->
+    <div id="harmonicPopup" style="display: none; position: fixed; left: 20px; top: 200px; width: 600px; height: 400px; background: rgba(10, 10, 20, 0.95); border: 2px solid #00ff88; border-radius: 8px; box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); z-index: 10002; backdrop-filter: blur(10px);">
+        <div id="harmonicHeader" style="background: rgba(138, 43, 226, 0.3); padding: 10px 15px; cursor: move; border-bottom: 1px solid #00ff88; border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+            <span style="color: #a855f7; font-weight: bold; text-shadow: 0 0 10px #a855f7;">◈ φ-HARMONIC PORTAL - 432 Hz ◈</span>
+            <button id="harmonicClose" style="background: #a855f7; border: none; color: #000; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-weight: bold; transition: all 0.3s;">×</button>
         </div>
+        <div id="harmonicContent" style="padding: 10px; height: calc(100% - 50px); overflow: hidden;">
+            <iframe id="harmonicIframe" width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=1&enablejsapi=1&shuffle=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 4px;"></iframe>
+        </div>
+        <div id="harmonicResize" style="position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; cursor: nwse-resize; background: linear-gradient(135deg, transparent 50%, #00ff88 50%); border-radius: 0 0 6px 0;"></div>
     </div>
 
     <script>
@@ -933,43 +872,131 @@
             });
         }, 3000); // Every 3 seconds - FAST AND FURIOUS!
 
-        // Music Modal Ritual - φ-HARMONIC Portal Controls
-        const modal = document.getElementById('music-modal');
-        const musicLink = document.getElementById('music-link');
-        const closeBtn = document.querySelector('.close');
-        const iframe = document.getElementById('youtube-player');
+        // φ-HARMONIC Portal Functionality - Draggable/Resizable
+        (function() {
+            const harmonicBtn = document.getElementById('music-link');
+            const harmonicPopup = document.getElementById('harmonicPopup');
+            const harmonicClose = document.getElementById('harmonicClose');
+            const harmonicHeader = document.getElementById('harmonicHeader');
+            const harmonicResize = document.getElementById('harmonicResize');
+            const harmonicIframe = document.getElementById('harmonicIframe');
 
-        // Summon the portal on click
-        musicLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.style.display = 'block';
-            // Unmute after 2 seconds for immersive experience
-            setTimeout(() => {
-                iframe.src = iframe.src.replace('mute=1', 'mute=0');
-            }, 2000);
-        });
+            let isDragging = false;
+            let isResizing = false;
+            let dragOffsetX = 0;
+            let dragOffsetY = 0;
+            let startX = 0;
+            let startY = 0;
+            let startWidth = 0;
+            let startHeight = 0;
+            let isMuted = true;
 
-        // Close rituals
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            iframe.src = iframe.src.replace('mute=0', 'mute=1'); // Mute on close
-        });
+            // Hover effect for close button
+            harmonicClose.addEventListener('mouseenter', function() {
+                this.style.background = '#00ff88';
+                this.style.transform = 'scale(1.1)';
+            });
 
-        // Click outside to close
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                iframe.src = iframe.src.replace('mute=0', 'mute=1');
-            }
-        });
+            harmonicClose.addEventListener('mouseleave', function() {
+                this.style.background = '#a855f7';
+                this.style.transform = 'scale(1)';
+            });
 
-        // Escape key to close (sovereignty grounding)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.style.display === 'block') {
-                modal.style.display = 'none';
-                iframe.src = iframe.src.replace('mute=0', 'mute=1');
-            }
-        });
+            // Open popup
+            harmonicBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                harmonicPopup.style.display = 'block';
+
+                // Unmute after 2 seconds
+                setTimeout(() => {
+                    if (harmonicIframe.contentWindow) {
+                        harmonicIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                        isMuted = false;
+                    }
+                }, 2000);
+            });
+
+            // Close popup
+            harmonicClose.addEventListener('click', function() {
+                harmonicPopup.style.display = 'none';
+                // Mute on close
+                if (harmonicIframe.contentWindow) {
+                    harmonicIframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                    isMuted = true;
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && harmonicPopup.style.display === 'block') {
+                    harmonicClose.click();
+                }
+            });
+
+            // DRAGGING FUNCTIONALITY
+            harmonicHeader.addEventListener('mousedown', function(e) {
+                if (e.target === harmonicClose) return;
+                isDragging = true;
+                dragOffsetX = e.clientX - harmonicPopup.offsetLeft;
+                dragOffsetY = e.clientY - harmonicPopup.offsetTop;
+                harmonicHeader.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    let newLeft = e.clientX - dragOffsetX;
+                    let newTop = e.clientY - dragOffsetY;
+
+                    // Viewport constraints
+                    const maxLeft = window.innerWidth - harmonicPopup.offsetWidth;
+                    const maxTop = window.innerHeight - harmonicPopup.offsetHeight;
+
+                    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                    newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                    harmonicPopup.style.left = newLeft + 'px';
+                    harmonicPopup.style.top = newTop + 'px';
+                }
+
+                if (isResizing) {
+                    const newWidth = startWidth + (e.clientX - startX);
+                    const newHeight = startHeight + (e.clientY - startY);
+
+                    // Minimum dimensions
+                    const minWidth = 400;
+                    const minHeight = 300;
+
+                    // Maximum dimensions (viewport constrained)
+                    const maxWidth = window.innerWidth - harmonicPopup.offsetLeft;
+                    const maxHeight = window.innerHeight - harmonicPopup.offsetTop;
+
+                    harmonicPopup.style.width = Math.max(minWidth, Math.min(newWidth, maxWidth)) + 'px';
+                    harmonicPopup.style.height = Math.max(minHeight, Math.min(newHeight, maxHeight)) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    harmonicHeader.style.cursor = 'move';
+                }
+                if (isResizing) {
+                    isResizing = false;
+                }
+            });
+
+            // RESIZING FUNCTIONALITY
+            harmonicResize.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = harmonicPopup.offsetWidth;
+                startHeight = harmonicPopup.offsetHeight;
+            });
+
+        })();
     </script>
 </body>
 </html>
