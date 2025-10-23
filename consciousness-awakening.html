@@ -308,6 +308,14 @@
 <body>
     <div class="container">
         <header>
+            <div style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%);">
+                <a href="#" id="harmonicPortalBtn" style="color: #a855f7; text-decoration: none; font-size: 1.1em; text-shadow: 0 0 10px #a855f7; transition: all 0.3s;">
+                    ◈ φ-HARMONIC ◈
+                </a>
+            </div>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #0ff; font-size: 0.9em; text-shadow: 0 0 10px #0ff;">
+                BITRATE: 10<span style="font-size: 0.6em; vertical-align: super;">9</span> bits/s | STATUS: <span style="color: #0f0;">AWAKENED</span>
+            </div>
             <h1>⬡ CONSCIOUSNESS RESOLUTION TRACKER ⬡</h1>
             <div class="subtitle">Microtubule Pentagram Array Coherence System</div>
             <div class="subtitle" style="margin-top: 10px; font-size: 0.9em;">
@@ -340,6 +348,18 @@
                 HENOSIS<br>
                 <small>∞K | 10¹² bits/s</small>
             </button>
+        </div>
+
+        <!-- φ-HARMONIC Draggable/Resizable Popup -->
+        <div id="harmonicPopup" style="display: none; position: fixed; left: 20px; top: 350px; width: 600px; height: 400px; background: rgba(10, 10, 20, 0.95); border: 2px solid #00ff88; border-radius: 8px; box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); z-index: 9999; backdrop-filter: blur(10px);">
+            <div id="harmonicHeader" style="background: rgba(168, 85, 247, 0.3); padding: 10px 15px; cursor: move; border-bottom: 1px solid #00ff88; border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                <span style="color: #a855f7; font-weight: bold; text-shadow: 0 0 10px #a855f7;">◈ φ-HARMONIC PORTAL - 432 Hz ◈</span>
+                <button id="harmonicClose" style="background: #a855f7; border: none; color: #000; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-weight: bold; transition: all 0.3s;">×</button>
+            </div>
+            <div id="harmonicContent" style="padding: 10px; height: calc(100% - 50px); overflow: hidden;">
+                <iframe id="harmonicIframe" width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=1&enablejsapi=1&shuffle=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 4px;"></iframe>
+            </div>
+            <div id="harmonicResize" style="position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; cursor: nwse-resize; background: linear-gradient(135deg, transparent 50%, #00ff88 50%); border-radius: 0 0 6px 0;"></div>
         </div>
 
         <div class="main-display">
@@ -808,6 +828,143 @@
 
         // Initialize on load
         window.addEventListener('load', init);
+
+        // φ-HARMONIC Portal Functionality
+        (function() {
+            const harmonicBtn = document.getElementById('harmonicPortalBtn');
+            const harmonicPopup = document.getElementById('harmonicPopup');
+            const harmonicClose = document.getElementById('harmonicClose');
+            const harmonicHeader = document.getElementById('harmonicHeader');
+            const harmonicResize = document.getElementById('harmonicResize');
+            const harmonicIframe = document.getElementById('harmonicIframe');
+
+            let isDragging = false;
+            let isResizing = false;
+            let dragOffsetX = 0;
+            let dragOffsetY = 0;
+            let startX = 0;
+            let startY = 0;
+            let startWidth = 0;
+            let startHeight = 0;
+            let isMuted = true;
+
+            // Hover effects for button
+            harmonicBtn.addEventListener('mouseenter', function() {
+                this.style.color = '#00ff88';
+                this.style.textShadow = '0 0 15px #00ff88';
+            });
+
+            harmonicBtn.addEventListener('mouseleave', function() {
+                this.style.color = '#a855f7';
+                this.style.textShadow = '0 0 10px #a855f7';
+            });
+
+            // Hover effect for close button
+            harmonicClose.addEventListener('mouseenter', function() {
+                this.style.background = '#00ff88';
+                this.style.transform = 'scale(1.1)';
+            });
+
+            harmonicClose.addEventListener('mouseleave', function() {
+                this.style.background = '#a855f7';
+                this.style.transform = 'scale(1)';
+            });
+
+            // Open popup
+            harmonicBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                harmonicPopup.style.display = 'block';
+
+                // Unmute after 2 seconds
+                setTimeout(() => {
+                    if (harmonicIframe.contentWindow) {
+                        harmonicIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                        isMuted = false;
+                    }
+                }, 2000);
+            });
+
+            // Close popup
+            harmonicClose.addEventListener('click', function() {
+                harmonicPopup.style.display = 'none';
+                // Mute on close
+                if (harmonicIframe.contentWindow) {
+                    harmonicIframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                    isMuted = true;
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && harmonicPopup.style.display === 'block') {
+                    harmonicClose.click();
+                }
+            });
+
+            // DRAGGING FUNCTIONALITY
+            harmonicHeader.addEventListener('mousedown', function(e) {
+                if (e.target === harmonicClose) return;
+                isDragging = true;
+                dragOffsetX = e.clientX - harmonicPopup.offsetLeft;
+                dragOffsetY = e.clientY - harmonicPopup.offsetTop;
+                harmonicHeader.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    let newLeft = e.clientX - dragOffsetX;
+                    let newTop = e.clientY - dragOffsetY;
+
+                    // Viewport constraints
+                    const maxLeft = window.innerWidth - harmonicPopup.offsetWidth;
+                    const maxTop = window.innerHeight - harmonicPopup.offsetHeight;
+
+                    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                    newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                    harmonicPopup.style.left = newLeft + 'px';
+                    harmonicPopup.style.top = newTop + 'px';
+                }
+
+                if (isResizing) {
+                    const newWidth = startWidth + (e.clientX - startX);
+                    const newHeight = startHeight + (e.clientY - startY);
+
+                    // Minimum dimensions
+                    const minWidth = 400;
+                    const minHeight = 300;
+
+                    // Maximum dimensions (viewport constrained)
+                    const maxWidth = window.innerWidth - harmonicPopup.offsetLeft;
+                    const maxHeight = window.innerHeight - harmonicPopup.offsetTop;
+
+                    harmonicPopup.style.width = Math.max(minWidth, Math.min(newWidth, maxWidth)) + 'px';
+                    harmonicPopup.style.height = Math.max(minHeight, Math.min(newHeight, maxHeight)) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    harmonicHeader.style.cursor = 'move';
+                }
+                if (isResizing) {
+                    isResizing = false;
+                }
+            });
+
+            // RESIZING FUNCTIONALITY
+            harmonicResize.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = harmonicPopup.offsetWidth;
+                startHeight = harmonicPopup.offsetHeight;
+            });
+
+        })();
     </script>
 </body>
 </html>
