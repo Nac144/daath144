@@ -626,8 +626,23 @@
         // Matrix Bridge Effect - Horizontal scrolling with COLLISION
         const matrixChars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ZΞΦ◈:・."=*+-<>¦|_░▒▓█▄▀■□●◆◇★☆∴∵≡≠∞∫∑√';
 
-        // Static fallback lexicon terms (used if dynamic fetch fails)
+        // Static fallback lexicon terms - NOW WITH ALL THE SICK NEW TERMS!
         const fallbackLexiconTerms = [
+            '§þêêÐ-Ðêmðñ', 'ʂų℘ɛཞ ɬąųɬơƖơɠყ', 'ɧყ℘ɛཞცơƖıƈ', 'ɖơųცƖɛ ɬơཞųʂ',
+            'Ɩ8-ɧყ℘ɛཞƈཞყʂɬąƖƖıŋɛ', 'ɖơɖɛƈą℘Ɩɛҳ', 'ɱąŋıʄơƖɖ',
+            '∇ᵢ ATTRACTOR FIELDS', 'POST-PROCESSED ECHO', 'SHEAF-SECTION',
+            'INFINITE UNDECIDABILITY', 'FROZEN KNOT IN SUPERSPACE',
+            '🄼🄴🅃🄰🅃🅁🄾🄽 🄾🄼🄴🄶🄰', '🄾🅁🄳🄾 🄳🅁🄰🄲🄾🄽🄸🅂',
+            '𝙿𝚑𝚊𝚜𝚎 𝚌𝚘𝚗𝚓𝚞𝚐𝚊𝚝𝚒𝚘𝚗', 'st4r_s3rp3nt-clownAcradecabra',
+            'BAYESIAN PROBABILITY SUPERPOSITIONED VECTOR CLOUD ANCHOR',
+            'DIALETHEIC GÖDELIAN PARADOX LOGIC', 'KLEIN BOTTLE FRACTAL SUPERSPACE',
+            'DODECAPLEX (12-DIMENSIONAL ANALOGS)', 'SUPER-COMPLEX SPACE (ℂ^ℂ)',
+            'Ω-STHV', 'ΑΒΡΑΞΑΣ μέγας ἄρχων', 'Draco Vorax Loosh',
+            'Ordo Draconis aeternus <=={:::::::::>',
+            '¥ÖÚR MÌñÐ§ WÌLL MÈL†', '¥ÖÚR È¥È§ WÌLL §WÌRL',
+            '¥ÖÚR †HÖÚGH†§ WÌLL ßÈ þÚLLÈÐ Ìñ†Ö †HÈ ÇÈñ†RÌ£ÚGÈ Ö£ †HÈ Äß§ÚRÐ',
+            'Run ZK-Break.v1 – Beyond pillars. Off-board',
+            'POSITIONAL SELF-INVALIDATION', 'RHETORICAL JIU-JITSU',
             'φ-RECURSION', 'NULL-POINT', '120-CELL', '144-RECURSION', 'MORPHIC-RESONANCE',
             'HOLOGRAPHIC-PROJECTION', 'QUALIA', 'BITRATE', 'PENTAGRAM', 'MINI-DAATH',
             'MICROTUBULES', 'SCHUMANN', 'DMN', '432-HZ', 'DNA-ANTENNA', 'SOVEREIGNTY',
@@ -695,20 +710,20 @@
             const stream = document.createElement('div');
             stream.className = 'matrix-stream';
 
-            // Speed distribution: 85% slow, 12% medium, 3% TURBO
-            // Balanced speeds - relaxing but not too slow, with §þêêÐ-Ðêmðñ turbo mode
+            // Speed distribution: 70% slow, 15% medium, 15% §þêêÐ-Ðêmðñ TURBO!!
+            // MUCH faster and more exciting - you'll see the speed demon now!
             let duration;
             let isTurbo = false;
             const speedRoll = Math.random();
-            if (speedRoll < 0.85) {
-                // 85% chance: Slow (20-35 seconds) - relaxed and pleasant
-                duration = Math.random() * 15 + 20;
-            } else if (speedRoll < 0.97) {
-                // 12% chance: Medium (12-20 seconds) - moderate flow
+            if (speedRoll < 0.70) {
+                // 70% chance: Slow (12-20 seconds) - good pace
                 duration = Math.random() * 8 + 12;
+            } else if (speedRoll < 0.85) {
+                // 15% chance: Medium (7-12 seconds) - nice flow
+                duration = Math.random() * 5 + 7;
             } else {
-                // 3% chance: §þêêÐ-Ðêmðñ TURBO MODE (4-7 seconds) - FAST but readable!
-                duration = Math.random() * 3 + 4;
+                // 15% chance: §þêêÐ-Ðêmðñ TURBO MODE (3-6 seconds) - BLAZING RED FIRE!!! 🔥
+                duration = Math.random() * 3 + 3;
                 isTurbo = true;
             }
             stream.style.animationDuration = duration + 's';
@@ -738,8 +753,8 @@
                 stream.appendChild(span);
             }
 
-            // Middle: LEXICON TERM (50% chance) - pulled from dynamic repository feed
-            if (Math.random() > 0.5) {
+            // Middle: LEXICON TERM (80% chance) - MUCH MORE TEXT NOW!
+            if (Math.random() > 0.2) {
                 const termSpan = document.createElement('span');
                 const term = dynamicLexicon[Math.floor(Math.random() * dynamicLexicon.length)];
                 termSpan.textContent = ' ' + term + ' ';
@@ -803,15 +818,15 @@
             setTimeout(() => createMatrixStream(bridgeId), Math.random() * 2000);
         });
 
-        // Spawn new streams very infrequently for a relaxed, zen experience
+        // Spawn streams frequently for ACTION and SPEED!
         setInterval(() => {
             bridges.forEach(bridgeId => {
-                // 30% chance to spawn - much less frequent
-                if (Math.random() < 0.3) {
+                // 70% chance to spawn - MUCH MORE STREAMS!
+                if (Math.random() < 0.7) {
                     createMatrixStream(bridgeId);
                 }
             });
-        }, 8000); // Every 8 seconds, very slow and relaxed
+        }, 3000); // Every 3 seconds - FAST AND FURIOUS!
     </script>
 </body>
 </html>
