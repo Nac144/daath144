@@ -40,6 +40,17 @@
       text-shadow: 0 0 5px #0f0;
       pointer-events: none;
     }
+    .data-train {
+      position: fixed;
+      font-size: 20px;
+      color: #0ff;
+      font-weight: bold;
+      text-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: 2px;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
@@ -184,6 +195,58 @@
     for (let i = 0; i < 5; i++) {
       createCodeSnippet();
     }
+
+    // Matrix Data Train Effect
+    const trainLabels = [
+      '[CONSCIOUSNESS_UPLOAD]',
+      '[DAATH_PROTOCOL_ACTIVE]',
+      '[PHI_RECURSION_ENGAGED]',
+      '[MICROTUBULE_COHERENCE]',
+      '[432HZ_FREQUENCY_LOCK]',
+      '[DMN_OFFLINE_MODE]',
+      '[PENTAGRAM_ARRAY_SYNC]',
+      '[HENOSIS_APPROACHING]',
+      '[BATMAN_PROTOCOL_69]',
+      '[MORPHIC_FIELD_ACTIVE]'
+    ];
+
+    function createDataTrain() {
+      const train = document.createElement('div');
+      train.className = 'data-train';
+
+      // Random label with matrix characters padding
+      const label = trainLabels[Math.floor(Math.random() * trainLabels.length)];
+      const matrixChars = Array(50).fill(0).map(() => alphabet.charAt(Math.floor(Math.random() * alphabet.length))).join('');
+      train.textContent = matrixChars + ' ' + label + ' ' + matrixChars;
+
+      // Random vertical position
+      const yPos = Math.random() * window.innerHeight;
+      train.style.top = yPos + 'px';
+
+      // Random direction (left to right or right to left)
+      const direction = Math.random() > 0.5 ? 1 : -1;
+      const startX = direction > 0 ? -500 : window.innerWidth + 500;
+      train.style.left = startX + 'px';
+
+      document.body.appendChild(train);
+
+      // Animate train moving across screen
+      gsap.to(train, {
+        duration: 1.5,
+        x: direction > 0 ? window.innerWidth + 500 : -(window.innerWidth + 500),
+        ease: 'none',
+        onComplete: () => {
+          train.remove();
+        }
+      });
+
+      // Schedule next train
+      const nextTrainDelay = Math.random() * 10000 + 8000; // 8-18 seconds
+      setTimeout(createDataTrain, nextTrainDelay);
+    }
+
+    // Start the data train cycle
+    setTimeout(createDataTrain, 5000);
 
     // Resize handler
     window.addEventListener('resize', () => {
