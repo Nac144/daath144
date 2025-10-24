@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pentagram φ - MAXIMUM</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background matrix rain */
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+/* Sacred geometry grid */
+.sacred-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(0,255,0,0.03) 50px, rgba(0,255,0,0.03) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,255,0,0.03) 50px, rgba(0,255,0,0.03) 51px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Main pentagram container */
+.pentagram-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  z-index: 10;
+}
+
+/* Rotating outer rings */
+.ring {
+  position: absolute;
+  border: 1px solid rgba(0,255,0,0.3);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 20s linear infinite;
+}
+
+.ring1 { width: 650px; height: 650px; border-width: 2px; animation-duration: 30s; }
+.ring2 { width: 550px; height: 550px; border-width: 1px; animation-duration: 25s; animation-direction: reverse; }
+.ring3 { width: 450px; height: 450px; border-width: 1px; animation-duration: 35s; opacity: 0.5; }
+.ring4 { width: 350px; height: 350px; border-width: 1px; animation-duration: 40s; animation-direction: reverse; opacity: 0.3; }
+
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Pentagram SVG */
+.pentagram-svg {
+  position: relative;
+  z-index: 20;
+  filter: drop-shadow(0 0 30px rgba(0,255,0,0.8));
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,0,0.6)); }
+  50% { filter: drop-shadow(0 0 50px rgba(0,255,0,1)); }
+}
+
+.pentagram {
+  fill: #000;
+  stroke: #0f0;
+  stroke-width: 0.3;
+  filter: drop-shadow(0 0 5px #0f0);
+}
+
+/* Phi spiral particles */
+.particle-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #0f0;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #0f0;
+  opacity: 0;
+  animation: particle-fade 3s linear forwards;
+}
+
+@keyframes particle-fade {
+  0% { opacity: 0; transform: scale(0); }
+  10% { opacity: 1; transform: scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* Energy beams from vertices */
+.beam {
+  position: absolute;
+  width: 2px;
+  height: 200px;
+  background: linear-gradient(to bottom, rgba(0,255,0,0.8), transparent);
+  top: 50%;
+  left: 50%;
+  transform-origin: top center;
+  animation: beam-rotate 10s linear infinite;
+  opacity: 0.6;
+}
+
+.beam:nth-child(1) { animation-delay: 0s; }
+.beam:nth-child(2) { animation-delay: 2s; }
+.beam:nth-child(3) { animation-delay: 4s; }
+.beam:nth-child(4) { animation-delay: 6s; }
+.beam:nth-child(5) { animation-delay: 8s; }
+
+@keyframes beam-rotate {
+  from { transform: translate(-50%, -100%) rotate(0deg); }
+  to { transform: translate(-50%, -100%) rotate(360deg); }
+}
+
+/* Intersection point glows */
+.intersection-glow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,0,1), rgba(0,255,0,0));
+  animation: intersection-pulse 2s ease-in-out infinite;
+}
+
+@keyframes intersection-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+}
+
+/* Phi ratio labels */
+.phi-label {
+  position: absolute;
+  color: #0f0;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #0f0;
+  animation: label-fade 4s ease-in-out infinite;
+  z-index: 30;
+}
+
+@keyframes label-fade {
+  0%, 30% { opacity: 0; }
+  40%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Binary rain digits */
+.binary-digit {
+  position: absolute;
+  color: #0f0;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  animation: binary-fall linear forwards;
+  opacity: 0.5;
+}
+
+@keyframes binary-fall {
+  to { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Geometric overlays */
+.geometric-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.hex {
+  stroke: rgba(0,255,0,0.2);
+  fill: none;
+  stroke-width: 1;
+  animation: hex-rotate 40s linear infinite reverse;
+}
+
+@keyframes hex-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Fractal nested pentagons */
+.nested-pentagon {
+  stroke: rgba(0,255,0,0.4);
+  fill: none;
+  stroke-width: 1;
+  animation: nested-pulse 5s ease-in-out infinite;
+}
+
+.nested-pentagon:nth-child(1) { animation-delay: 0s; }
+.nested-pentagon:nth-child(2) { animation-delay: 0.5s; }
+.nested-pentagon:nth-child(3) { animation-delay: 1s; }
+.nested-pentagon:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes nested-pulse {
+  0%, 100% { opacity: 0.2; stroke-width: 0.5; }
+  50% { opacity: 1; stroke-width: 2; }
+}
+
+/* Frequency wave overlay */
+.wave-line {
+  stroke: rgba(0,255,0,0.3);
+  stroke-width: 1;
+  fill: none;
+  animation: wave-flow 3s ease-in-out infinite;
+}
+
+@keyframes wave-flow {
+  0%, 100% { stroke-dashoffset: 0; }
+  50% { stroke-dashoffset: 100; }
+}
+
+/* Vertex energy nodes */
+.vertex-node {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, #0f0, transparent);
+  border-radius: 50%;
+  animation: vertex-pulse 1.5s ease-in-out infinite;
+  z-index: 25;
+  box-shadow: 0 0 20px #0f0;
+}
+
+@keyframes vertex-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+
+/* Central text labels */
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #0f0;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 0 0 20px #0f0;
+  z-index: 30;
+  animation: text-glitch 0.5s infinite;
+}
+
+@keyframes text-glitch {
+  0%, 90% { transform: translate(-50%, -50%); }
+  92% { transform: translate(-48%, -50%); }
+  94% { transform: translate(-52%, -50%); }
+  96% { transform: translate(-50%, -48%); }
+  98% { transform: translate(-50%, -52%); }
+  100% { transform: translate(-50%, -50%); }
+}
+
+/* Scanning line effect */
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(0,255,0,0.5), transparent);
+  animation: scan 4s linear infinite;
+  z-index: 100;
+}
+
+@keyframes scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(100vh); }
+}
+
+/* Corner sacred numbers */
+.sacred-number {
+  position: fixed;
+  color: #0f0;
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 0 0 15px #0f0;
+  animation: number-pulse 2s ease-in-out infinite;
+  z-index: 40;
+}
+
+.sacred-number.top-left { top: 40px; left: 40px; }
+.sacred-number.top-right { top: 40px; right: 40px; }
+.sacred-number.bottom-left { bottom: 40px; left: 40px; }
+.sacred-number.bottom-right { bottom: 40px; right: 40px; }
+
+@keyframes number-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+</style>
+</head>
+<body>
+
+<!-- Matrix rain background -->
+<canvas class="matrix-bg" id="matrixCanvas"></canvas>
+
+<!-- Sacred geometry grid -->
+<div class="sacred-grid"></div>
+
+<!-- Scanning line -->
+<div class="scan-line"></div>
+
+<!-- Corner sacred numbers -->
+<div class="sacred-number top-left">144</div>
+<div class="sacred-number top-right">φ</div>
+<div class="sacred-number bottom-left">432</div>
+<div class="sacred-number bottom-right">7.83</div>
+
+<div class="container">
+  <!-- Rotating rings -->
+  <div class="ring ring1"></div>
+  <div class="ring ring2"></div>
+  <div class="ring ring3"></div>
+  <div class="ring ring4"></div>
+
+  <!-- Energy beams -->
+  <div class="beam"></div>
+  <div class="beam"></div>
+  <div class="beam"></div>
+  <div class="beam"></div>
+  <div class="beam"></div>
+
+  <!-- Pentagram container -->
+  <div class="pentagram-container">
+    <!-- Geometric overlays -->
+    <svg class="geometric-overlay" width="700" height="700" viewBox="-350 -350 700 700">
+      <!-- Hexagons -->
+      <g class="hex">
+        <polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50"/>
+        <polygon points="0,-150 129.9,-75 129.9,75 0,150 -129.9,75 -129.9,-75"/>
+        <polygon points="0,-200 173.2,-100 173.2,100 0,200 -173.2,100 -173.2,-100"/>
+      </g>
+
+      <!-- Nested pentagons -->
+      <polygon class="nested-pentagon" points="0,-200 190,-62 118,162 -118,162 -190,-62"/>
+      <polygon class="nested-pentagon" points="0,-150 142.5,-46.5 88.5,121.5 -88.5,121.5 -142.5,-46.5"/>
+      <polygon class="nested-pentagon" points="0,-100 95,-31 59,81 -59,81 -95,-31"/>
+      <polygon class="nested-pentagon" points="0,-50 47.5,-15.5 29.5,40.5 -29.5,40.5 -47.5,-15.5"/>
+
+      <!-- Wave lines -->
+      <path class="wave-line" stroke-dasharray="10" d="M-300,0 Q-225,-50 -150,0 T0,0 T150,0 T300,0"/>
+      <path class="wave-line" stroke-dasharray="10" d="M0,-300 Q50,-225 0,-150 T0,0 T0,150 T0,300" style="animation-delay: 1s;"/>
+    </svg>
+
+    <!-- Main pentagram SVG -->
+    <svg class="pentagram-svg" viewBox="0 0 42.532 42.532" width="600" height="600">
+      <path class="pentagram" d="M41.856,15.918c-4.914,0-9.828,0-14.744,0c-0.159,0-0.318,0-0.478,0c-1.464-4.502-2.926-9.006-4.389-13.509c-0.091-0.279-0.182-0.56-0.273-0.84c-0.018-0.23-0.165-0.396-0.358-0.492 c-0.03-0.016-0.059-0.03-0.091-0.042c-0.041-0.014-0.082-0.022-0.125-0.03c-0.045-0.008-0.087-0.015-0.132-0.014 c-0.045,0-0.088,0.006-0.132,0.014c-0.043,0.007-0.084,0.016-0.125,0.03c-0.032,0.011-0.061,0.025-0.09,0.042 c-0.193,0.096-0.341,0.262-0.359,0.492c-1.508,4.641-3.016,9.284-4.524,13.925c-0.046,0.141-0.092,0.283-0.138,0.424 c-4.746,0-9.49,0-14.236,0c-0.329,0-0.657,0-0.986,0c-0.746,0-0.89,0.915-0.354,1.305C4.298,20.112,8.274,23,12.25,25.889 c0.11,0.08,0.22,0.16,0.331,0.24c-1.47,4.525-2.94,9.049-4.411,13.572c-0.102,0.312-0.203,0.625-0.305,0.938 c-0.181,0.556,0.526,1.155,1.028,0.791c3.976-2.889,7.952-5.776,11.929-8.666c0.148-0.107,0.296-0.215,0.445-0.323 c3.858,2.804,7.716,5.606,11.575,8.409c0.267,0.193,0.532,0.388,0.798,0.58c0.502,0.364,1.209-0.235,1.028-0.791 c-1.519-4.674-3.037-9.348-4.558-14.021c-0.052-0.162-0.105-0.324-0.158-0.486c3.82-2.776,7.64-5.551,11.461-8.328 c0.266-0.193,0.531-0.386,0.798-0.58C42.746,16.833,42.604,15.918,41.856,15.918z M39.706,17.318 c-3.376,2.454-6.753,4.907-10.132,7.361c-0.025,0.019-0.052,0.038-0.077,0.057c-0.804-2.473-1.607-4.945-2.411-7.418 C31.293,17.318,35.5,17.318,39.706,17.318z M13.768,26.994c2.104,1.528,4.208,3.057,6.311,4.586 c-3.404,2.473-6.808,4.944-10.212,7.418C11.167,34.996,12.468,30.995,13.768,26.994z M21.265,30.718 c-2.349-1.706-4.697-3.412-7.044-5.118c0.898-2.761,1.794-5.521,2.692-8.281c2.901,0,5.802,0,8.704,0 c0.898,2.76,1.795,5.52,2.692,8.281C25.961,27.305,23.613,29.012,21.265,30.718z M25.147,15.866 c0.006,0.017,0.012,0.035,0.017,0.052c-2.598,0-5.196,0-7.795,0c1.298-3.999,2.598-7.998,3.897-11.996 C22.559,7.903,23.853,11.885,25.147,15.866z M2.824,17.318c4.198,0,8.396,0,12.595,0c0.007,0,0.015,0,0.022,0 c-0.804,2.472-1.607,4.944-2.41,7.416C9.628,22.262,6.226,19.79,2.824,17.318z M32.663,38.999 c-3.404-2.475-6.808-4.947-10.213-7.421c2.104-1.528,4.207-3.057,6.312-4.586C30.063,30.994,31.362,34.997,32.663,38.999z"/>
+    </svg>
+
+    <!-- Vertex energy nodes -->
+    <div class="vertex-node" style="top: 5%; left: 50%;"></div>
+    <div class="vertex-node" style="top: 38%; left: 88%; animation-delay: 0.3s;"></div>
+    <div class="vertex-node" style="top: 82%; left: 72%; animation-delay: 0.6s;"></div>
+    <div class="vertex-node" style="top: 82%; left: 28%; animation-delay: 0.9s;"></div>
+    <div class="vertex-node" style="top: 38%; left: 12%; animation-delay: 1.2s;"></div>
+
+    <!-- Intersection glows -->
+    <div class="intersection-glow" style="top: 40%; left: 50%;"></div>
+    <div class="intersection-glow" style="top: 55%; left: 33%; animation-delay: 0.5s;"></div>
+    <div class="intersection-glow" style="top: 55%; left: 67%; animation-delay: 1s;"></div>
+
+    <!-- Phi labels -->
+    <div class="phi-label" style="top: 35%; left: 52%;">φ = 1.618</div>
+    <div class="phi-label" style="top: 50%; left: 25%; animation-delay: 1s;">1</div>
+    <div class="phi-label" style="top: 50%; left: 75%; animation-delay: 2s;">φ</div>
+
+    <!-- Particle layer -->
+    <div class="particle-layer" id="particleLayer"></div>
+  </div>
+
+  <!-- Central text -->
+  <div class="center-text">NULL POINT</div>
+</div>
+
+<!-- Binary rain container -->
+<div id="binaryRain"></div>
+
+<script>
+// Matrix background
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars = '01φψΩ∞';
+const columns = Math.floor(canvas.width / 20);
+const drops = Array(columns).fill(1);
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#0f0';
+  ctx.font = '15px Courier New';
+
+  drops.forEach((y, i) => {
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    const x = i * 20;
+    ctx.fillText(text, x, y * 20);
+
+    if (y * 20 > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  });
+}
+
+setInterval(drawMatrix, 50);
+
+// Phi spiral particles
+const particleLayer = document.getElementById('particleLayer');
+const phi = 1.618;
+let angle = 0;
+
+function createPhiParticle() {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+
+  const radius = 50 + (angle * 3);
+  const x = 50 + (radius / 600 * 50) * Math.cos(angle);
+  const y = 50 + (radius / 600 * 50) * Math.sin(angle);
+
+  particle.style.left = x + '%';
+  particle.style.top = y + '%';
+  particle.style.animationDelay = '0s';
+
+  particleLayer.appendChild(particle);
+
+  setTimeout(() => particle.remove(), 3000);
+
+  angle += 0.1;
+}
+
+setInterval(createPhiParticle, 50);
+
+// Binary rain
+const binaryRain = document.getElementById('binaryRain');
+
+function createBinaryDigit() {
+  if (Math.random() > 0.8) {
+    const digit = document.createElement('div');
+    digit.className = 'binary-digit';
+    digit.textContent = Math.random() > 0.5 ? '1' : '0';
+    digit.style.left = Math.random() * 100 + 'vw';
+    digit.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    binaryRain.appendChild(digit);
+
+    setTimeout(() => digit.remove(), 5000);
+  }
+}
+
+setInterval(createBinaryDigit, 100);
+
+// Resize handler
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
