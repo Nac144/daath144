@@ -262,7 +262,7 @@
             });
         }, 3000); // Every 3 seconds - FAST AND FURIOUS!
 
-        // φ-HARMONIC Portal Functionality - Draggable/Resizable
+        // Music Portal Functionality - Draggable/Resizable 432 Hz Player
         (function() {
             const harmonicBtns = document.querySelectorAll('.phi-button');
             const harmonicPopup = document.getElementById('harmonicPopup');
@@ -280,15 +280,19 @@
             let startWidth = 0;
             let startHeight = 0;
 
-            // Hover effect for close button
+            // Hover effect for STOP MUSIC button - makes it glow
             harmonicClose.addEventListener('mouseenter', function() {
                 this.style.background = 'var(--primary-color)';
-                this.style.transform = 'scale(1.1)';
+                this.style.color = '#000';
+                this.style.transform = 'scale(1.05)';
+                this.style.boxShadow = '0 0 15px rgba(var(--primary-rgb), 0.6)';
             });
 
             harmonicClose.addEventListener('mouseleave', function() {
-                this.style.background = '#a855f7';
+                this.style.background = 'var(--secondary-color)';
+                this.style.color = '#fff';
                 this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
             });
 
             // Open popup - attach to all phi-buttons

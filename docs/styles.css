@@ -141,7 +141,7 @@
             text-transform: uppercase;
         }
 
-        /* Music Link - φ-HARMONIC Portal */
+        /* Music Portal Link (deprecated - now using phi-button) */
         .music-link {
             color: var(--secondary-color);
             text-decoration: none;
@@ -661,7 +661,7 @@
             position: relative;
         }
 
-        /* φ-HARMONIC button - small text-sized link under matrix */
+        /* Music Portal button - opens 432 Hz music player */
         .phi-button {
             display: inline-block;
             font-size: 12px;
