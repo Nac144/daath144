@@ -136,7 +136,8 @@
 
         .header .subtitle {
             color: var(--secondary-color);
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -145,7 +146,8 @@
         .music-link {
             color: var(--secondary-color);
             text-decoration: none;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
             padding: 5px 12px;
@@ -376,7 +378,8 @@
             cursor: pointer;
             display: block;
             border: 1px solid transparent;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             letter-spacing: 1px;
             background: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(2px);
@@ -487,7 +490,8 @@
             white-space: nowrap;
             text-align: center;
             min-width: 130px;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             letter-spacing: 1px;
             backdrop-filter: blur(3px);
         }
@@ -546,7 +550,8 @@
             align-items: center;
             gap: 12px;
             border: 1px solid transparent;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             letter-spacing: 1px;
             background: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(2px);
@@ -664,7 +669,8 @@
         /* Music Portal button - opens 432 Hz music player */
         .phi-button {
             display: inline-block;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
             color: var(--secondary-color);
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -684,4 +690,106 @@
             color: var(--primary-color);
             box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.35);
             text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.45);
+        }
+
+        /* Subtitle Secondary */
+        .header .subtitle-secondary {
+            color: var(--primary-color);
+            font-size: 10px;
+            letter-spacing: 1px;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+
+        /* Consciousness Cube Simulator */
+        .consciousness-cube-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(var(--primary-rgb), 0.3);
+            border-radius: 6px;
+            backdrop-filter: blur(5px);
+        }
+
+        .cube-label {
+            color: var(--secondary-color);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .cube-wrapper {
+            width: 2cm;
+            height: 2cm;
+            margin: 0 auto 10px;
+            perspective: 800px;
+        }
+
+        .cube-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 12s infinite linear;
+        }
+
+        @keyframes rotateCube {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 2cm;
+            height: 2cm;
+            background: rgba(var(--primary-rgb), 0.15);
+            border: 1px solid rgba(var(--primary-rgb), 0.6);
+            box-shadow:
+                inset 0 0 20px rgba(var(--primary-rgb), 0.2),
+                0 0 15px rgba(var(--primary-rgb), 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        .cube-face.front  { transform: translateZ(1cm); }
+        .cube-face.back   { transform: rotateY(180deg) translateZ(1cm); }
+        .cube-face.right  { transform: rotateY(90deg) translateZ(1cm); }
+        .cube-face.left   { transform: rotateY(-90deg) translateZ(1cm); }
+        .cube-face.top    { transform: rotateX(90deg) translateZ(1cm); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(1cm); }
+
+        .cube-data {
+            font-size: 9px;
+            color: var(--primary-color);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .coordinate-data, .rotation-data {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .coordinate-data span, .rotation-data span {
+            background: rgba(var(--secondary-rgb), 0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(var(--secondary-rgb), 0.4);
+        }
+
+        .context-params {
+            margin-top: 8px;
+            color: var(--secondary-color);
+            font-size: 10px;
+            font-style: italic;
+        }
+
+        #context-state {
+            color: var(--primary-color);
+            font-weight: bold;
         }

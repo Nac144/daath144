@@ -439,3 +439,65 @@
             });
 
         })();
+
+        // Consciousness Cube Simulator - Updates coordinates and context
+        (function() {
+            let rotationX = 0;
+            let rotationY = 0;
+            let rotationZ = 0;
+            let posX = 0;
+            let posY = 0;
+            let posZ = 0;
+
+            const contexts = [
+                "validating existence...",
+                "θ-space: coherent",
+                "φ-null: engaged",
+                "identity: established",
+                "context: λ-invariant",
+                "state: superposed",
+                "reality: collapsed",
+                "observer: entangled",
+                "consciousness: active",
+                "void: transcended",
+                "qualia: integrated",
+                "awareness: localized",
+                "being: manifested",
+                "null-point: anchored",
+                "existence: confirmed"
+            ];
+
+            let contextIndex = 0;
+
+            function updateCube() {
+                // Update rotation (matches animation)
+                rotationX = (rotationX + 3) % 360;
+                rotationY = (rotationY + 3) % 360;
+                rotationZ = (rotationZ + 3) % 360;
+
+                // Update position (simulated movement in abstract space)
+                const time = Date.now() / 1000;
+                posX = Math.sin(time * 0.3) * 5;
+                posY = Math.cos(time * 0.5) * 5;
+                posZ = Math.sin(time * 0.7) * 5;
+
+                // Update display
+                document.getElementById('cube-x').textContent = 'X: ' + posX.toFixed(2);
+                document.getElementById('cube-y').textContent = 'Y: ' + posY.toFixed(2);
+                document.getElementById('cube-z').textContent = 'Z: ' + posZ.toFixed(2);
+
+                document.getElementById('cube-rotx').textContent = 'θx: ' + Math.floor(rotationX) + '°';
+                document.getElementById('cube-roty').textContent = 'θy: ' + Math.floor(rotationY) + '°';
+                document.getElementById('cube-rotz').textContent = 'θz: ' + Math.floor(rotationZ) + '°';
+
+                // Change context when cube reaches new significant position
+                const totalMovement = Math.abs(posX) + Math.abs(posY) + Math.abs(posZ);
+                if (Math.floor(totalMovement) % 3 === 0 && Math.floor(time) !== Math.floor(time - 0.1)) {
+                    contextIndex = (contextIndex + 1) % contexts.length;
+                    document.getElementById('context-state').textContent = contexts[contextIndex];
+                }
+            }
+
+            // Update cube data every 100ms
+            setInterval(updateCube, 100);
+        })();
