@@ -310,9 +310,53 @@
                 });
             });
 
-            // Close popup
+            // "Close" popup - RICKROLL SURPRISE! 😂
+            let rickrolled = false;
             harmonicClose.addEventListener('click', function() {
-                harmonicPopup.style.display = 'none';
+                if (!rickrolled) {
+                    // SURPRISE! Switch to rickroll
+                    harmonicIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=1';
+
+                    // Update header
+                    const headerText = harmonicHeader.querySelector('span');
+                    headerText.textContent = '🎉 NEVER GONNA GIVE YOU UP! 🕺';
+                    headerText.style.animation = 'rainbow 2s linear infinite';
+
+                    // Update button
+                    this.textContent = 'OKAY FINE, CLOSE';
+                    this.style.background = '#ff0000';
+
+                    // Add rainbow animation
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes rainbow {
+                            0% { color: #ff0000; }
+                            16% { color: #ff7f00; }
+                            33% { color: #ffff00; }
+                            50% { color: #00ff00; }
+                            66% { color: #0000ff; }
+                            83% { color: #8b00ff; }
+                            100% { color: #ff0000; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+
+                    rickrolled = true;
+                } else {
+                    // Actually close now
+                    harmonicPopup.style.display = 'none';
+
+                    // Reset for next time
+                    setTimeout(() => {
+                        harmonicIframe.src = 'https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=0&enablejsapi=1';
+                        const headerText = harmonicHeader.querySelector('span');
+                        headerText.textContent = '🎵 MUSIC PORTAL - 432 Hz Player';
+                        headerText.style.animation = 'none';
+                        this.textContent = 'STOP MUSIC';
+                        this.style.background = 'var(--secondary-color)';
+                        rickrolled = false;
+                    }, 500);
+                }
             });
 
             // Close on Escape key
