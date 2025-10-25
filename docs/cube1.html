@@ -20,97 +20,14 @@
       font-family: 'Courier New', monospace;
     }
     
-    #cube1-canvas { 
-      display: block; 
+    #cube1-canvas {
+      display: block;
       width: 100% !important;
       height: 100% !important;
-      cursor: grab;
-    }
-    
-    #cube1-canvas:active {
-      cursor: grabbing;
-    }
-    
-    #ui-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      pointer-events: none;
-      z-index: 10;
-    }
-    
-    #cube1-coords { 
-      color: #98ffa7; 
-      font-family: 'Courier New', monospace;
-      font-size: 1.05em; 
-      text-align: center; 
-      padding: 15px 0;
-      background: rgba(0, 0, 0, 0.7);
-      border-bottom: 2px solid #98ffa7;
-      box-shadow: 0 4px 20px rgba(152, 255, 167, 0.3);
-    }
-    
-    #speed-indicator {
-      margin-top: 5px;
-      font-size: 0.9em;
-      color: #66d9ff;
-    }
-    
-    #instructions {
-      position: absolute;
-      top: 80px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #98ffa7;
-      color: #98ffa7;
-      font-size: 0.85em;
-      max-width: 250px;
-      pointer-events: none;
-    }
-    
-    #instructions h3 {
-      margin-bottom: 10px;
-      color: #66d9ff;
-    }
-    
-    #instructions ul {
-      list-style: none;
-      line-height: 1.8;
-    }
-    
-    #instructions li:before {
-      content: "▸ ";
-      color: #66d9ff;
     }
   </style>
 </head>
 <body>
-  <div id="ui-overlay">
-    <div id="cube1-coords">
-      <span style="color:#777;">Rotation:</span>
-      X: <span id="cube1-x">0.00</span>
-      Y: <span id="cube1-y">0.00</span>
-      Z: <span id="cube1-z">0.00</span>
-      <div id="speed-indicator">
-        Speed: <span id="rotation-speed">0.0</span> rad/s
-      </div>
-    </div>
-    
-    <div id="instructions">
-      <h3>⌨️ Controls</h3>
-      <ul>
-        <li>Drag to rotate</li>
-        <li>Scroll to zoom</li>
-        <li>Arrow keys rotate</li>
-        <li>Space = auto-rotate</li>
-        <li>R = reset</li>
-      </ul>
-    </div>
-  </div>
-  
   <canvas id="cube1-canvas"></canvas>
   
   <script type="importmap">
@@ -285,17 +202,7 @@
     
     handleResize();
     window.addEventListener('resize', handleResize);
-    
-    // Update UI
-    function updateUI() {
-      document.getElementById('cube1-x').textContent = cube.rotation.x.toFixed(2);
-      document.getElementById('cube1-y').textContent = cube.rotation.y.toFixed(2);
-      document.getElementById('cube1-z').textContent = cube.rotation.z.toFixed(2);
-      
-      const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
-      document.getElementById('rotation-speed').textContent = speed.toFixed(3);
-    }
-    
+
     // Animation loop
     function animate() {
       requestAnimationFrame(animate);
@@ -319,9 +226,8 @@
       // Animate point light
       pointLight.position.x = Math.sin(colorTime) * 3;
       pointLight.position.z = Math.cos(colorTime) * 3;
-      
+
       controls.update();
-      updateUI();
       composer.render();
     }
     
