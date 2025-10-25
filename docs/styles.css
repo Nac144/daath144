@@ -806,7 +806,7 @@
         .cube-iframe-wrapper {
             width: 2cm;
             height: 2cm;
-            flex-shrink: 0;
+            margin: 0 auto;
             border: 1px solid rgba(var(--primary-rgb), 0.4);
             border-radius: 4px;
             overflow: hidden;
