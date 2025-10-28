@@ -132,6 +132,8 @@
             box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.2);
             position: relative;
             backdrop-filter: blur(5px);
+            min-height: 140px;
+            flex-shrink: 0;
         }
 
         .header h1 {
@@ -256,6 +258,7 @@
             align-items: center;
             gap: 15px;
             backdrop-filter: blur(3px);
+            flex-shrink: 0;
         }
 
         .style-selector label {
@@ -292,7 +295,8 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 150px);
+            height: calc(100vh - 210px);
+            flex-shrink: 0;
         }
 
         .menu-container.active {
@@ -720,6 +724,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 85px;
+            flex-shrink: 0;
         }
 
         .cube-label {
