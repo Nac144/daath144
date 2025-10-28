@@ -1,26 +1,97 @@
-        /* Grayscale - No Color */
+        /* Color Scheme Variables - Default: Matrix Green/Purple */
         :root {
-            --primary-color: #ffffff;
-            --secondary-color: #999999;
-            --primary-rgb: 255, 255, 255;
-            --secondary-rgb: 153, 153, 153;
+            --primary-color: #00ff88;
+            --secondary-color: #8a2be2;
+            --primary-rgb: 0, 255, 136;
+            --secondary-rgb: 138, 43, 226;
         }
 
-        /* All schemes converted to grayscale */
-        body.scheme-1,
-        body.scheme-2,
-        body.scheme-3,
-        body.scheme-4,
-        body.scheme-5,
-        body.scheme-6,
-        body.scheme-7,
-        body.scheme-8,
-        body.scheme-9,
+        /* Color Scheme 1: Matrix Green/Purple (default) */
+        body.scheme-1 {
+            --primary-color: #00ff88;
+            --secondary-color: #8a2be2;
+            --primary-rgb: 0, 255, 136;
+            --secondary-rgb: 138, 43, 226;
+        }
+
+        /* Color Scheme 2: Blue Cyber */
+        body.scheme-2 {
+            --primary-color: #00d4ff;
+            --secondary-color: #0066ff;
+            --primary-rgb: 0, 212, 255;
+            --secondary-rgb: 0, 102, 255;
+        }
+
+        /* Color Scheme 3: Fire Red/Orange */
+        body.scheme-3 {
+            --primary-color: #ff3333;
+            --secondary-color: #ff9900;
+            --primary-rgb: 255, 51, 51;
+            --secondary-rgb: 255, 153, 0;
+        }
+
+        /* Color Scheme 4: Purple Neon/Pink */
+        body.scheme-4 {
+            --primary-color: #d946ef;
+            --secondary-color: #ff006e;
+            --primary-rgb: 217, 70, 239;
+            --secondary-rgb: 255, 0, 110;
+        }
+
+        /* Color Scheme 5: Gold/Yellow */
+        body.scheme-5 {
+            --primary-color: #ffd700;
+            --secondary-color: #ffaa00;
+            --primary-rgb: 255, 215, 0;
+            --secondary-rgb: 255, 170, 0;
+        }
+
+        /* Color Scheme 6: Silver/White */
+        body.scheme-6 {
+            --primary-color: #e0e0e0;
+            --secondary-color: #00ffff;
+            --primary-rgb: 224, 224, 224;
+            --secondary-rgb: 0, 255, 255;
+        }
+
+        /* Color Scheme 7: Orange/Teal */
+        body.scheme-7 {
+            --primary-color: #ff6b35;
+            --secondary-color: #00ffaa;
+            --primary-rgb: 255, 107, 53;
+            --secondary-rgb: 0, 255, 170;
+        }
+
+        /* Color Scheme 8: Lime/Magenta */
+        body.scheme-8 {
+            --primary-color: #ccff00;
+            --secondary-color: #ff00ff;
+            --primary-rgb: 204, 255, 0;
+            --secondary-rgb: 255, 0, 255;
+        }
+
+        /* Color Scheme 9: Aqua/Coral */
+        body.scheme-9 {
+            --primary-color: #00ffdd;
+            --secondary-color: #ff6b9d;
+            --primary-rgb: 0, 255, 221;
+            --secondary-rgb: 255, 107, 157;
+        }
+
+        /* Color Scheme 10: Emerald/Ruby */
         body.scheme-10 {
-            --primary-color: #ffffff;
-            --secondary-color: #999999;
-            --primary-rgb: 255, 255, 255;
-            --secondary-rgb: 153, 153, 153;
+            --primary-color: #50c878;
+            --secondary-color: #e0115f;
+            --primary-rgb: 80, 200, 120;
+            --secondary-rgb: 224, 17, 95;
+        }
+
+        /* Color Scheme 11: HELL RED - Super red with gradients */
+        body.scheme-11 {
+            --primary-color: #ff0000;
+            --secondary-color: #cc0000;
+            --primary-rgb: 255, 0, 0;
+            --secondary-rgb: 204, 0, 0;
         }
 
         * {
