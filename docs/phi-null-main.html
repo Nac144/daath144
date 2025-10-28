@@ -14,11 +14,13 @@
         body {
             font-family: 'Courier New', monospace;
             background: rgba(10, 10, 15, 0.88);
-            color: #00ff88;
+            color: #ffffff;
             line-height: 1.8;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
 
-        /* Animated background */
+        /* Animated background - greyscale */
         @keyframes pulse {
             0%, 100% { opacity: 0.05; }
             50% { opacity: 0.15; }
@@ -32,8 +34,8 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 40%);
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(150, 150, 150, 0.03) 0%, transparent 50%);
             animation: pulse 7.83s ease-in-out infinite;
             pointer-events: none;
             z-index: 0;
@@ -45,25 +47,26 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+            contain: layout style;
         }
 
         .header {
             text-align: center;
             margin-bottom: 60px;
             padding-bottom: 30px;
-            border-bottom: 2px solid #00ff88;
+            border-bottom: 2px solid #ffffff;
         }
 
         .header h1 {
             font-size: 42px;
-            color: #00ff88;
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
             letter-spacing: 6px;
             margin-bottom: 15px;
         }
 
         .header .subtitle {
-            color: #8a2be2;
+            color: #999999;
             font-size: 14px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -71,25 +74,25 @@
 
         .section {
             margin-bottom: 60px;
-            background: rgba(26, 26, 46, 0.6);
-            border: 1px solid #00ff88;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid #ffffff;
             border-radius: 8px;
             padding: 40px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
             font-size: 28px;
-            color: #8a2be2;
+            color: #999999;
             margin-bottom: 25px;
             letter-spacing: 2px;
-            border-bottom: 1px solid rgba(138, 43, 226, 0.5);
+            border-bottom: 1px solid rgba(150, 150, 150, 0.5);
             padding-bottom: 15px;
         }
 
         .section-subtitle {
             font-size: 18px;
-            color: #00ff88;
+            color: #ffffff;
             margin-top: 30px;
             margin-bottom: 15px;
             letter-spacing: 1px;
@@ -98,49 +101,49 @@
         .content-block {
             margin-bottom: 25px;
             padding-left: 20px;
-            border-left: 3px solid rgba(138, 43, 226, 0.5);
+            border-left: 3px solid rgba(150, 150, 150, 0.5);
         }
 
         .content-block p {
-            color: rgba(0, 255, 136, 0.9);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             margin-bottom: 15px;
         }
 
         .equation-box {
             background: rgba(10, 10, 15, 0.8);
-            border: 1px solid #8a2be2;
+            border: 1px solid #999999;
             border-radius: 6px;
             padding: 20px;
             margin: 25px 0;
             font-family: 'Courier New', monospace;
             text-align: center;
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 20px rgba(150, 150, 150, 0.3);
         }
 
         .equation-box .equation {
-            color: #00ff88;
+            color: #ffffff;
             font-size: 16px;
             letter-spacing: 2px;
             margin-bottom: 10px;
         }
 
         .equation-box .explanation {
-            color: #8a2be2;
+            color: #999999;
             font-size: 12px;
             font-style: italic;
         }
 
         .key-insight {
-            background: rgba(138, 43, 226, 0.15);
-            border-left: 4px solid #8a2be2;
+            background: rgba(150, 150, 150, 0.15);
+            border-left: 4px solid #999999;
             padding: 20px;
             margin: 25px 0;
             border-radius: 4px;
         }
 
         .key-insight .insight-label {
-            color: #8a2be2;
+            color: #999999;
             font-size: 12px;
             font-weight: bold;
             letter-spacing: 2px;
@@ -149,7 +152,7 @@
         }
 
         .key-insight .insight-text {
-            color: #00ff88;
+            color: #ffffff;
             font-size: 14px;
         }
 
@@ -162,33 +165,33 @@
 
         .dimension-card {
             background: rgba(10, 10, 15, 0.8);
-            border: 1px solid #00ff88;
+            border: 1px solid #ffffff;
             border-radius: 6px;
             padding: 20px;
             transition: all 0.3s;
         }
 
         .dimension-card:hover {
-            border-color: #8a2be2;
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+            border-color: #999999;
+            box-shadow: 0 0 25px rgba(150, 150, 150, 0.4);
             transform: translateY(-3px);
         }
 
         .dimension-card .dim-number {
-            color: #8a2be2;
+            color: #999999;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
         .dimension-card .dim-transition {
-            color: #00ff88;
+            color: #ffffff;
             font-size: 14px;
             margin-bottom: 8px;
         }
 
         .dimension-card .dim-result {
-            color: rgba(0, 255, 136, 0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 12px;
         }
 
@@ -200,7 +203,7 @@
         .list-styled li {
             padding: 10px 0 10px 30px;
             position: relative;
-            color: rgba(0, 255, 136, 0.9);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
         }
 
@@ -208,7 +211,7 @@
             content: '◈';
             position: absolute;
             left: 0;
-            color: #8a2be2;
+            color: #999999;
             font-size: 16px;
         }
 
@@ -221,32 +224,32 @@
 
         .ratio-card {
             background: rgba(10, 10, 15, 0.6);
-            border: 1px solid rgba(0, 255, 136, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 4px;
             padding: 15px;
             text-align: center;
         }
 
         .ratio-card .ratio-formula {
-            color: #8a2be2;
+            color: #999999;
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 8px;
         }
 
         .ratio-card .ratio-meaning {
-            color: rgba(0, 255, 136, 0.8);
+            color: rgba(255, 255, 255, 0.8);
             font-size: 11px;
         }
 
         .highlight {
-            color: #8a2be2;
+            color: #999999;
             font-weight: bold;
         }
 
         .code-block {
             background: rgba(10, 10, 15, 0.9);
-            border: 1px solid #00ff88;
+            border: 1px solid #ffffff;
             border-radius: 4px;
             padding: 20px;
             margin: 20px 0;
@@ -255,7 +258,7 @@
         }
 
         .code-block pre {
-            color: #00ff88;
+            color: #ffffff;
             white-space: pre-wrap;
         }
 
@@ -570,5 +573,100 @@ OUTCOME:
             </div>
         </div>
     </div>
+
+    <script>
+        // Mouse Trail Effect - Grey particle trail for iframe consistency
+        (function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '9999';
+            document.body.appendChild(canvas);
+
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 3 + 2;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2;
+                    this.life = 1;
+                    this.decay = Math.random() * 0.02 + 0.01;
+
+                    // Grey theme - choose between white and grey
+                    const grey = Math.random() > 0.5 ? '255, 255, 255' : '150, 150, 150';
+                    this.color = grey;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                    this.size *= 0.98;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Add a smaller bright core
+                    ctx.shadowBlur = 5;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            document.addEventListener('mousemove', function(e) {
+                // Create particles (throttle to every other frame for performance)
+                if (Math.random() > 0.5) {
+                    particles.push(new Particle(e.clientX, e.clientY));
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    // Remove dead particles
+                    if (particles[i].life <= 0 || particles[i].size <= 0.1) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                // Limit particle count for performance
+                if (particles.length > 150) {
+                    particles.splice(0, particles.length - 150);
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
 </body>
 </html>
