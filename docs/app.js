@@ -440,4 +440,106 @@
 
         })();
 
+        // Mouse Trail Effect - Cyberpunk particle trail
+        (function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '9999';
+            document.body.appendChild(canvas);
+
+            let particles = [];
+            let mouseX = 0;
+            let mouseY = 0;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 3 + 2;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2;
+                    this.life = 1;
+                    this.decay = Math.random() * 0.02 + 0.01;
+
+                    // Get current color scheme
+                    const computedStyle = getComputedStyle(document.body);
+                    const primaryRgb = computedStyle.getPropertyValue('--primary-rgb').trim();
+                    const secondaryRgb = computedStyle.getPropertyValue('--secondary-rgb').trim();
+
+                    // Randomly choose primary or secondary color
+                    this.color = Math.random() > 0.5 ? primaryRgb : secondaryRgb;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                    this.size *= 0.98;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Add a smaller bright core
+                    ctx.shadowBlur = 5;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Create particles (throttle to every other frame for performance)
+                if (Math.random() > 0.5) {
+                    particles.push(new Particle(mouseX, mouseY));
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    // Remove dead particles
+                    if (particles[i].life <= 0 || particles[i].size <= 0.1) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                // Limit particle count for performance
+                if (particles.length > 150) {
+                    particles.splice(0, particles.length - 150);
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+
         // Consciousness Cube Simulator - Clean minimal display (no coordinate updates)
