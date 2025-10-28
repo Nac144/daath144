@@ -16,6 +16,8 @@
             background: rgba(10, 10, 15, 0.88);
             color: #ffffff;
             line-height: 1.6;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
 
         /* Animated background - greyscale */
@@ -45,6 +47,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 40px 20px;
+            contain: layout style;
         }
 
         .header {
@@ -155,6 +158,8 @@
             grid-column: 1 / -1;
             border-color: #999999;
             box-shadow: 0 0 40px rgba(150, 150, 150, 0.4);
+            will-change: transform;
+            contain: layout;
         }
 
         .term-header {
@@ -524,7 +529,12 @@
             // Toggle clicked card
             if (!wasExpanded) {
                 card.classList.add('expanded');
-                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Use a less aggressive scroll that won't affect parent layout
+                setTimeout(() => {
+                    const rect = card.getBoundingClientRect();
+                    const offset = window.pageYOffset + rect.top - 20;
+                    window.scrollTo({ top: offset, behavior: 'smooth' });
+                }, 50);
             }
         }
 
@@ -535,7 +545,9 @@
                 if (name === termName) {
                     card.classList.add('expanded');
                     setTimeout(() => {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const rect = card.getBoundingClientRect();
+                        const offset = window.pageYOffset + rect.top - 20;
+                        window.scrollTo({ top: offset, behavior: 'smooth' });
                     }, 100);
                 } else {
                     card.classList.remove('expanded');
