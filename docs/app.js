@@ -440,7 +440,7 @@
 
         })();
 
-        // Mouse Trail Effect - Cyberpunk particle trail
+        // Mouse Trail Effect - Cyberpunk particle trail with cube mode toggle
         (function() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -454,8 +454,7 @@
             document.body.appendChild(canvas);
 
             let particles = [];
-            let mouseX = 0;
-            let mouseY = 0;
+            let cubeMode = false; // Toggle between particles and cubes
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -491,29 +490,66 @@
                 }
 
                 draw() {
-                    ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (cubeMode) {
+                        // Draw rotating mini cube
+                        const halfSize = this.size * 2;
+                        ctx.save();
+                        ctx.translate(this.x, this.y);
+                        ctx.rotate(this.life * Math.PI * 2);
 
-                    // Add a smaller bright core
-                    ctx.shadowBlur = 5;
-                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
-                    ctx.fill();
+                        // Cube faces with perspective
+                        ctx.fillStyle = `rgba(${this.color}, ${this.life * 0.8})`;
+                        ctx.fillRect(-halfSize, -halfSize, halfSize * 2, halfSize * 2);
+
+                        // Front face highlight
+                        ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.3})`;
+                        ctx.fillRect(-halfSize * 0.7, -halfSize * 0.7, halfSize * 1.4, halfSize * 1.4);
+
+                        // Edge glow
+                        ctx.strokeStyle = `rgba(${this.color}, ${this.life})`;
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(-halfSize, -halfSize, halfSize * 2, halfSize * 2);
+
+                        ctx.restore();
+                    } else {
+                        // Draw particle
+                        ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Add a smaller bright core
+                        ctx.shadowBlur = 5;
+                        ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
                 }
             }
 
             document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-
                 // Create particles (throttle to every other frame for performance)
                 if (Math.random() > 0.5) {
-                    particles.push(new Particle(mouseX, mouseY));
+                    particles.push(new Particle(e.clientX, e.clientY));
+                }
+            });
+
+            // Toggle cube mode when clicking the consciousness cube
+            document.addEventListener('DOMContentLoaded', function() {
+                const cubeWrapper = document.querySelector('.cube-wrapper');
+                if (cubeWrapper) {
+                    cubeWrapper.style.cursor = 'pointer';
+                    cubeWrapper.addEventListener('click', function() {
+                        cubeMode = !cubeMode;
+                        // Visual feedback
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 100);
+                    });
                 }
             });
 
