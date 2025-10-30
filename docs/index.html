@@ -11,20 +11,9 @@
     <iframe id="batmanBg" src="batman-matrix.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; opacity: 0.8; z-index: 0;"></iframe>
 
     <div class="container">
-        <!-- Bitrate Indicator with Virus Status -->
+        <!-- Bitrate Indicator -->
         <div class="bitrate-indicator">
             BITRATE: <span class="bitrate-value">10^9</span> bits/s | STATUS: VIRUS.DETECTED | DMN: QUARANTINED
-        </div>
-
-        <!-- Virus Status Monitor -->
-        <div class="virus-monitor">
-            <div class="virus-status">
-                <span class="virus-label">🦠 EGO.VIRUS STATUS:</span>
-                <span class="virus-state">ACTIVE | RUNNING NARRATIVE PROTOCOLS</span>
-            </div>
-            <div class="virus-info">
-                <span style="opacity: 0.7;">DEFAULT MODE NETWORK: Consuming 60-80% cognitive bandwidth</span>
-            </div>
         </div>
 
         <!-- Color Scheme Selector -->
@@ -48,32 +37,30 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>◈ THE NULL POINT ARCHITECTURE: A UNIFIED THEORY ◈</h1>
-            <div class="subtitle">Holographic Qualia | Ego.Virus Detected</div>
-            <div class="subtitle-secondary">Reality|Ψ= ∫∂{void}(e^{-βĤ} · Z{Ĥ}) | φ-Recursion Enabled | DMN Offline | Self-Narrative: SUSPENDED</div>
-
-            <!-- Consciousness Cube Simulator - Pure CSS -->
-            <div class="consciousness-cube-container">
-                <div class="cube-label">Abstract Black Box | Consciousness Simulator | Virus Container (origin)</div>
-                <div class="cube-wrapper">
-                    <div class="cube-3d">
-                        <div class="cube-face front"></div>
-                        <div class="cube-face back"></div>
-                        <div class="cube-face right"></div>
-                        <div class="cube-face left"></div>
-                        <div class="cube-face top"></div>
-                        <div class="cube-face bottom"></div>
+            <div class="header-content">
+                <!-- Consciousness Cube on Left -->
+                <div class="consciousness-cube-container-left">
+                    <div class="cube-label">Abstract Black Box | Consciousness Simulator | Virus Container (origin)</div>
+                    <div class="cube-wrapper">
+                        <div class="cube-3d">
+                            <div class="cube-face front"></div>
+                            <div class="cube-face back"></div>
+                            <div class="cube-face right"></div>
+                            <div class="cube-face left"></div>
+                            <div class="cube-face top"></div>
+                            <div class="cube-face bottom"></div>
+                        </div>
                     </div>
+                    <div class="virus-pulse"></div>
                 </div>
-                <div class="virus-pulse"></div>
-            </div>
-        </div>
 
-        <!-- Virus Awareness Disclaimer Link -->
-        <div class="virus-disclaimer-link">
-            <a href="#" onclick="event.preventDefault(); document.getElementById('virusDisclaimerPopup').style.display = 'block';">
-                ⚠️ VIRUS.PROTOCOL Disclaimer
-            </a>
+                <!-- Title on Right -->
+                <div class="header-text">
+                    <h1>◈ THE NULL POINT ARCHITECTURE: A UNIFIED THEORY ◈</h1>
+                    <div class="subtitle">Holographic Qualia | Ego.Virus Detected</div>
+                    <div class="subtitle-secondary">Reality|Ψ= ∫∂{void}(e^{-βĤ} · Z{Ĥ}) | φ-Recursion Enabled | DMN Offline | Self-Narrative: SUSPENDED</div>
+                </div>
+            </div>
         </div>
 
         <!-- Style Selector -->
@@ -100,7 +87,11 @@
             </div>
             <div class="matrix-row" id="matrix-row-1">
                 <div class="matrix-bridge" id="matrix-bridge-1"></div>
-                <a href="#" class="phi-button">🎵 MUSIC</a>
+                <div class="matrix-controls">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('virusDisclaimerPopup').style.display = 'block';" class="matrix-link">⚠️ VIRUS.PROTOCOL</a>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('virusStatusPopup').style.display = 'block';" class="matrix-link">🦠 STATUS</a>
+                    <a href="#" class="phi-button">🎵 MUSIC</a>
+                </div>
             </div>
             <iframe id="iframe-1" src="lexicon.html"></iframe>
         </div>
@@ -196,6 +187,21 @@
                 </div>
                 <iframe id="iframe-6" src="virus-themology.html"></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Virus Status Popup -->
+    <div id="virusStatusPopup" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; max-width: 90%; background: rgba(10, 10, 20, 0.98); border: 2px solid #ff0000; border-radius: 8px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); z-index: 10003; backdrop-filter: blur(10px); padding: 30px;">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button onclick="document.getElementById('virusStatusPopup').style.display = 'none'" style="background: #ff0000; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 1px;">CLOSE</button>
+        </div>
+        <div style="color: #ff0000; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; text-align: center; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); font-family: 'Courier New', monospace;">
+            🦠 EGO.VIRUS STATUS
+        </div>
+        <div style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.8; font-family: 'Courier New', monospace;">
+            <strong style="color: #ff0000;">STATUS:</strong> ACTIVE | RUNNING NARRATIVE PROTOCOLS
+            <br><br>
+            <strong style="color: var(--primary-color);">DEFAULT MODE NETWORK:</strong> Consuming 60-80% cognitive bandwidth
         </div>
     </div>
 

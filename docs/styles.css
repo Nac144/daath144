@@ -128,12 +128,22 @@
             background: linear-gradient(135deg, rgba(var(--secondary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.05) 100%);
             border-bottom: 2px solid rgba(var(--primary-rgb), 0.5);
             padding: 12px 20px;
-            text-align: center;
             box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.2);
             position: relative;
             backdrop-filter: blur(5px);
             min-height: 140px;
             flex-shrink: 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .header-text {
+            flex: 1;
+            text-align: center;
         }
 
         .header h1 {
@@ -676,6 +686,36 @@
         /* Matrix row container for button placement */
         .matrix-row {
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .matrix-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .matrix-link {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            padding: 4px 10px;
+            border: 1px solid rgba(var(--secondary-rgb), 0.3);
+            border-radius: 4px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(2px);
+        }
+
+        .matrix-link:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.35);
         }
 
         /* Music Portal button - opens 432 Hz music player */
@@ -713,29 +753,28 @@
             opacity: 0.8;
         }
 
-        /* Consciousness Cube Simulator */
-        .consciousness-cube-container {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(var(--primary-rgb), 0.3);
-            border-radius: 6px;
-            backdrop-filter: blur(5px);
+        /* Consciousness Cube Simulator - Left Side */
+        .consciousness-cube-container-left {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 85px;
             flex-shrink: 0;
+        }
+
+        .consciousness-cube-container {
+            position: relative;
         }
 
         .cube-label {
             color: var(--secondary-color);
-            font-size: 9px;
-            letter-spacing: 1.2px;
+            font-size: 7px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             margin-bottom: 6px;
             text-align: center;
             font-weight: bold;
+            max-width: 120px;
         }
 
         /* Horizontal layout for cube and data side-by-side */
