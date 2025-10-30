@@ -837,3 +837,218 @@
             border: none;
             display: block;
         }
+
+        /* Color Scheme 12: Virus Green - Quarantine Mode */
+        body.scheme-12 {
+            --primary-color: #00ff00;
+            --secondary-color: #ff0000;
+            --primary-rgb: 0, 255, 0;
+            --secondary-rgb: 255, 0, 0;
+        }
+
+        /* Virus Status Monitor */
+        .virus-monitor {
+            position: fixed;
+            top: 110px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 10px;
+            z-index: 10000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            backdrop-filter: blur(3px);
+            max-width: 300px;
+        }
+
+        .virus-status {
+            margin-bottom: 8px;
+        }
+
+        .virus-label {
+            color: #ff0000;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .virus-state {
+            color: var(--primary-color);
+            display: block;
+            margin-top: 5px;
+            font-size: 9px;
+        }
+
+        .virus-info {
+            color: rgba(var(--primary-rgb), 0.7);
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        /* Virus Awareness Notice */
+        .virus-notice {
+            background: rgba(255, 0, 0, 0.05);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .virus-notice-title {
+            color: #ff0000;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .virus-notice-content {
+            color: rgba(var(--primary-rgb), 0.9);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* Virus Menu Item */
+        .virus-item {
+            background: rgba(255, 0, 0, 0.1) !important;
+            border-color: rgba(255, 0, 0, 0.5) !important;
+            animation: virusGlow 2s ease-in-out infinite;
+        }
+
+        .virus-item:hover {
+            background: rgba(255, 0, 0, 0.2) !important;
+            border-color: #ff0000 !important;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5) !important;
+        }
+
+        @keyframes virusGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
+        }
+
+        /* Virus Pulse Animation on Cube */
+        .virus-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
+            animation: virusPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes virusPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* STYLE 6: Virus Quarantine Mode */
+        .style-6 {
+            flex-direction: column;
+        }
+
+        .virus-quarantine-header {
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(255, 0, 0, 0.5);
+            padding: 15px 30px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .quarantine-title {
+            color: #ff0000;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+
+        .quarantine-status {
+            color: var(--primary-color);
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .dmn-status, .narrative-load {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .virus-menu {
+            background: rgba(26, 26, 46, 0.15);
+            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+            padding: 12px 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.15);
+            backdrop-filter: blur(3px);
+        }
+
+        .virus-menu .menu-item {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(2px);
+        }
+
+        .virus-menu .menu-item:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .virus-menu .menu-item.active {
+            background: rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+            color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .observation-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .observation-notice {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: center;
+            font-style: italic;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .observation-field iframe {
+            flex: 1;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            background: transparent;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .consciousness-cube-container {
+            position: relative;
+        }
