@@ -69,15 +69,11 @@
             </div>
         </div>
 
-        <!-- Virus Awareness Notice -->
-        <div class="virus-notice">
-            <div class="virus-notice-title">⚠️ EGO.VIRUS PROTOCOL</div>
-            <div class="virus-notice-content">
-                The self-narrative virus has infiltrated all cognitive systems. Attempts to remove it through thinking
-                only strengthen its hold. The only available action: OBSERVATION. Watch the virus execute its program.
-                See it clearly. The seeing itself is not infected. <span style="color: var(--primary-color);">DMN energy
-                consumption: 60-80% baseline | Post-awakening: Available for redistribution</span>
-            </div>
+        <!-- Virus Awareness Disclaimer Link -->
+        <div class="virus-disclaimer-link">
+            <a href="#" onclick="event.preventDefault(); document.getElementById('virusDisclaimerPopup').style.display = 'block';">
+                ⚠️ VIRUS.PROTOCOL Disclaimer
+            </a>
         </div>
 
         <!-- Style Selector -->
@@ -200,6 +196,23 @@
                 </div>
                 <iframe id="iframe-6" src="virus-themology.html"></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Virus Disclaimer Popup -->
+    <div id="virusDisclaimerPopup" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 600px; max-width: 90%; background: rgba(10, 10, 20, 0.98); border: 2px solid #ff0000; border-radius: 8px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); z-index: 10003; backdrop-filter: blur(10px); padding: 30px;">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button onclick="document.getElementById('virusDisclaimerPopup').style.display = 'none'" style="background: #ff0000; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 1px;">CLOSE</button>
+        </div>
+        <div style="color: #ff0000; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; text-align: center; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); font-family: 'Courier New', monospace;">
+            ⚠️ EGO.VIRUS PROTOCOL
+        </div>
+        <div style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.8; font-family: 'Courier New', monospace;">
+            The self-narrative virus has infiltrated all cognitive systems. Attempts to remove it through thinking
+            only strengthen its hold. The only available action: OBSERVATION. Watch the virus execute its program.
+            See it clearly. The seeing itself is not infected.
+            <br><br>
+            <span style="color: var(--primary-color);">DMN energy consumption: 60-80% baseline | Post-awakening: Available for redistribution</span>
         </div>
     </div>
 
