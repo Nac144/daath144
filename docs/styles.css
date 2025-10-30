@@ -830,6 +830,16 @@
             height: 2cm;
             margin: 0 auto 10px;
             perspective: 800px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .cube-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .cube-wrapper:active {
+            transform: scale(0.95);
         }
 
         .cube-3d {
