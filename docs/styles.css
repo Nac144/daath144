@@ -276,7 +276,7 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 150px); /* Reduced from 210px - more space for content */
+            height: calc(100vh - 140px); /* Reduced further - slimmer DMN menu */
             flex-shrink: 0;
         }
 
@@ -292,9 +292,9 @@
         .style-1 .menu {
             background: rgba(26, 26, 46, 0.15);
             border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
-            padding: 15px 20px;
+            padding: 6px 15px; /* Reduced from 15px 20px */
             display: flex;
-            gap: 20px;
+            gap: 12px; /* Reduced from 20px */
             align-items: center;
             box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.15);
             backdrop-filter: blur(3px);
@@ -303,13 +303,13 @@
         .style-1 .menu-item {
             color: var(--primary-color);
             text-decoration: none;
-            padding: 10px 18px;
+            padding: 6px 12px; /* Reduced from 10px 18px */
             border-radius: 4px;
             transition: all 0.3s;
             cursor: pointer;
             border: 1px solid transparent;
-            font-size: 13px;
-            letter-spacing: 1px;
+            font-size: 11px; /* Reduced from 13px */
+            letter-spacing: 0.5px; /* Reduced from 1px */
             background: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(2px);
         }
@@ -599,7 +599,7 @@
         /* Matrix Rain Bridge - Horizontal between menu and iframe */
         .matrix-bridge {
             width: 100%;
-            height: 24px;
+            height: 18px; /* Reduced from 24px */
             background: rgba(0, 0, 0, 0.05);
             border-top: 1px solid rgba(var(--primary-rgb), 0.2);
             border-bottom: 1px solid rgba(var(--primary-rgb), 0.2);
@@ -617,7 +617,7 @@
             display: flex;
             align-items: center;
             gap: 3px;
-            font-size: 14px;
+            font-size: 11px; /* Reduced from 14px */
             font-family: 'Courier New', monospace;
             font-weight: bold;
             color: var(--primary-color);
@@ -669,15 +669,15 @@
         }
 
         .matrix-link {
-            font-size: 11px;
+            font-size: 9px; /* Reduced from 11px */
             font-weight: bold;
             color: var(--secondary-color);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px; /* Reduced from 1px */
             text-decoration: none;
-            padding: 4px 10px;
+            padding: 3px 8px; /* Reduced from 4px 10px */
             border: 1px solid rgba(var(--secondary-rgb), 0.3);
-            border-radius: 4px;
+            border-radius: 3px; /* Reduced from 4px */
             transition: all 0.3s;
             background: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(2px);
@@ -692,18 +692,18 @@
         /* Music Portal button - opens 432 Hz music player */
         .phi-button {
             display: inline-block;
-            font-size: 14px;
+            font-size: 11px; /* Reduced from 14px */
             font-weight: bold;
             color: var(--secondary-color);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px; /* Reduced from 2px */
             text-decoration: none;
-            padding: 4px 10px;
+            padding: 3px 8px; /* Reduced from 4px 10px */
             border: 1px solid rgba(var(--secondary-rgb), 0.3);
-            border-radius: 4px;
+            border-radius: 3px; /* Reduced from 4px */
             transition: all 0.3s;
             text-shadow: 0 0 5px rgba(var(--secondary-rgb), 0.3);
-            margin: 4px 0 4px 12px;
+            margin: 2px 0 2px 10px; /* Reduced from 4px 0 4px 12px */
             background: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(2px);
         }
