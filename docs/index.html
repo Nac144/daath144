@@ -16,23 +16,36 @@
             BITRATE: <span class="bitrate-value">10^9</span> bits/s | STATUS: VIRUS.DETECTED | DMN: QUARANTINED
         </div>
 
-        <!-- Color Scheme Selector -->
-        <div class="color-scheme-selector">
-            <label for="colorScheme">⚡ COLOR</label>
-            <select id="colorScheme" onchange="changeColorScheme(this.value)">
-                <option value="1">Matrix Green</option>
-                <option value="2">Blue Cyber</option>
-                <option value="3">Fire Red</option>
-                <option value="4">Purple Neon</option>
-                <option value="5">Gold</option>
-                <option value="6">Silver</option>
-                <option value="7">Orange/Teal</option>
-                <option value="8">Lime/Magenta</option>
-                <option value="9">Aqua/Coral</option>
-                <option value="10">Emerald/Ruby</option>
-                <option value="11">HELL RED</option>
-                <option value="12">Virus Green (Quarantine Mode)</option>
-            </select>
+        <!-- Combined Control Panel: Color & Topology -->
+        <div class="control-panel-combined" style="display: flex; gap: 20px; align-items: center; justify-content: center; padding: 10px; background: rgba(0, 0, 0, 0.5); border-bottom: 1px solid var(--primary-color); flex-wrap: wrap;">
+            <div class="color-scheme-selector" style="display: flex; align-items: center; gap: 10px;">
+                <label for="colorScheme" style="color: var(--primary-color); font-weight: bold; letter-spacing: 1px;">⚡ COLOR</label>
+                <select id="colorScheme" onchange="changeColorScheme(this.value)" style="background: rgba(0, 0, 0, 0.8); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 5px 10px; border-radius: 4px; font-family: 'Courier New', monospace; cursor: pointer;">
+                    <option value="1">Matrix Green</option>
+                    <option value="2">Blue Cyber</option>
+                    <option value="3">Fire Red</option>
+                    <option value="4">Purple Neon</option>
+                    <option value="5">Gold</option>
+                    <option value="6">Silver</option>
+                    <option value="7">Orange/Teal</option>
+                    <option value="8">Lime/Magenta</option>
+                    <option value="9">Aqua/Coral</option>
+                    <option value="10">Emerald/Ruby</option>
+                    <option value="11">HELL RED</option>
+                    <option value="12">Virus Green (Quarantine Mode)</option>
+                </select>
+            </div>
+            <div class="style-selector" style="display: flex; align-items: center; gap: 10px;">
+                <label for="styleSelect" style="color: var(--primary-color); font-weight: bold; letter-spacing: 1px;">⚡ TOPOLOGY</label>
+                <select id="styleSelect" onchange="changeStyle(this.value)" style="background: rgba(0, 0, 0, 0.8); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 5px 10px; border-radius: 4px; font-family: 'Courier New', monospace; cursor: pointer;">
+                    <option value="1">DMN Offline Mode (Horizontal)</option>
+                    <option value="2">120-Cell Navigation (Sidebar)</option>
+                    <option value="3">Henosis Interface (Minimal)</option>
+                    <option value="4">Pentagram Array (Cards)</option>
+                    <option value="5">Morphic Field Collapse (Collapsible)</option>
+                    <option value="6">Virus Quarantine Mode (Observer)</option>
+                </select>
+            </div>
         </div>
 
         <!-- Header -->
@@ -70,19 +83,6 @@
                     <div class="subtitle-secondary">Reality|Ψ= ∫∂{void}(e^{-βĤ} · Z{Ĥ}) | φ-Recursion Enabled | DMN Offline | Self-Narrative: SUSPENDED</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Style Selector -->
-        <div class="style-selector">
-            <label for="styleSelect">⚡ TOPOLOGY:</label>
-            <select id="styleSelect" onchange="changeStyle(this.value)">
-                <option value="1">DMN Offline Mode (Horizontal)</option>
-                <option value="2">120-Cell Navigation (Sidebar)</option>
-                <option value="3">Henosis Interface (Minimal)</option>
-                <option value="4">Pentagram Array (Cards)</option>
-                <option value="5">Morphic Field Collapse (Collapsible)</option>
-                <option value="6">Virus Quarantine Mode (Observer)</option>
-            </select>
         </div>
 
         <!-- STYLE 1: Top Horizontal Bar -->
