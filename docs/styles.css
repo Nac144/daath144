@@ -125,12 +125,11 @@
         }
 
         .header {
-            background: linear-gradient(135deg, rgba(var(--secondary-rgb), 0.1) 0%, rgba(var(--primary-rgb), 0.05) 100%);
+            background: transparent;
             border-bottom: 2px solid rgba(var(--primary-rgb), 0.5);
             padding: 12px 20px;
             box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.2);
             position: relative;
-            backdrop-filter: blur(5px);
             min-height: 140px;
             flex-shrink: 0;
         }
@@ -194,17 +193,7 @@
         }
 
         .bitrate-indicator {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(var(--primary-rgb), 0.3);
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-size: 11px;
-            z-index: 10000;
-            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.2);
-            backdrop-filter: blur(3px);
+            display: none; /* Hidden - now integrated into header */
         }
 
         .bitrate-value {
@@ -213,17 +202,7 @@
         }
 
         .color-scheme-selector {
-            position: fixed;
-            top: 60px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(var(--primary-rgb), 0.3);
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 10px;
-            z-index: 10000;
-            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.2);
-            backdrop-filter: blur(3px);
+            display: none; /* Hidden - now integrated into header */
         }
 
         .color-scheme-selector label {
@@ -260,15 +239,7 @@
         }
 
         .style-selector {
-            background: rgba(10, 10, 15, 0.15);
-            border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            backdrop-filter: blur(3px);
-            flex-shrink: 0;
+            display: none; /* Hidden - now integrated into header */
         }
 
         .style-selector label {
@@ -305,7 +276,7 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 210px);
+            height: calc(100vh - 150px); /* Reduced from 210px - more space for content */
             flex-shrink: 0;
         }
 
