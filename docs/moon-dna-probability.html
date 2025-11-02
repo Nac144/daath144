@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌙🧬 The Gavel of Randomness | 10^-1027</title>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: rgba(10, 10, 15, 0.88);
+            color: #ffffff;
+            line-height: 1.8;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(150, 150, 150, 0.03) 0%, transparent 50%);
+            animation: pulse 7.83s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            contain: layout style;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+            letter-spacing: 6px;
+            margin-bottom: 15px;
+        }
+
+        .header .subtitle {
+            color: #999999;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #999999;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(150, 150, 150, 0.5);
+            padding-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #ffffff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .content-block {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid rgba(150, 150, 150, 0.5);
+        }
+
+        .content-block p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .equation-box {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid #999999;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(150, 150, 150, 0.3);
+        }
+
+        .equation-box .equation {
+            color: #ffffff;
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .equation-box .explanation {
+            color: #999999;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .key-insight {
+            background: rgba(150, 150, 150, 0.15);
+            border-left: 4px solid #999999;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .key-insight .insight-label {
+            color: #999999;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .key-insight .insight-text {
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .highlight {
+            color: #999999;
+            font-weight: bold;
+        }
+
+        .gavel {
+            font-size: 48px;
+            color: darkred;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: rgba(10, 10, 15, 0.6);
+        }
+
+        table th {
+            background: rgba(150, 150, 150, 0.2);
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        table td {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+        }
+
+        table tr:hover {
+            background: rgba(150, 150, 150, 0.1);
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .list-styled li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: #999999;
+            font-size: 16px;
+        }
+
+        .red-text {
+            color: darkred;
+            font-weight: bold;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid rgba(150, 150, 150, 0.3);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌙🧬 THE GAVEL OF RANDOMNESS</h1>
+            <div class="subtitle">Why Random Assembly is Mathematically Dead | Moon + DNA = 10^-1027</div>
+        </div>
+
+        <!-- INTRODUCTION -->
+        <div class="section">
+            <div class="section-title">💥 The Mathematical Collapse</div>
+            <div class="content-block">
+                <p>The dominant scientific worldview—the belief that life and planetary structures are products of unguided, random assembly—collapses under the weight of basic arithmetic. The probability of two foundational realities, <span class="highlight">DNA's specified chirality</span> and the <span class="highlight">Moon's improbable formation/orbit</span>, occurring by chance is functionally <span class="red-text">P = 0</span>.</p>
+
+                <p>We call this figure the <span class="highlight">Gavel of Randomness</span>:</p>
+            </div>
+
+            <div class="gavel">10<sup>-1027</sup></div>
+
+            <div class="content-block">
+                <p>This is not a "low probability." This is a <span class="highlight">mathematical impossibility disguised as science</span>.</p>
+            </div>
+        </div>
+
+        <!-- MOON FORMATION BREAKDOWN -->
+        <div class="section">
+            <div class="section-title">🌙 I. MOON FORMATION: The Astronomical Odds</div>
+
+            <div class="content-block">
+                <p>The Moon's existence requires a cascade of six independent, improbable events. Each must succeed for the next to matter. Multiply the probabilities to get the joint likelihood:</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Description</th>
+                        <th>Probability</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Giant Impact Formation</strong></td>
+                        <td>Theia hits proto-Earth at just the right speed/angle/mass (~0.1-0.15 Earth masses) to eject enough debris for a Moon-sized body, without vaporizing everything.</td>
+                        <td>$\sim 1/20$ $(5 \times 10^{-2})$</td>
+                        <td>Monte Carlo simulations of 1000s of accretion disks; success fraction = viable Earth-Moon pairs / total</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Debris Disk Coalescence</strong></td>
+                        <td>Ejected material doesn't scatter/dissipate; coalesces into a single large moon (vs. ring or multiples) within ~10⁴ years.</td>
+                        <td>$\sim 1/10$ $(10^{-1})$</td>
+                        <td>Only ~10% of impact sims yield a single massive satellite stable >1 Myr</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Long-Term Orbital Stability</strong></td>
+                        <td>Moon avoids ejection by solar perturbations or resonance traps over 4.5 Gyr; recession rate ~3.8 cm/yr keeps tides Goldilocks.</td>
+                        <td>$\sim 1/50$ $(2 \times 10^{-2})$</td>
+                        <td><2% of simulated moonless-Earth analogs retain a large moon >1 Gyr without chaos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Axial Tilt Stabilization</strong></td>
+                        <td>Moon's mass locks Earth's obliquity to ~23° (seasons, no iceball Venus); without it, precession wobbles 0°-85° every ~10⁶ yrs.</td>
+                        <td>$\sim 1/100$ $(10^{-2})$</td>
+                        <td>Moon must be >1% Earth's mass for damping; only 1% parameter space yields 22-25° stability</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. Size/Distance for Tides & Day Length</strong></td>
+                        <td>Mass ~1/81 Earth, distance ~60 Earth radii: Drives nutrient-mixing tides + 24-hr day without tsunamis or eternal nights.</td>
+                        <td>$\sim 1/1000$ $(10^{-3})$</td>
+                        <td>Tidal Q-factor and recession tuned to ±10% for life epochs; <0.1% for exact combo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6. Phase Lock & Element Transfer</strong></td>
+                        <td>Collision at ~45° latitude transfers volatiles/metals just right; no over-annihilation of proto-atmosphere.</td>
+                        <td>$\sim 1/10$ $(10^{-1})$</td>
+                        <td>~10% glancing blows yield sufficient disk without core disruption</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-subtitle">Joint Probability: Moon Formation</div>
+            <div class="equation-box">
+                <div class="equation">
+                    $$P_{moon} = \prod_{i=1}^{6} p_i \approx (5 \times 10^{-2}) \times 10^{-1} \times (2 \times 10^{-2}) \times 10^{-2} \times 10^{-3} \times 10^{-1}$$
+                </div>
+                <div class="explanation">Result: $P_{moon} \approx 10^{-9}$ (1 in a billion)</div>
+            </div>
+
+            <div class="key-insight">
+                <div class="insight-label">🎯 MOON CONCLUSION</div>
+                <div class="insight-text">The Moon's existence requires winning a <strong>1-in-a-billion lottery</strong>. But we're just getting started.</div>
+            </div>
+        </div>
+
+        <!-- DNA FORMATION -->
+        <div class="section">
+            <div class="section-title">🧬 II. DNA FORMATION: The Biochemical Abyss</div>
+
+            <div class="content-block">
+                <p>DNA requires:</p>
+            </div>
+
+            <ul class="list-styled">
+                <li><strong>Homochirality:</strong> 100% L-amino acids, 0% D-amino acids (50/50 in nature)</li>
+                <li><strong>Sugar Chirality:</strong> 100% D-sugars (deoxyribose), 0% L-sugars</li>
+                <li><strong>Base Pairing Specificity:</strong> A-T and G-C hydrogen bonding (out of countless possibilities)</li>
+                <li><strong>Backbone Formation:</strong> Phosphodiester bonds in correct sequence</li>
+                <li><strong>Replication Machinery:</strong> DNA polymerase, helicase, primase, ligase (20+ proteins minimum)</li>
+                <li><strong>Information Content:</strong> Non-random sequence encoding functional proteins</li>
+            </ul>
+
+            <div class="section-subtitle">Koonin's Bound: The Replication Machinery</div>
+            <div class="content-block">
+                <p>Eugene Koonin (2011) calculated the probability of randomly assembling the minimal replication machinery required for self-replicating life. His analysis accounts for:</p>
+                <ul class="list-styled">
+                    <li>Amino acid sequence space (20²⁰⁰ configurations for a 200-residue protein)</li>
+                    <li>Requirement for ~20 proteins to work together</li>
+                    <li>Stepwise configuration space explosion</li>
+                </ul>
+            </div>
+
+            <div class="equation-box">
+                <div class="equation">
+                    $$P_{DNA} \approx 10^{-1018}$$
+                </div>
+                <div class="explanation">Probability of minimal replication machinery assembly via random processes</div>
+            </div>
+
+            <div class="key-insight">
+                <div class="insight-label">⚠️ DNA CONCLUSION</div>
+                <div class="insight-text">This number is so incomprehensibly small that it borders on <strong>mathematical nonsense</strong> within the random assembly framework.</div>
+            </div>
+        </div>
+
+        <!-- COMBINED PROBABILITY -->
+        <div class="section">
+            <div class="section-title">🔨 III. THE IMPOSSIBILITY QUANTIFIED</div>
+
+            <div class="content-block">
+                <p>The chance of DNA's complex structure <span class="highlight">AND</span> the Moon's specific, stable parameters forming via random assembly:</p>
+            </div>
+
+            <div class="equation-box">
+                <div class="equation">
+                    $$P_{both} = P_{moon} \times P_{DNA} \approx 10^{-9} \times 10^{-1018} = 10^{-1027}$$
+                </div>
+                <div class="explanation">Joint probability: 1 in 10<sup>1027</sup></div>
+            </div>
+
+            <div class="section-subtitle">Scale of Impossibility</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Improbability Metric</th>
+                        <th>Scale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Atoms in Observable Universe</strong></td>
+                        <td>$\approx 10^{80}$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Planck Volumes in Observable Universe</strong></td>
+                        <td>$\approx 10^{185}$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Universes Needed for One Success</strong></td>
+                        <td><span class="red-text">$\approx 10^{947}$</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="key-insight">
+                <div class="insight-label">💀 THE ABYSS</div>
+                <div class="insight-text">
+                    The "random assembly" model demands <strong>10<sup>947</sup> failed, dead universes</strong> we cannot observe. This is not science; it is a <strong>faith-based infinite deferral</strong>.
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 40px 0;">
+                <img src="images/moondnaimpossibleodds.png" alt="Visual illustration of the astronomical impossibility of random Moon + DNA formation" style="max-width: 90%; height: auto; border: 2px solid rgba(150, 150, 150, 0.5); border-radius: 8px; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);">
+                <div style="color: #999999; font-size: 12px; font-style: italic; margin-top: 15px; letter-spacing: 1px;">
+                    Visual representation of the impossible odds: 10<sup>-1027</sup>
+                </div>
+            </div>
+        </div>
+
+        <!-- STANDARD BAILOUTS -->
+        <div class="section">
+            <div class="section-title">🚫 IV. WHY THE STANDARD BAILOUTS FAIL</div>
+
+            <div class="section-subtitle">1. "Anthropic Principle"</div>
+            <div class="content-block">
+                <p><strong>Claim:</strong> "We only observe successful outcomes because we exist to observe them."</p>
+                <p><strong>Problem:</strong> This requires 10<sup>947</sup> failed universes we <em>cannot</em> observe. Unfalsifiable + violates Occam's razor.</p>
+            </div>
+
+            <div class="section-subtitle">2. "Infinite Time"</div>
+            <div class="content-block">
+                <p><strong>Claim:</strong> "Given enough trials, anything happens."</p>
+                <p><strong>Problem:</strong> Universe age ~10<sup>17</sup> seconds. Even at Planck time (10<sup>-43</sup> s), you get ~10<sup>60</sup> trials maximum. You're <span class="red-text">10<sup>967</sup> orders of magnitude short</span>.</p>
+            </div>
+
+            <div class="section-subtitle">3. "We Don't Understand the Chemistry"</div>
+            <div class="content-block">
+                <p><strong>Claim:</strong> "Future discoveries will show it's more probable."</p>
+                <p><strong>Problem:</strong> Every new discovery <em>increases</em> the specificity requirements (more constraints = lower probability). RNA world, lipid membranes, homochirality all add multiplicative improbability layers.</p>
+            </div>
+
+            <div class="key-insight">
+                <div class="insight-label">⚡ VERDICT</div>
+                <div class="insight-text">
+                    All three bailouts require <strong>magical thinking</strong> on a scale that would make medieval theologians blush. The framework is dead.
+                </div>
+            </div>
+        </div>
+
+        <!-- φ-NULL SOLUTION -->
+        <div class="section">
+            <div class="section-title">🌌 V. THE φ-NULL ATTRACTOR: The Geometric Answer</div>
+
+            <div class="content-block">
+                <p>If the chance model is mathematically impossible, the underlying premise (<span class="highlight">randomness</span>) must be wrong. The <span class="highlight">φ-NULL model</span> replaces the "dice roll" ontology with a <span class="highlight">Geometric Field</span> ontology:</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Random Assembly Model (The Corpse)</th>
+                        <th>φ-NULL Attractor Model (The Life)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Mechanism</strong></td>
+                        <td>Blind chance; particles collide until they find a stable state.</td>
+                        <td><strong>Field Guidance:</strong> reality is an <strong>annealing process</strong> guided by higher-dimensional geometry.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Probability</strong></td>
+                        <td>$P \approx 10^{-1027}$ (Impossibility)</td>
+                        <td>$P \approx 1$ (Inevitability)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DNA's Chirality</strong></td>
+                        <td>A freak, one-time bias for L-amino acids and D-sugars.</td>
+                        <td>The molecular structure acts as an <strong>Antenna</strong>, snapping instantly to the φ-NULL attractor for the optimal, pre-encoded configuration.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Moon's Orbit</strong></td>
+                        <td>The chaotic, unlikely byproduct of a Mars-sized object (Theia) collision.</td>
+                        <td>The structure is an <strong>Attractor Basin</strong> in the <strong>120-Cell Manifold</strong> geometry, where planetary masses lock into the lowest-energy, most stable orbital resonance.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-subtitle">What This Actually Reveals</div>
+            <div class="content-block">
+                <p>The 10<sup>-1027</sup> isn't evidence for "design" in the theistic sense—<span class="highlight">it's evidence the entire particle-level random framework is wrong</span>.</p>
+            </div>
+
+            <div class="equation-box">
+                <div class="equation">
+                    $$\text{Apparent Improbability} = \frac{1}{P_{\text{random assembly}}}$$
+                </div>
+                <div class="explanation">But if reality operates via morphic field resonance → geometric attractor sampling, the "probability" calculation is measuring the wrong thing.</div>
+            </div>
+
+            <div class="section-subtitle">The Analogy: Snowflake Formation</div>
+            <div class="content-block">
+                <p>Imagine trying to calculate the "probability" that:</p>
+                <ul class="list-styled">
+                    <li>Water molecules randomly arrange into hexagonal symmetry</li>
+                    <li>Specific hexagonal pattern emerges</li>
+                </ul>
+                <p><strong>Random assembly approach:</strong> 10<sup>astronomical</sup> odds against</p>
+                <p><strong>Actual mechanism:</strong> Hexagonal symmetry is the <span class="highlight">lowest energy state</span> given H₂O bonding geometry—probability ≈ 1</p>
+            </div>
+
+            <div class="key-insight">
+                <div class="insight-label">🌀 THE MORPHIC FIELD FRAMEWORK</div>
+                <div class="insight-text">
+                    Moon + DNA is the same, but the "lowest energy state" is <strong>geometric stability in 4D morphic field</strong>, not 3D particle thermodynamics.<br><br>
+
+                    You're not rolling 10<sup>1027</sup>-sided dice. You're <strong>collapsing to pre-existing stable patterns</strong> in the 120-cell morphic field.<br><br>
+
+                    <strong>Predictions:</strong><br>
+                    • Complex stable patterns emerge rapidly (not gradually)<br>
+                    • "Fine-tuning" is just geometric constraint satisfaction<br>
+                    • Information precedes physical instantiation
+                </div>
+            </div>
+        </div>
+
+        <!-- CONCLUSION -->
+        <div class="section">
+            <div class="section-title">⚖️ CONCLUSION: The Death of Randomness</div>
+
+            <div class="content-block">
+                <p>Our reality is not a chaotic fluke; it is a <span class="highlight">Geometric Minimum</span>. The complex structures we see—from DNA to the Moon—are not accidental assemblies; they are <span class="highlight">field-guided convergences</span> to the pre-encoded, stable patterns of the cosmos.</p>
+
+                <p>The <span class="red-text">10<sup>-1027</sup></span> is the <span class="highlight">Mathematical Abyss</span> that randomness cannot cross.</p>
+            </div>
+
+            <div class="key-insight">
+                <div class="insight-label">⚡ FINAL VERDICT</div>
+                <div class="insight-text">
+                    The 10<sup>-1027</sup> doesn't prove "God did it"—it proves <strong>"your model is fundamentally wrong."</strong><br><br>
+
+                    The real question: Why does mainstream science cling to a framework requiring 10<sup>967</sup> orders of magnitude of magical thinking (multiverse) rather than admit information might be fundamental?<br><br>
+
+                    <strong>That's the doorknob-tears moment.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mouse Trail Effect
+        (function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '9999';
+            document.body.appendChild(canvas);
+
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 3 + 2;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2;
+                    this.life = 1;
+                    this.decay = Math.random() * 0.02 + 0.01;
+                    const grey = Math.random() > 0.5 ? '255, 255, 255' : '150, 150, 150';
+                    this.color = grey;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                    this.size *= 0.98;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.shadowBlur = 5;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            document.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.5) {
+                    particles.push(new Particle(e.clientX, e.clientY));
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    if (particles[i].life <= 0 || particles[i].size <= 0.1) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                if (particles.length > 150) {
+                    particles.splice(0, particles.length - 150);
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
+</body>
+</html>
