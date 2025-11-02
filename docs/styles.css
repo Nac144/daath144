@@ -839,6 +839,10 @@
                 inset 0 0 10px rgba(var(--primary-rgb), 0.8),
                 0 0 20px rgba(var(--primary-rgb), 0.4);
             opacity: 1;
+            /* Theme-based glow border for hexagram - follows transparent PNG alpha channel */
+            filter: drop-shadow(0 0 2px var(--primary-color))
+                    drop-shadow(0 0 4px var(--primary-color))
+                    drop-shadow(0 0 6px var(--primary-color));
         }
 
         .cube-face.front  { transform: translateZ(1cm); }
