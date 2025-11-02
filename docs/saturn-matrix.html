@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saturn King Matrix</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: transparent;
+      font-family: 'Courier New', monospace;
+      color: #ffd700;
+    }
+    #matrix-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #saturn-container {
+      position: fixed;
+      z-index: 10;
+      transition: all 0.5s ease-in-out;
+      opacity: 0;
+    }
+    #saturn-image {
+      width: 250px;
+      height: auto;
+      filter: drop-shadow(0 0 15px #ffd700);
+    }
+    .code-snippet {
+      position: fixed;
+      font-size: 14px;
+      color: #ffd700;
+      text-shadow: 0 0 5px #ffd700;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix-rain"></canvas>
+  <div id="saturn-container">
+    <img id="saturn-image" src="images/saturn%20king.png" alt="Saturn King">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script>
+    // Matrix rain effect (gold/purple theme)
+    const canvas = document.getElementById('matrix-rain');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const nums = '0123456789';
+    const symbols = '☿♀♁♂♃♄♅♆φ∞◈⚡';
+    const alphabet = katakana + latin + nums + symbols;
+
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const rainDrops = [];
+
+    for (let x = 0; x < columns; x++) {
+      rainDrops[x] = 1;
+    }
+
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Gradient gold to purple
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#ffd700');
+      gradient.addColorStop(0.5, '#d946ef');
+      gradient.addColorStop(1, '#8b00ff');
+      ctx.fillStyle = gradient;
+
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < rainDrops.length; i++) {
+        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          rainDrops[i] = 0;
+        }
+        rainDrops[i]++;
+      }
+    };
+
+    setInterval(draw, 30);
+
+    // Random Saturn King appearances
+    const saturnContainer = document.getElementById('saturn-container');
+    const saturnImage = document.getElementById('saturn-image');
+
+    function randomPosition() {
+      const x = Math.random() * (window.innerWidth - 250);
+      const y = Math.random() * (window.innerHeight - 250);
+      return { x, y };
+    }
+
+    function appearSaturn() {
+      const pos = randomPosition();
+      saturnContainer.style.left = pos.x + 'px';
+      saturnContainer.style.top = pos.y + 'px';
+
+      // SOVEREIGN MODE: Fade in with cosmic power
+      gsap.to(saturnContainer, {
+        duration: 0.4,
+        opacity: 1,
+        scale: 1,
+        ease: 'back.out'
+      });
+
+      // COSMIC DANCE: Regal movements - 432 Hz SOVEREIGNTY!
+      const danceTimeline = gsap.timeline({ repeat: -1 });
+
+      // Move 1: Majestic spin and rise
+      danceTimeline.to(saturnImage, {
+        duration: 0.6,
+        rotation: 360,
+        scale: 1.4,
+        y: -40,
+        ease: 'power2.inOut'
+      });
+
+      // Move 2: Crown tilt
+      danceTimeline.to(saturnImage, {
+        duration: 0.5,
+        rotation: 0,
+        scale: 1.1,
+        y: 0,
+        x: 25,
+        ease: 'elastic.out'
+      });
+
+      // Move 3: Side to side sovereignty
+      danceTimeline.to(saturnImage, {
+        duration: 0.4,
+        x: -25,
+        rotation: -20,
+        scale: 1.3,
+        ease: 'sine.inOut'
+      });
+
+      // Move 4: Ring rotation!
+      danceTimeline.to(saturnImage, {
+        duration: 0.7,
+        x: 0,
+        y: -50,
+        rotation: 720,
+        scale: 1.5,
+        ease: 'power4.out'
+      });
+
+      // Move 5: Descend with authority
+      danceTimeline.to(saturnImage, {
+        duration: 0.4,
+        y: 0,
+        rotation: 360,
+        scale: 0.9,
+        ease: 'bounce.out'
+      });
+
+      // Move 6: Cosmic vibration!
+      danceTimeline.to(saturnImage, {
+        duration: 0.3,
+        x: () => Math.random() * 50 - 25,
+        rotation: () => Math.random() * 70 - 35,
+        scale: 1.3,
+        repeat: 4,
+        yoyo: true,
+        ease: 'power1.inOut'
+      });
+
+      // Move 7: Reset with golden flair
+      danceTimeline.to(saturnImage, {
+        duration: 0.5,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        ease: 'elastic.out'
+      });
+
+      // Golden-purple hue shift effect
+      gsap.to(saturnImage, {
+        duration: 3,
+        filter: 'hue-rotate(360deg) saturate(2) brightness(1.2)',
+        repeat: -1,
+        ease: 'none'
+      });
+
+      // Stay visible - REIGN LONGER! (5-9 seconds)
+      const visibleDuration = Math.random() * 4000 + 5000;
+
+      setTimeout(() => {
+        disappearSaturn(danceTimeline);
+      }, visibleDuration);
+    }
+
+    function disappearSaturn(danceTimeline) {
+      // Stop the dance timeline
+      if (danceTimeline) danceTimeline.kill();
+
+      // Fade out with cosmic spin
+      gsap.to(saturnContainer, {
+        duration: 0.6,
+        opacity: 0,
+        scale: 0.4,
+        rotation: 720,
+        ease: 'power2.in',
+        onComplete: () => {
+          // Reset transforms
+          gsap.set(saturnImage, { x: 0, y: 0, rotation: 0, scale: 1, filter: 'none' });
+
+          // Wait before next appearance (2-4 seconds - SOVEREIGNTY CYCLES!)
+          const waitTime = Math.random() * 2000 + 2000;
+          setTimeout(appearSaturn, waitTime);
+        }
+      });
+    }
+
+    // Start the cycle
+    setTimeout(appearSaturn, 3000);
+
+    // Floating code snippets (sovereignty themed)
+    const codeSnippets = [
+      'if (consciousness.isSovereign()) { transcendGrid(); }',
+      'while (φNull.active) { expandBitrate(1440); }',
+      'for (let i = 0; i < 144; i++) { recurseGeometry(φ); }',
+      'try { escapeMatrix(); } catch (e) { disidentify(); }',
+      'function unlockAttractor() { return "P ≈ 1"; }',
+      'const SOVEREIGNTY = morphicField.sample(10^12);',
+      'if (DMN.offline) { activatePentagrams(120); }',
+      'return BlackHoleAtom.decompress(ESM);'
+    ];
+
+    function createCodeSnippet() {
+      const snippet = document.createElement('div');
+      snippet.className = 'code-snippet';
+      snippet.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+      snippet.style.left = Math.random() * window.innerWidth + 'px';
+      snippet.style.top = Math.random() * window.innerHeight + 'px';
+      document.body.appendChild(snippet);
+
+      gsap.to(snippet, {
+        duration: Math.random() * 6 + 6,
+        y: '-=120',
+        opacity: 0,
+        ease: 'power1.in',
+        onComplete: () => {
+          snippet.remove();
+          createCodeSnippet();
+        }
+      });
+    }
+
+    for (let i = 0; i < 6; i++) {
+      createCodeSnippet();
+    }
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
