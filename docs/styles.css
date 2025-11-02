@@ -830,8 +830,10 @@
             position: absolute;
             width: 2cm;
             height: 2cm;
-            /* Black Box styling - core concept of the website */
-            background: rgba(0, 0, 0, 0.9);
+            /* Black Box styling with unicursal hexagram overlay */
+            background:
+                url('images/unicursal%20hexagram.png') center/80% no-repeat,
+                rgba(0, 0, 0, 0.9);
             border: 1px solid var(--primary-color);
             box-shadow:
                 inset 0 0 10px rgba(var(--primary-rgb), 0.8),
