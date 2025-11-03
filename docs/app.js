@@ -348,7 +348,7 @@
 
                     // Reset for next time
                     setTimeout(() => {
-                        harmonicIframe.src = 'https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=1&mute=0&enablejsapi=1';
+                        harmonicIframe.src = 'https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=0&mute=0&enablejsapi=1';
                         const headerText = harmonicHeader.querySelector('span');
                         headerText.textContent = '🎵 MUSIC PORTAL - 432 Hz Player';
                         headerText.style.animation = 'none';
