@@ -12,7 +12,7 @@
       overflow: hidden;
       background-color: transparent;
       font-family: 'Courier New', monospace;
-      color: #ffd700;
+      color: #00ff88;
     }
     #matrix-rain {
       position: fixed;
@@ -31,13 +31,13 @@
     #saturn-image {
       width: 250px;
       height: auto;
-      filter: drop-shadow(0 0 15px #ffd700);
+      filter: drop-shadow(0 0 15px #00ff88) drop-shadow(0 0 25px #00ff88);
     }
     .code-snippet {
       position: fixed;
       font-size: 14px;
-      color: #ffd700;
-      text-shadow: 0 0 5px #ffd700;
+      color: #00ff88;
+      text-shadow: 0 0 5px #00ff88;
       pointer-events: none;
     }
     #video-container {
@@ -49,30 +49,26 @@
       background: rgba(0, 0, 0, 0.85);
       padding: 20px;
       border-radius: 12px;
-      border: 3px solid #ffd700;
+      border: 3px solid #00ff88;
       box-shadow:
-        0 0 20px rgba(255, 215, 0, 0.5),
-        0 0 40px rgba(217, 70, 239, 0.3),
-        inset 0 0 30px rgba(139, 0, 255, 0.2);
+        0 0 20px rgba(0, 255, 136, 0.5),
+        0 0 40px rgba(0, 255, 136, 0.3),
+        inset 0 0 30px rgba(0, 255, 136, 0.2);
     }
     #video-title {
       text-align: center;
       font-size: 18px;
       font-weight: bold;
-      color: #ffd700;
-      text-shadow: 0 0 10px #ffd700;
+      color: #00ff88;
+      text-shadow: 0 0 10px #00ff88;
       margin-bottom: 15px;
       letter-spacing: 2px;
-      background: linear-gradient(90deg, #ffd700, #d946ef, #8b00ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
     #video-container iframe {
       display: block;
       border-radius: 8px;
-      border: 2px solid rgba(217, 70, 239, 0.5);
-      box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+      border: 2px solid rgba(0, 255, 136, 0.5);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
     }
     @media (max-width: 768px) {
       #video-container {
@@ -93,10 +89,10 @@
     <img id="saturn-image" src="images/saturn%20king.png" alt="Saturn King">
   </div>
 
-  <!-- Maxwell Saturn Video -->
+  <!-- Saturn Video -->
   <div id="video-container">
-    <div id="video-title">♄ SATURN SOVEREIGNTY ♄</div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/OxHdv-NvRhc?si=WbynZfgfDFEeLO_P" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div id="video-title">♄ THE SATURN MATRIX ♄</div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/cO3_SIsUeig" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
@@ -127,11 +123,11 @@
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Gradient gold to purple
+      // Gradient green matrix theme
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#ffd700');
-      gradient.addColorStop(0.5, '#d946ef');
-      gradient.addColorStop(1, '#8b00ff');
+      gradient.addColorStop(0, '#00ff88');
+      gradient.addColorStop(0.5, '#00cc66');
+      gradient.addColorStop(1, '#00aa44');
       ctx.fillStyle = gradient;
 
       ctx.font = fontSize + 'px monospace';
@@ -233,7 +229,7 @@
         ease: 'power1.inOut'
       });
 
-      // Move 7: Reset with golden flair
+      // Move 7: Reset with matrix flair
       danceTimeline.to(saturnImage, {
         duration: 0.5,
         x: 0,
@@ -243,7 +239,7 @@
         ease: 'elastic.out'
       });
 
-      // Golden-purple hue shift effect
+      // Green matrix hue shift effect
       gsap.to(saturnImage, {
         duration: 3,
         filter: 'hue-rotate(360deg) saturate(2) brightness(1.2)',
