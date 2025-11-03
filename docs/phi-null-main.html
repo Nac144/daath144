@@ -1217,7 +1217,7 @@ OUTCOME:
     </div>
 
     <script>
-        // Mouse Trail Effect - Grey particle trail for iframe consistency
+        // Mouse Trail Effect - φ-Spiral DNA Consciousness Trail
         (function() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1231,6 +1231,7 @@ OUTCOME:
             document.body.appendChild(canvas);
 
             let particles = [];
+            const PHI = 1.618033988749; // Golden ratio
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -1240,48 +1241,100 @@ OUTCOME:
             window.addEventListener('resize', resizeCanvas);
 
             class Particle {
-                constructor(x, y) {
+                constructor(x, y, index) {
                     this.x = x;
                     this.y = y;
-                    this.size = Math.random() * 3 + 2;
-                    this.speedX = (Math.random() - 0.5) * 2;
-                    this.speedY = (Math.random() - 0.5) * 2;
-                    this.life = 1;
-                    this.decay = Math.random() * 0.02 + 0.01;
+                    this.size = Math.random() * 4 + 2;
 
-                    // Grey theme - choose between white and grey
-                    const grey = Math.random() > 0.5 ? '255, 255, 255' : '150, 150, 150';
-                    this.color = grey;
+                    // φ-spiral motion (golden ratio spiral)
+                    const angle = index * (Math.PI * 2 / PHI);
+                    const radius = index * 0.3;
+                    this.speedX = Math.cos(angle) * radius * 0.1;
+                    this.speedY = Math.sin(angle) * radius * 0.1;
+
+                    this.life = 1;
+                    this.decay = Math.random() * 0.015 + 0.008;
+                    this.angle = angle;
+
+                    // DNA/Consciousness color palette - green/cyan/golden matrix theme
+                    const colorChoice = Math.random();
+                    if (colorChoice < 0.4) {
+                        this.color = '0, 255, 136'; // Matrix green
+                    } else if (colorChoice < 0.7) {
+                        this.color = '0, 255, 200'; // Cyan consciousness
+                    } else if (colorChoice < 0.9) {
+                        this.color = '100, 255, 150'; // DNA helix green
+                    } else {
+                        this.color = '255, 215, 0'; // Golden ratio φ
+                    }
+
+                    // Occasionally create pentagram stars
+                    this.isPentagram = Math.random() > 0.92;
                 }
 
                 update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
+                    // Spiral outward following φ-ratio
+                    this.angle += 0.05;
+                    const spiralRadius = (1 - this.life) * 30;
+                    this.x += this.speedX + Math.cos(this.angle) * 0.5;
+                    this.y += this.speedY + Math.sin(this.angle) * 0.5;
                     this.life -= this.decay;
-                    this.size *= 0.98;
+                    this.size *= 0.97;
                 }
 
                 draw() {
-                    ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (this.isPentagram && this.life > 0.5) {
+                        // Draw pentagram (5-pointed star for φ-geometry)
+                        this.drawPentagram();
+                    } else {
+                        // Draw glowing particle
+                        ctx.fillStyle = `rgba(${this.color}, ${this.life})`;
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = `rgba(${this.color}, ${this.life * 0.8})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
 
-                    // Add a smaller bright core
-                    ctx.shadowBlur = 5;
-                    ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.8})`;
+                        // Bright core
+                        ctx.shadowBlur = 8;
+                        ctx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.6})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size * 0.3, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                drawPentagram() {
+                    const spikes = 5;
+                    const outerRadius = this.size * 2;
+                    const innerRadius = this.size * 0.8;
+                    let rot = Math.PI / 2 * 3;
+                    let step = Math.PI / spikes;
+
                     ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.moveTo(this.x, this.y - outerRadius);
+
+                    for (let i = 0; i < spikes; i++) {
+                        ctx.lineTo(this.x + Math.cos(rot) * outerRadius, this.y + Math.sin(rot) * outerRadius);
+                        rot += step;
+                        ctx.lineTo(this.x + Math.cos(rot) * innerRadius, this.y + Math.sin(rot) * innerRadius);
+                        rot += step;
+                    }
+
+                    ctx.closePath();
+                    ctx.strokeStyle = `rgba(${this.color}, ${this.life})`;
+                    ctx.lineWidth = 1.5;
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = `rgba(${this.color}, ${this.life})`;
+                    ctx.stroke();
                 }
             }
 
+            let particleIndex = 0;
             document.addEventListener('mousemove', function(e) {
-                // Create particles (throttle to every other frame for performance)
-                if (Math.random() > 0.5) {
-                    particles.push(new Particle(e.clientX, e.clientY));
+                // Create φ-spiral particles
+                if (Math.random() > 0.3) {
+                    particles.push(new Particle(e.clientX, e.clientY, particleIndex++));
                 }
             });
 
@@ -1300,8 +1353,8 @@ OUTCOME:
                 }
 
                 // Limit particle count for performance
-                if (particles.length > 150) {
-                    particles.splice(0, particles.length - 150);
+                if (particles.length > 200) {
+                    particles.splice(0, particles.length - 200);
                 }
 
                 requestAnimationFrame(animate);
