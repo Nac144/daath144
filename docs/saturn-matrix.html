@@ -31,7 +31,7 @@
     #saturn-image {
       width: 250px;
       height: auto;
-      filter: drop-shadow(0 0 15px #00ff88) drop-shadow(0 0 25px #00ff88);
+      filter: drop-shadow(0 0 12px #00ff88) drop-shadow(0 0 20px rgba(0, 255, 136, 0.6));
     }
     .code-snippet {
       position: fixed;
@@ -150,8 +150,36 @@
     const saturnImage = document.getElementById('saturn-image');
 
     function randomPosition() {
-      const x = Math.random() * (window.innerWidth - 250);
-      const y = Math.random() * (window.innerHeight - 250);
+      // Avoid center area where video is (roughly center 40% of screen)
+      const centerExclusionZone = {
+        minX: window.innerWidth * 0.3,
+        maxX: window.innerWidth * 0.7,
+        minY: window.innerHeight * 0.3,
+        maxY: window.innerHeight * 0.7
+      };
+
+      let x, y;
+      let attempts = 0;
+
+      do {
+        x = Math.random() * (window.innerWidth - 250);
+        y = Math.random() * (window.innerHeight - 250);
+        attempts++;
+
+        // If we've tried too many times, force to edges
+        if (attempts > 50) {
+          if (Math.random() > 0.5) {
+            x = Math.random() > 0.5 ? Math.random() * centerExclusionZone.minX : centerExclusionZone.maxX + Math.random() * (window.innerWidth - centerExclusionZone.maxX - 250);
+          } else {
+            y = Math.random() > 0.5 ? Math.random() * centerExclusionZone.minY : centerExclusionZone.maxY + Math.random() * (window.innerHeight - centerExclusionZone.maxY - 250);
+          }
+          break;
+        }
+      } while (
+        x > centerExclusionZone.minX && x < centerExclusionZone.maxX &&
+        y > centerExclusionZone.minY && y < centerExclusionZone.maxY
+      );
+
       return { x, y };
     }
 
@@ -168,81 +196,113 @@
         ease: 'back.out'
       });
 
-      // COSMIC DANCE: Regal movements - 432 Hz SOVEREIGNTY!
+      // SATURN SOVEREIGNTY: Ring orbits and sacred geometry
       const danceTimeline = gsap.timeline({ repeat: -1 });
 
-      // Move 1: Majestic spin and rise
+      // Move 1: Orbital rise (like Saturn orbiting in space)
       danceTimeline.to(saturnImage, {
-        duration: 0.6,
+        duration: 1.2,
         rotation: 360,
+        scale: 1.3,
+        ease: 'sine.inOut',
+        motionPath: {
+          path: [
+            {x: 0, y: 0},
+            {x: 60, y: -40},
+            {x: 0, y: -60}
+          ],
+          curviness: 1.5
+        }
+      });
+
+      // Move 2: Ring tilt and hexagon pattern (Saturnian cube geometry)
+      danceTimeline.to(saturnImage, {
+        duration: 0.8,
+        rotation: 60,
         scale: 1.4,
-        y: -40,
-        ease: 'power2.inOut'
+        ease: 'power2.inOut',
+        motionPath: {
+          path: [
+            {x: 0, y: -60},
+            {x: 52, y: -30},
+            {x: 52, y: 30}
+          ]
+        }
       });
 
-      // Move 2: Crown tilt
+      // Move 3: Complete hexagon orbit
       danceTimeline.to(saturnImage, {
-        duration: 0.5,
-        rotation: 0,
-        scale: 1.1,
-        y: 0,
-        x: 25,
-        ease: 'elastic.out'
-      });
-
-      // Move 3: Side to side sovereignty
-      danceTimeline.to(saturnImage, {
-        duration: 0.4,
-        x: -25,
-        rotation: -20,
-        scale: 1.3,
-        ease: 'sine.inOut'
-      });
-
-      // Move 4: Ring rotation!
-      danceTimeline.to(saturnImage, {
-        duration: 0.7,
-        x: 0,
-        y: -50,
-        rotation: 720,
-        scale: 1.5,
-        ease: 'power4.out'
-      });
-
-      // Move 5: Descend with authority
-      danceTimeline.to(saturnImage, {
-        duration: 0.4,
-        y: 0,
-        rotation: 360,
-        scale: 0.9,
-        ease: 'bounce.out'
-      });
-
-      // Move 6: Cosmic vibration!
-      danceTimeline.to(saturnImage, {
-        duration: 0.3,
-        x: () => Math.random() * 50 - 25,
-        rotation: () => Math.random() * 70 - 35,
-        scale: 1.3,
-        repeat: 4,
-        yoyo: true,
+        duration: 0.8,
+        rotation: 120,
+        motionPath: {
+          path: [
+            {x: 52, y: 30},
+            {x: 0, y: 60},
+            {x: -52, y: 30}
+          ]
+        },
         ease: 'power1.inOut'
       });
 
-      // Move 7: Reset with matrix flair
+      // Move 4: Continue hexagon
+      danceTimeline.to(saturnImage, {
+        duration: 0.8,
+        rotation: 180,
+        scale: 1.2,
+        motionPath: {
+          path: [
+            {x: -52, y: 30},
+            {x: -52, y: -30},
+            {x: 0, y: -60}
+          ]
+        },
+        ease: 'power1.inOut'
+      });
+
+      // Move 5: Ring wobble (Saturn's rings oscillating)
+      danceTimeline.to(saturnImage, {
+        duration: 0.6,
+        scaleX: 1.5,
+        scaleY: 0.8,
+        rotation: 270,
+        x: 0,
+        y: 0,
+        ease: 'elastic.out(1, 0.5)'
+      });
+
+      // Move 6: Ring stabilize
       danceTimeline.to(saturnImage, {
         duration: 0.5,
+        scaleX: 1.2,
+        scaleY: 1.2,
+        rotation: 360,
+        ease: 'back.out(1.4)'
+      });
+
+      // Move 7: Slow orbital spin (majestic)
+      danceTimeline.to(saturnImage, {
+        duration: 1.5,
+        rotation: 720,
+        scale: 1.1,
+        ease: 'none'
+      });
+
+      // Move 8: Reset to sovereign pose
+      danceTimeline.to(saturnImage, {
+        duration: 0.7,
         x: 0,
         y: 0,
         rotation: 0,
         scale: 1,
-        ease: 'elastic.out'
+        scaleX: 1,
+        scaleY: 1,
+        ease: 'power2.out'
       });
 
-      // Green matrix hue shift effect
+      // Green matrix hue shift effect (reduced brightness for HDR)
       const hueShiftAnimation = gsap.to(saturnImage, {
         duration: 3,
-        filter: 'hue-rotate(360deg) saturate(2) brightness(1.2)',
+        filter: 'hue-rotate(360deg) saturate(1.5) brightness(0.95)',
         repeat: -1,
         ease: 'none'
       });
@@ -291,7 +351,7 @@
             y: 0,
             rotation: 0,
             scale: 1,
-            filter: 'drop-shadow(0 0 15px #00ff88) drop-shadow(0 0 25px #00ff88)'
+            filter: 'drop-shadow(0 0 12px #00ff88) drop-shadow(0 0 20px rgba(0, 255, 136, 0.6))'
           });
 
           // Wait before next appearance (2-4 seconds - SOVEREIGNTY CYCLES!)
@@ -411,16 +471,17 @@
             this.drawPentagram();
           } else {
             trailCtx.fillStyle = `rgba(${this.color}, ${this.life})`;
-            trailCtx.shadowBlur = 15;
-            trailCtx.shadowColor = `rgba(${this.color}, ${this.life * 0.8})`;
+            trailCtx.shadowBlur = 10;
+            trailCtx.shadowColor = `rgba(${this.color}, ${this.life * 0.5})`;
             trailCtx.beginPath();
             trailCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             trailCtx.fill();
 
-            trailCtx.shadowBlur = 8;
-            trailCtx.fillStyle = `rgba(255, 255, 255, ${this.life * 0.6})`;
+            // Subtle center glow (reduced for HDR screens)
+            trailCtx.shadowBlur = 4;
+            trailCtx.fillStyle = `rgba(200, 255, 200, ${this.life * 0.25})`;
             trailCtx.beginPath();
-            trailCtx.arc(this.x, this.y, this.size * 0.3, 0, Math.PI * 2);
+            trailCtx.arc(this.x, this.y, this.size * 0.2, 0, Math.PI * 2);
             trailCtx.fill();
           }
         }
@@ -445,8 +506,8 @@
           trailCtx.closePath();
           trailCtx.strokeStyle = `rgba(${this.color}, ${this.life})`;
           trailCtx.lineWidth = 1.5;
-          trailCtx.shadowBlur = 12;
-          trailCtx.shadowColor = `rgba(${this.color}, ${this.life})`;
+          trailCtx.shadowBlur = 8;
+          trailCtx.shadowColor = `rgba(${this.color}, ${this.life * 0.6})`;
           trailCtx.stroke();
         }
       }
