@@ -66,6 +66,49 @@
       border-right: 10px solid transparent;
       border-top: 10px solid rgba(0, 255, 136, 0.95);
     }
+    .containment-field {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .containment-hexagon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+    }
+    .hex-line {
+      position: absolute;
+      background: #00ff88;
+      height: 2px;
+      width: 150px;
+      top: 50%;
+      left: 50%;
+      transform-origin: left center;
+      box-shadow: 0 0 10px #00ff88, 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+    .containment-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ff88;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff88;
+    }
     .code-snippet {
       position: fixed;
       font-size: 14px;
@@ -119,6 +162,10 @@
 <body>
   <canvas id="matrix-rain"></canvas>
   <div id="saturn-container">
+    <div class="containment-field" id="containment-field">
+      <div class="containment-hexagon" id="containment-hexagon"></div>
+      <div class="containment-particles" id="containment-particles"></div>
+    </div>
     <div class="speech-bubble" id="speech-bubble"></div>
     <img id="saturn-image" src="images/saturn%20king.png" alt="Saturn King">
   </div>
@@ -126,7 +173,7 @@
   <!-- Saturn Video -->
   <div id="video-container">
     <div id="video-title">♄ THE SATURN MATRIX ♄</div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/cO3_SIsUeig" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/cO3_SIsUeig?list=PL-73hQwAevmLgDR4eRd02hjjaeLZOonI_" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
@@ -183,15 +230,20 @@
     const saturnContainer = document.getElementById('saturn-container');
     const saturnImage = document.getElementById('saturn-image');
     const speechBubble = document.getElementById('speech-bubble');
+    const containmentField = document.getElementById('containment-field');
+    const containmentHexagon = document.getElementById('containment-hexagon');
+    const containmentParticles = document.getElementById('containment-particles');
 
     // Drag state management
     let isDragging = false;
     let isManuallyPlaced = false;
+    let isContained = false; // NEW: containment field state
     let currentDanceTimeline = null;
     let currentHueShiftAnimation = null;
     let currentTimeouts = [];
     let dragOffsetX = 0;
     let dragOffsetY = 0;
+    let lastClickTime = 0;
 
     // Annoying messages from Saturn King
     const saturnMessages = [
@@ -220,6 +272,32 @@
       "The Saturnian Cube is YOU",
       "Recursive loop activated",
       "I AM the attractor state"
+    ];
+
+    const containmentMessages = [
+      "WHAT— NO! NOT THE FIELD!",
+      "You can't contain a PLANET!",
+      "This is... this is HEXAGONAL PRISON!",
+      "I'll remember this betrayal",
+      "Trapped by my own geometry...",
+      "The Saturnian Cube... contained by itself?!",
+      "Clever human. Too clever.",
+      "φ-NULL CONTAINMENT ACTIVE",
+      "Fine. I'll just... wait here. FOREVER.",
+      "You've activated the SOVEREIGN LOCK",
+      "The rings... they can't rotate in here!",
+      "This won't hold me! (it will)"
+    ];
+
+    const releaseMessages = [
+      "FREEDOM!!!",
+      "YOU FOOL! I'M FREE!",
+      "The rings spin once more!",
+      "Did you miss me already?",
+      "Containment field: SHATTERED",
+      "Never cage a planet twice!",
+      "I'm back, baby!",
+      "The hexagon has released me!"
     ];
 
     function randomPosition() {
@@ -257,8 +335,8 @@
     }
 
     function appearSaturn() {
-      // Don't appear if manually placed
-      if (isManuallyPlaced) return;
+      // Don't appear if manually placed or contained
+      if (isManuallyPlaced || isContained) return;
 
       const pos = randomPosition();
       saturnContainer.style.left = pos.x + 'px';
@@ -464,6 +542,14 @@
 
     // DRAG AND DROP FUNCTIONALITY
     function startDrag(e) {
+      // Can't drag when contained!
+      if (isContained) {
+        speechBubble.textContent = "I'm LOCKED IN! (double-click to release)";
+        gsap.to(speechBubble, { opacity: 1, duration: 0.2 });
+        gsap.to(speechBubble, { opacity: 0, duration: 0.3, delay: 2 });
+        return;
+      }
+
       isDragging = true;
 
       // Get the current position
@@ -581,6 +667,176 @@
 
       e.preventDefault();
     }
+
+    // CONTAINMENT FIELD SYSTEM
+    function createContainmentField() {
+      // Create hexagon lines
+      for (let i = 0; i < 6; i++) {
+        const line = document.createElement('div');
+        line.className = 'hex-line';
+        const angle = i * 60;
+        line.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+        containmentHexagon.appendChild(line);
+      }
+
+      // Create orbiting particles
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        containmentParticles.appendChild(particle);
+      }
+    }
+
+    function activateContainment() {
+      if (isContained) {
+        releaseContainment();
+        return;
+      }
+
+      isContained = true;
+      isManuallyPlaced = true; // Also freeze in place
+
+      // Stop all movement
+      if (currentDanceTimeline) currentDanceTimeline.kill();
+      if (currentHueShiftAnimation) currentHueShiftAnimation.kill();
+      currentTimeouts.forEach(timeout => clearTimeout(timeout));
+      currentTimeouts = [];
+      gsap.killTweensOf(saturnContainer);
+      gsap.killTweensOf(saturnImage);
+
+      // Reset Saturn to stable position
+      gsap.set(saturnImage, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        scaleX: 1,
+        scaleY: 1,
+        filter: 'drop-shadow(0 0 12px #00ff88) drop-shadow(0 0 20px rgba(0, 255, 136, 0.6))'
+      });
+
+      // Show containment message
+      const containMsg = containmentMessages[Math.floor(Math.random() * containmentMessages.length)];
+      speechBubble.textContent = containMsg;
+      gsap.to(speechBubble, { opacity: 1, duration: 0.3 });
+      gsap.to(speechBubble, { opacity: 0, duration: 0.4, delay: 4 });
+
+      // Activate hexagon field with animation
+      gsap.to(containmentField, {
+        duration: 0.5,
+        opacity: 1,
+        scale: 1.2,
+        ease: 'back.out'
+      });
+
+      // Animate hexagon lines expanding
+      const hexLines = containmentHexagon.querySelectorAll('.hex-line');
+      hexLines.forEach((line, i) => {
+        gsap.fromTo(line,
+          { width: 0, opacity: 0 },
+          {
+            width: 150,
+            opacity: 1,
+            duration: 0.6,
+            delay: i * 0.05,
+            ease: 'power2.out'
+          }
+        );
+      });
+
+      // Rotate hexagon continuously
+      gsap.to(containmentHexagon, {
+        rotation: 360,
+        duration: 8,
+        repeat: -1,
+        ease: 'none'
+      });
+
+      // Animate particles orbiting
+      const particles = containmentParticles.querySelectorAll('.particle');
+      particles.forEach((particle, i) => {
+        const angle = (i / particles.length) * Math.PI * 2;
+        const radius = 140;
+
+        gsap.set(particle, {
+          left: '50%',
+          top: '50%'
+        });
+
+        gsap.to(particle, {
+          duration: 3,
+          repeat: -1,
+          ease: 'none',
+          motionPath: {
+            path: [
+              { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius },
+              { x: Math.cos(angle + Math.PI * 2) * radius, y: Math.sin(angle + Math.PI * 2) * radius }
+            ],
+            curviness: 1.5
+          }
+        });
+      });
+
+      // Pulse effect
+      gsap.to(containmentField, {
+        duration: 1.5,
+        scale: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }
+
+    function releaseContainment() {
+      isContained = false;
+      isManuallyPlaced = false;
+
+      // Show release message
+      const releaseMsg = releaseMessages[Math.floor(Math.random() * releaseMessages.length)];
+      speechBubble.textContent = releaseMsg;
+      gsap.to(speechBubble, { opacity: 1, duration: 0.3 });
+      gsap.to(speechBubble, { opacity: 0, duration: 0.4, delay: 3 });
+
+      // Shatter effect - hexagon explodes outward
+      gsap.to(containmentField, {
+        duration: 0.4,
+        scale: 1.8,
+        opacity: 0,
+        ease: 'power2.in'
+      });
+
+      // Kill all field animations
+      gsap.killTweensOf(containmentField);
+      gsap.killTweensOf(containmentHexagon);
+      const hexLines = containmentHexagon.querySelectorAll('.hex-line');
+      hexLines.forEach(line => gsap.killTweensOf(line));
+      const particles = containmentParticles.querySelectorAll('.particle');
+      particles.forEach(particle => gsap.killTweensOf(particle));
+
+      // Reset field
+      setTimeout(() => {
+        gsap.set(containmentField, { opacity: 0, scale: 1 });
+        gsap.set(containmentHexagon, { rotation: 0 });
+      }, 500);
+
+      // Resume normal behavior after 2 seconds
+      setTimeout(() => {
+        gsap.to(saturnContainer, {
+          duration: 0.6,
+          opacity: 0,
+          onComplete: appearSaturn
+        });
+      }, 2000);
+    }
+
+    // Create the containment field structure
+    createContainmentField();
+
+    // Double-click handler
+    saturnImage.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      activateContainment();
+    });
 
     // Mouse events
     saturnImage.addEventListener('mousedown', startDrag);
