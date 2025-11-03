@@ -125,13 +125,20 @@
         }
 
         .header {
-            background: transparent;
-            border-bottom: 2px solid rgba(var(--primary-rgb), 0.5);
-            padding: 12px 20px;
-            box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.2);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 40, 0.75));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            border-radius: 16px;
+            padding: 20px 25px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(var(--primary-rgb), 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             min-height: 140px;
             flex-shrink: 0;
+            margin-bottom: 20px;
         }
 
         .header-content {
@@ -329,14 +336,20 @@
         }
 
         .style-1 .menu {
-            background: rgba(26, 26, 46, 0.15);
-            border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
-            padding: 6px 15px; /* Reduced from 15px 20px */
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7), rgba(10, 10, 30, 0.5));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(var(--primary-rgb), 0.2);
+            border-radius: 12px;
+            padding: 10px 20px;
             display: flex;
-            gap: 12px; /* Reduced from 20px */
+            gap: 12px;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.15);
-            backdrop-filter: blur(3px);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(var(--primary-rgb), 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            margin: 10px;
         }
 
         .style-1 .menu-item {
@@ -380,14 +393,19 @@
 
         .style-2 .menu {
             width: 250px;
-            background: rgba(26, 26, 46, 0.15);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7), rgba(10, 10, 30, 0.5));
             border-right: 2px solid rgba(var(--primary-rgb), 0.3);
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            box-shadow: 4px 0 15px rgba(var(--primary-rgb), 0.15);
-            backdrop-filter: blur(3px);
+            box-shadow:
+                4px 0 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(var(--primary-rgb), 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 0 12px 12px 0;
         }
 
         .style-2 .menu-title {
@@ -442,13 +460,18 @@
         }
 
         .style-3 .menu {
-            background: rgba(10, 10, 15, 0.15);
-            border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7), rgba(10, 10, 30, 0.5));
+            border-bottom: 2px solid rgba(var(--primary-rgb), 0.3);
             padding: 12px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(var(--primary-rgb), 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .style-3 .menu-title {
@@ -501,13 +524,18 @@
         }
 
         .style-4 .menu {
-            background: rgba(10, 10, 15, 0.15);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7), rgba(10, 10, 30, 0.5));
             padding: 20px;
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
-            backdrop-filter: blur(3px);
+            border-bottom: 2px solid rgba(var(--primary-rgb), 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(var(--primary-rgb), 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .style-4 .menu-item {
@@ -555,7 +583,7 @@
 
         .style-5 .menu {
             width: 60px;
-            background: rgba(26, 26, 46, 0.15);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7), rgba(10, 10, 30, 0.5));
             border-right: 2px solid rgba(var(--primary-rgb), 0.3);
             padding: 20px 10px;
             display: flex;
@@ -563,7 +591,13 @@
             gap: 15px;
             transition: width 0.3s;
             overflow: hidden;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow:
+                4px 0 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(var(--primary-rgb), 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 0 12px 12px 0;
         }
 
         .style-5 .menu:hover {
@@ -699,6 +733,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(10, 10, 20, 0.3));
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(var(--primary-rgb), 0.15);
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .matrix-controls {
@@ -770,6 +813,15 @@
             flex-direction: column;
             align-items: flex-start;
             flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow:
+                0 4px 20px rgba(139, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .cube-and-status {
@@ -1089,11 +1141,15 @@
         }
 
         .virus-quarantine-header {
-            background: rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.25), rgba(0, 0, 0, 0.5));
             border-bottom: 2px solid rgba(255, 0, 0, 0.5);
             padding: 15px 30px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow:
+                0 4px 20px rgba(255, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-radius: 0 0 12px 12px;
         }
 
         .quarantine-title {
@@ -1117,14 +1173,17 @@
         }
 
         .virus-menu {
-            background: rgba(26, 26, 46, 0.15);
-            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(26, 26, 46, 0.4));
+            border-bottom: 2px solid rgba(255, 0, 0, 0.4);
             padding: 12px 20px;
             display: flex;
             gap: 15px;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.15);
-            backdrop-filter: blur(3px);
+            box-shadow:
+                0 4px 20px rgba(255, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .virus-menu .menu-item {

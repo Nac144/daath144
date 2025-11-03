@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="obfuscation-canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('obfuscation-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Noise particles
+    const noiseParticles = [];
+    const glitchBands = [];
+    let time = 0;
+
+    class NoiseParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.15 + 0.05;
+        this.life = Math.random() * 100 + 50;
+        this.maxLife = this.life;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life--;
+
+        if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        const alpha = (this.life / this.maxLife) * this.opacity;
+        ctx.fillStyle = `rgba(100, 100, 120, ${alpha})`;
+        ctx.fillRect(this.x, this.y, this.size, this.size);
+      }
+    }
+
+    class GlitchBand {
+      constructor() {
+        this.y = Math.random() * canvas.height;
+        this.height = Math.random() * 50 + 20;
+        this.speed = Math.random() * 3 + 1;
+        this.opacity = Math.random() * 0.1 + 0.05;
+        this.direction = Math.random() > 0.5 ? 1 : -1;
+      }
+
+      update() {
+        this.y += this.speed * this.direction;
+
+        if (this.y > canvas.height + this.height) {
+          this.y = -this.height;
+        } else if (this.y < -this.height) {
+          this.y = canvas.height;
+        }
+      }
+
+      draw() {
+        // Horizontal glitch lines
+        ctx.fillStyle = `rgba(150, 150, 180, ${this.opacity})`;
+        ctx.fillRect(0, this.y, canvas.width, this.height);
+
+        // Scanline effect within band
+        for (let i = 0; i < this.height; i += 3) {
+          ctx.fillStyle = `rgba(200, 200, 220, ${this.opacity * 0.5})`;
+          ctx.fillRect(0, this.y + i, canvas.width, 1);
+        }
+      }
+    }
+
+    // Initialize
+    for (let i = 0; i < 300; i++) {
+      noiseParticles.push(new NoiseParticle());
+    }
+
+    for (let i = 0; i < 5; i++) {
+      glitchBands.push(new GlitchBand());
+    }
+
+    // Grid overlay
+    function drawGrid() {
+      const gridSize = 40;
+      const gridOpacity = 0.02 + Math.sin(time * 0.001) * 0.01;
+
+      ctx.strokeStyle = `rgba(150, 150, 180, ${gridOpacity})`;
+      ctx.lineWidth = 0.5;
+
+      // Vertical lines
+      for (let x = 0; x < canvas.width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+
+      // Horizontal lines
+      for (let y = 0; y < canvas.height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+    }
+
+    // Random glitch blocks
+    function drawGlitchBlocks() {
+      if (Math.random() > 0.97) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const width = Math.random() * 100 + 20;
+        const height = Math.random() * 30 + 10;
+
+        ctx.fillStyle = `rgba(${Math.random() * 50 + 100}, ${Math.random() * 50 + 100}, ${Math.random() * 50 + 150}, 0.15)`;
+        ctx.fillRect(x, y, width, height);
+      }
+    }
+
+    // Vignette effect
+    function drawVignette() {
+      const gradient = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height / 2, canvas.width * 0.2,
+        canvas.width / 2, canvas.height / 2, canvas.width * 0.7
+      );
+      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Scanlines
+    function drawScanlines() {
+      ctx.strokeStyle = 'rgba(150, 150, 180, 0.02)';
+      ctx.lineWidth = 1;
+
+      for (let y = 0; y < canvas.height; y += 4) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+    }
+
+    function animate() {
+      time++;
+
+      // Fade effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw grid
+      drawGrid();
+
+      // Update and draw glitch bands
+      for (const band of glitchBands) {
+        band.update();
+        band.draw();
+      }
+
+      // Update and draw noise particles
+      for (const particle of noiseParticles) {
+        particle.update();
+        particle.draw();
+      }
+
+      // Random glitch blocks
+      drawGlitchBlocks();
+
+      // Scanlines
+      drawScanlines();
+
+      // Vignette
+      drawVignette();
+
+      // Occasional full-screen flash
+      if (Math.random() > 0.995) {
+        ctx.fillStyle = `rgba(150, 150, 200, 0.05)`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    animate();
+  </script>
+</body>
+</html>
