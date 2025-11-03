@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>φ-Spiral DNA Implosion</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0a0015, #000000);
+      font-family: 'Courier New', monospace;
+      color: #00ffff;
+    }
+    #dna-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .control-panel {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 320px;
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+      z-index: 100;
+    }
+    .panel-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      text-align: center;
+    }
+    .info-card {
+      background: rgba(0, 20, 40, 0.5);
+      border-left: 3px solid #00ffff;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      line-height: 1.5;
+      color: rgba(0, 255, 255, 0.8);
+    }
+    .control-group {
+      margin: 15px 0;
+    }
+    .control-label {
+      font-size: 11px;
+      color: rgba(0, 255, 255, 0.7);
+      margin-bottom: 5px;
+      display: block;
+    }
+    .slider {
+      width: 100%;
+      height: 4px;
+      background: rgba(0, 255, 255, 0.2);
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #00ffff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffff;
+    }
+    .slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: #00ffff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffff;
+      border: none;
+    }
+    .value-display {
+      font-size: 13px;
+      color: #00ffff;
+      text-align: right;
+      margin-top: 3px;
+      font-weight: bold;
+    }
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .action-button {
+      flex: 1;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      padding: 10px;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Courier New', monospace;
+    }
+    .action-button:hover {
+      background: rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    .action-button.active {
+      background: rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+    .stats-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 12px;
+      padding: 15px;
+      min-width: 200px;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 11px;
+    }
+    .stat-label {
+      color: rgba(255, 215, 0, 0.7);
+    }
+    .stat-value {
+      color: #ffd700;
+      font-weight: bold;
+      text-shadow: 0 0 8px #ffd700;
+    }
+    .coherence-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 215, 0, 0.2);
+      border-radius: 3px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .coherence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffd700, #00ffff);
+      width: 0%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="dna-canvas"></canvas>
+
+  <div class="control-panel">
+    <div class="panel-title">φ-SPIRAL DNA IMPLOSION</div>
+
+    <div class="info-card">
+      <strong>Dan Winter's Theory:</strong> DNA becomes coherent (blissful) when it implodes using golden ratio (φ = 1.618) geometry. The double helix naturally braids at φ-spiral angles.
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">φ-SPIRAL ROTATION</label>
+      <input type="range" min="0" max="100" value="50" class="slider" id="rotation-slider">
+      <div class="value-display" id="rotation-value">50%</div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">HELIX DENSITY</label>
+      <input type="range" min="10" max="100" value="50" class="slider" id="density-slider">
+      <div class="value-display" id="density-value">50</div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">IMPLOSION DEPTH</label>
+      <input type="range" min="0" max="100" value="30" class="slider" id="implosion-slider">
+      <div class="value-display" id="implosion-value">30%</div>
+    </div>
+
+    <div class="button-group">
+      <button class="action-button" id="pause-btn">PAUSE</button>
+      <button class="action-button" id="reset-btn">RESET</button>
+    </div>
+
+    <div class="button-group">
+      <button class="action-button" id="bliss-btn">BLISS MODE</button>
+    </div>
+  </div>
+
+  <div class="stats-panel">
+    <div class="stat-row">
+      <span class="stat-label">COHERENCE:</span>
+      <span class="stat-value" id="coherence-stat">0%</span>
+    </div>
+    <div class="coherence-bar">
+      <div class="coherence-fill" id="coherence-bar"></div>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">φ-RATIO:</span>
+      <span class="stat-value" id="phi-stat">1.618</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">BRAID ANGLE:</span>
+      <span class="stat-value" id="angle-stat">52.36°</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">IMPLOSION:</span>
+      <span class="stat-value" id="implosion-stat">INACTIVE</span>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('dna-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const PHI = 1.618033988749;
+    const PHI_ANGLE = 137.5; // Golden angle in degrees
+
+    let rotation = 0;
+    let rotationSpeed = 0.5;
+    let helixDensity = 50;
+    let implosionDepth = 0.3;
+    let isPaused = false;
+    let isBlissMode = false;
+
+    class DNAStrand {
+      constructor(radius, offset, color, direction = 1) {
+        this.radius = radius;
+        this.offset = offset;
+        this.color = color;
+        this.direction = direction;
+        this.points = [];
+        this.connections = [];
+      }
+
+      update(time) {
+        this.points = [];
+        const steps = helixDensity;
+        const height = canvas.height;
+        const centerX = canvas.width / 2;
+
+        for (let i = 0; i < steps; i++) {
+          const t = (i / steps) * Math.PI * 4; // Two full rotations
+          const y = (i / steps) * height;
+
+          // φ-spiral calculation
+          const angle = t * this.direction + rotation + this.offset;
+          const spiralRadius = this.radius * (1 + Math.sin(t / PHI) * implosionDepth);
+
+          const x = centerX + Math.cos(angle) * spiralRadius;
+          const z = Math.sin(angle) * spiralRadius;
+
+          this.points.push({ x, y, z, angle, t });
+        }
+      }
+
+      draw() {
+        if (this.points.length < 2) return;
+
+        // Draw strand
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.beginPath();
+
+        for (let i = 0; i < this.points.length; i++) {
+          const p = this.points[i];
+          const alpha = (p.z + this.radius) / (this.radius * 2);
+
+          if (i === 0) {
+            ctx.moveTo(p.x, p.y);
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Draw nucleotides (glowing dots)
+        for (let i = 0; i < this.points.length; i += 3) {
+          const p = this.points[i];
+          const size = 4 + (p.z + this.radius) / (this.radius * 2) * 4;
+
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = this.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    const strand1 = new DNAStrand(150, 0, '#00ffff', 1);
+    const strand2 = new DNAStrand(150, Math.PI, '#ff00ff', 1);
+
+    function drawConnections() {
+      // Draw base pairs connecting the two strands
+      if (strand1.points.length !== strand2.points.length) return;
+
+      for (let i = 0; i < strand1.points.length; i += 5) {
+        const p1 = strand1.points[i];
+        const p2 = strand2.points[i];
+
+        // Only draw if both points are visible
+        const alpha1 = (p1.z + 150) / 300;
+        const alpha2 = (p2.z + 150) / 300;
+
+        if (alpha1 > 0.3 && alpha2 > 0.3) {
+          const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+          gradient.addColorStop(0, 'rgba(0, 255, 255, 0.4)');
+          gradient.addColorStop(0.5, 'rgba(255, 215, 0, 0.6)');
+          gradient.addColorStop(1, 'rgba(255, 0, 255, 0.4)');
+
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function drawPhi Spiral() {
+      // Draw φ-spiral guide in background
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const maxRadius = Math.min(centerX, centerY) * 0.8;
+
+      ctx.strokeStyle = 'rgba(255, 215, 0, 0.1)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+
+      let currentRadius = 0;
+      let currentAngle = rotation * 0.5;
+
+      for (let i = 0; i < 500; i++) {
+        currentRadius += 0.5;
+        currentAngle += PHI_ANGLE * (Math.PI / 180) * 0.1;
+
+        const x = centerX + Math.cos(currentAngle) * currentRadius;
+        const y = centerY + Math.sin(currentAngle) * currentRadius;
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+
+        if (currentRadius > maxRadius) break;
+      }
+      ctx.stroke();
+    }
+
+    function calculateCoherence() {
+      // Calculate coherence based on φ-ratio proximity
+      const optimalImplosion = 0.618; // φ - 1
+      const implosionDiff = Math.abs(implosionDepth - optimalImplosion);
+      const coherence = Math.max(0, 1 - implosionDiff * 2);
+      return coherence;
+    }
+
+    function updateStats() {
+      const coherence = calculateCoherence();
+      document.getElementById('coherence-stat').textContent = (coherence * 100).toFixed(0) + '%';
+      document.getElementById('coherence-bar').style.width = (coherence * 100) + '%';
+
+      const phiRatio = PHI.toFixed(3);
+      document.getElementById('phi-stat').textContent = phiRatio;
+
+      const braidAngle = (PHI_ANGLE / 2).toFixed(2) + '°';
+      document.getElementById('angle-stat').textContent = braidAngle;
+
+      const implosionStatus = implosionDepth > 0.5 ? 'ACTIVE' : 'INACTIVE';
+      document.getElementById('implosion-stat').textContent = implosionStatus;
+      document.getElementById('implosion-stat').style.color = implosionDepth > 0.5 ? '#00ff00' : '#ffd700';
+    }
+
+    function animate() {
+      // Fade effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw φ-spiral guide
+      drawPhiSpiral();
+
+      // Update and draw DNA strands
+      strand1.update(rotation);
+      strand2.update(rotation);
+
+      drawConnections();
+      strand1.draw();
+      strand2.draw();
+
+      // Update rotation
+      if (!isPaused) {
+        rotation += rotationSpeed * 0.01;
+      }
+
+      // Bliss mode effect
+      if (isBlissMode) {
+        const pulse = Math.sin(rotation * 2) * 0.5 + 0.5;
+        ctx.fillStyle = `rgba(255, 215, 0, ${pulse * 0.05})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      updateStats();
+      requestAnimationFrame(animate);
+    }
+
+    // Controls
+    document.getElementById('rotation-slider').addEventListener('input', function(e) {
+      rotationSpeed = e.target.value / 50;
+      document.getElementById('rotation-value').textContent = e.target.value + '%';
+    });
+
+    document.getElementById('density-slider').addEventListener('input', function(e) {
+      helixDensity = parseInt(e.target.value);
+      document.getElementById('density-value').textContent = e.target.value;
+    });
+
+    document.getElementById('implosion-slider').addEventListener('input', function(e) {
+      implosionDepth = e.target.value / 100;
+      document.getElementById('implosion-value').textContent = e.target.value + '%';
+    });
+
+    document.getElementById('pause-btn').addEventListener('click', function() {
+      isPaused = !isPaused;
+      this.textContent = isPaused ? 'RESUME' : 'PAUSE';
+      this.classList.toggle('active');
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      rotation = 0;
+      rotationSpeed = 0.5;
+      helixDensity = 50;
+      implosionDepth = 0.3;
+      isBlissMode = false;
+      isPaused = false;
+
+      document.getElementById('rotation-slider').value = 50;
+      document.getElementById('density-slider').value = 50;
+      document.getElementById('implosion-slider').value = 30;
+      document.getElementById('rotation-value').textContent = '50%';
+      document.getElementById('density-value').textContent = '50';
+      document.getElementById('implosion-value').textContent = '30%';
+      document.getElementById('pause-btn').textContent = 'PAUSE';
+      document.getElementById('pause-btn').classList.remove('active');
+      document.getElementById('bliss-btn').classList.remove('active');
+    });
+
+    document.getElementById('bliss-btn').addEventListener('click', function() {
+      isBlissMode = !isBlissMode;
+      this.classList.toggle('active');
+
+      if (isBlissMode) {
+        // Optimal φ-implosion settings
+        implosionDepth = 0.618;
+        rotationSpeed = PHI / 2;
+        document.getElementById('implosion-slider').value = 61.8;
+        document.getElementById('implosion-value').textContent = '61.8%';
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    animate();
+  </script>
+</body>
+</html>
