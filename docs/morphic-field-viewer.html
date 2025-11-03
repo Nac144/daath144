@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morphic Field Viewer</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Courier New', monospace;
+      color: #00ff88;
+    }
+    #field-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .info-panel {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ff88;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 350px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      z-index: 100;
+    }
+    .info-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #00ff88;
+      text-shadow: 0 0 10px #00ff88;
+    }
+    .info-text {
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(0, 255, 136, 0.8);
+      margin-bottom: 8px;
+    }
+    .stat-display {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ff88;
+      border-radius: 8px;
+      padding: 15px;
+      min-width: 200px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+    .stat-line {
+      font-size: 11px;
+      margin: 5px 0;
+      color: #00ff88;
+    }
+    .resonance-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 255, 136, 0.2);
+      border-radius: 3px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .resonance-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00ff88, #00ffff);
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px #00ff88;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field-canvas"></canvas>
+
+  <div class="info-panel">
+    <div class="info-title">⚡ MORPHIC FIELD VIEWER</div>
+    <div class="info-text">
+      <strong>Theory:</strong> Morphic resonance (Rupert Sheldrake) - patterns influence similar patterns across space and time through non-local fields.
+    </div>
+    <div class="info-text">
+      <strong>Interaction:</strong> Move your mouse to create ripples. Watch how new patterns "remember" and resonate with previous patterns.
+    </div>
+    <div class="info-text">
+      <strong>The Field:</strong> Each ripple leaves a morphic trace. Subsequent ripples are attracted to and influenced by past patterns - a visual demonstration of morphic memory.
+    </div>
+  </div>
+
+  <div class="stat-display">
+    <div class="stat-line">MORPHIC RESONANCE</div>
+    <div class="resonance-bar">
+      <div class="resonance-fill" id="resonance-bar"></div>
+    </div>
+    <div class="stat-line" id="pattern-count">Patterns Remembered: 0</div>
+    <div class="stat-line" id="field-strength">Field Strength: 0%</div>
+    <div class="stat-line" id="coherence">Coherence: 0%</div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('field-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Morphic field data structures
+    const morphicMemories = []; // Stores past pattern locations
+    const activeRipples = [];
+    const fieldParticles = [];
+    let totalInteractions = 0;
+    let resonanceLevel = 0;
+
+    class MorphicMemory {
+      constructor(x, y, strength) {
+        this.x = x;
+        this.y = y;
+        this.strength = strength;
+        this.decay = 0.998; // Very slow decay - memories persist
+        this.influenceRadius = 150;
+      }
+
+      update() {
+        this.strength *= this.decay;
+      }
+
+      draw() {
+        if (this.strength > 0.1) {
+          ctx.beginPath();
+          const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.influenceRadius);
+          gradient.addColorStop(0, `rgba(0, 255, 136, ${this.strength * 0.1})`);
+          gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
+          ctx.fillStyle = gradient;
+          ctx.arc(this.x, this.y, this.influenceRadius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      influencePoint(x, y) {
+        const dx = x - this.x;
+        const dy = y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < this.influenceRadius) {
+          return this.strength * (1 - dist / this.influenceRadius);
+        }
+        return 0;
+      }
+    }
+
+    class Ripple {
+      constructor(x, y, resonance = 0) {
+        this.x = x;
+        this.y = y;
+        this.radius = 0;
+        this.maxRadius = 150 + resonance * 50;
+        this.speed = 2 + resonance;
+        this.alpha = 1;
+        this.resonance = resonance;
+        this.color = resonance > 0.5 ? [0, 255, 200] : [0, 255, 136];
+      }
+
+      update() {
+        this.radius += this.speed;
+        this.alpha = 1 - (this.radius / this.maxRadius);
+        return this.radius < this.maxRadius;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.alpha})`;
+        ctx.lineWidth = 2 + this.resonance * 2;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Inner glow
+        if (this.resonance > 0.3) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.alpha * 0.5})`;
+          ctx.lineWidth = 1;
+          ctx.arc(this.x, this.y, this.radius - 5, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+    }
+
+    class FieldParticle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.baseAlpha = Math.random() * 0.3 + 0.1;
+        this.alpha = this.baseAlpha;
+      }
+
+      update() {
+        // Drift naturally
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Wrap around
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+
+        // Influenced by morphic memories
+        let totalInfluence = 0;
+        let influenceX = 0;
+        let influenceY = 0;
+
+        for (const memory of morphicMemories) {
+          const influence = memory.influencePoint(this.x, this.y);
+          if (influence > 0) {
+            totalInfluence += influence;
+            const dx = memory.x - this.x;
+            const dy = memory.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0) {
+              influenceX += (dx / dist) * influence * 0.2;
+              influenceY += (dy / dist) * influence * 0.2;
+            }
+          }
+        }
+
+        // Apply influence
+        this.vx += influenceX;
+        this.vy += influenceY;
+
+        // Damping
+        this.vx *= 0.99;
+        this.vy *= 0.99;
+
+        // Update alpha based on influence
+        this.alpha = this.baseAlpha + totalInfluence;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(0, 255, 136, ${this.alpha})`;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Initialize field particles
+    for (let i = 0; i < 200; i++) {
+      fieldParticles.push(new FieldParticle());
+    }
+
+    // Calculate morphic resonance at a point
+    function calculateResonance(x, y) {
+      let resonance = 0;
+      for (const memory of morphicMemories) {
+        resonance += memory.influencePoint(x, y);
+      }
+      return Math.min(resonance, 1);
+    }
+
+    // Mouse interaction
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let mouseMoving = false;
+    let mouseMoveTimeout;
+
+    canvas.addEventListener('mousemove', function(e) {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Check if mouse moved significantly
+      const dx = x - lastMouseX;
+      const dy = y - lastMouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > 10) {
+        const resonance = calculateResonance(x, y);
+        activeRipples.push(new Ripple(x, y, resonance));
+
+        // Create morphic memory
+        morphicMemories.push(new MorphicMemory(x, y, 1));
+        totalInteractions++;
+
+        // Update resonance level
+        resonanceLevel = Math.min(resonanceLevel + 0.05, 1);
+
+        lastMouseX = x;
+        lastMouseY = y;
+      }
+
+      clearTimeout(mouseMoveTimeout);
+      mouseMoving = true;
+      mouseMoveTimeout = setTimeout(() => {
+        mouseMoving = false;
+      }, 100);
+    });
+
+    // Animation loop
+    function animate() {
+      // Fade effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw morphic memories
+      for (let i = morphicMemories.length - 1; i >= 0; i--) {
+        morphicMemories[i].update();
+        morphicMemories[i].draw();
+
+        if (morphicMemories[i].strength < 0.05) {
+          morphicMemories.splice(i, 1);
+        }
+      }
+
+      // Update and draw ripples
+      for (let i = activeRipples.length - 1; i >= 0; i--) {
+        if (!activeRipples[i].update()) {
+          activeRipples.splice(i, 1);
+        } else {
+          activeRipples[i].draw();
+        }
+      }
+
+      // Update and draw field particles
+      for (const particle of fieldParticles) {
+        particle.update();
+        particle.draw();
+      }
+
+      // Draw connections between nearby particles (shows field structure)
+      ctx.strokeStyle = 'rgba(0, 255, 136, 0.1)';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < fieldParticles.length; i++) {
+        for (let j = i + 1; j < fieldParticles.length; j++) {
+          const dx = fieldParticles[i].x - fieldParticles[j].x;
+          const dy = fieldParticles[i].y - fieldParticles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 80) {
+            const opacity = (1 - dist / 80) * 0.2;
+            ctx.strokeStyle = `rgba(0, 255, 136, ${opacity})`;
+            ctx.beginPath();
+            ctx.moveTo(fieldParticles[i].x, fieldParticles[i].y);
+            ctx.lineTo(fieldParticles[j].x, fieldParticles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Decay resonance level
+      resonanceLevel *= 0.995;
+
+      // Update stats
+      updateStats();
+
+      requestAnimationFrame(animate);
+    }
+
+    function updateStats() {
+      const avgInfluence = morphicMemories.reduce((sum, m) => sum + m.strength, 0) / Math.max(morphicMemories.length, 1);
+      const fieldStrength = Math.min(morphicMemories.length / 50, 1);
+      const coherence = resonanceLevel;
+
+      document.getElementById('pattern-count').textContent = `Patterns Remembered: ${morphicMemories.length}`;
+      document.getElementById('field-strength').textContent = `Field Strength: ${(fieldStrength * 100).toFixed(0)}%`;
+      document.getElementById('coherence').textContent = `Coherence: ${(coherence * 100).toFixed(0)}%`;
+      document.getElementById('resonance-bar').style.width = `${resonanceLevel * 100}%`;
+    }
+
+    // Handle resize
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>
