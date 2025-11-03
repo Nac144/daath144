@@ -149,6 +149,15 @@
     const saturnContainer = document.getElementById('saturn-container');
     const saturnImage = document.getElementById('saturn-image');
 
+    // Drag state management
+    let isDragging = false;
+    let isManuallyPlaced = false;
+    let currentDanceTimeline = null;
+    let currentHueShiftAnimation = null;
+    let currentTimeouts = [];
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
     function randomPosition() {
       // Avoid center area where video is (roughly center 40% of screen)
       const centerExclusionZone = {
@@ -184,6 +193,9 @@
     }
 
     function appearSaturn() {
+      // Don't appear if manually placed
+      if (isManuallyPlaced) return;
+
       const pos = randomPosition();
       saturnContainer.style.left = pos.x + 'px';
       saturnContainer.style.top = pos.y + 'px';
@@ -197,10 +209,10 @@
       });
 
       // SATURN SOVEREIGNTY: Ring orbits and sacred geometry
-      const danceTimeline = gsap.timeline({ repeat: -1 });
+      currentDanceTimeline = gsap.timeline({ repeat: -1 });
 
       // Move 1: Orbital rise (like Saturn orbiting in space)
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 1.2,
         rotation: 360,
         scale: 1.3,
@@ -216,7 +228,7 @@
       });
 
       // Move 2: Ring tilt and hexagon pattern (Saturnian cube geometry)
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.8,
         rotation: 60,
         scale: 1.4,
@@ -231,7 +243,7 @@
       });
 
       // Move 3: Complete hexagon orbit
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.8,
         rotation: 120,
         motionPath: {
@@ -245,7 +257,7 @@
       });
 
       // Move 4: Continue hexagon
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.8,
         rotation: 180,
         scale: 1.2,
@@ -260,7 +272,7 @@
       });
 
       // Move 5: Ring wobble (Saturn's rings oscillating)
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.6,
         scaleX: 1.5,
         scaleY: 0.8,
@@ -271,7 +283,7 @@
       });
 
       // Move 6: Ring stabilize
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.5,
         scaleX: 1.2,
         scaleY: 1.2,
@@ -280,7 +292,7 @@
       });
 
       // Move 7: Slow orbital spin (majestic)
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 1.5,
         rotation: 720,
         scale: 1.1,
@@ -288,7 +300,7 @@
       });
 
       // Move 8: Reset to sovereign pose
-      danceTimeline.to(saturnImage, {
+      currentDanceTimeline.to(saturnImage, {
         duration: 0.7,
         x: 0,
         y: 0,
@@ -300,7 +312,7 @@
       });
 
       // Green matrix hue shift effect (reduced brightness for HDR)
-      const hueShiftAnimation = gsap.to(saturnImage, {
+      currentHueShiftAnimation = gsap.to(saturnImage, {
         duration: 3,
         filter: 'hue-rotate(360deg) saturate(1.5) brightness(0.95)',
         repeat: -1,
@@ -310,9 +322,11 @@
       // Dance for a bit (5-9 seconds)
       const danceDuration = Math.random() * 4000 + 5000;
 
-      setTimeout(() => {
+      const freezeTimeout = setTimeout(() => {
+        if (isManuallyPlaced) return; // Don't auto-freeze if manually placed
+
         // FREEZE MODE: Stop the dance, pause for 30 seconds
-        danceTimeline.pause();
+        currentDanceTimeline.pause();
 
         // Reset to neutral frozen pose
         gsap.to(saturnImage, {
@@ -324,12 +338,16 @@
           ease: 'power2.out',
           onComplete: () => {
             // Stay frozen for 30 seconds - SOVEREIGN STILLNESS!
-            setTimeout(() => {
-              disappearSaturn(danceTimeline, hueShiftAnimation);
+            const disappearTimeout = setTimeout(() => {
+              if (!isManuallyPlaced) {
+                disappearSaturn(currentDanceTimeline, currentHueShiftAnimation);
+              }
             }, 30000); // 30 seconds frozen
+            currentTimeouts.push(disappearTimeout);
           }
         });
       }, danceDuration);
+      currentTimeouts.push(freezeTimeout);
     }
 
     function disappearSaturn(danceTimeline, hueShiftAnimation) {
@@ -360,6 +378,105 @@
         }
       });
     }
+
+    // DRAG AND DROP FUNCTIONALITY
+    saturnImage.style.cursor = 'grab';
+
+    function startDrag(e) {
+      isDragging = true;
+      saturnImage.style.cursor = 'grabbing';
+
+      // Get the current position
+      const rect = saturnContainer.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      dragOffsetX = clientX - rect.left;
+      dragOffsetY = clientY - rect.top;
+
+      // Stop all animations immediately when grabbed
+      if (currentDanceTimeline) currentDanceTimeline.kill();
+      if (currentHueShiftAnimation) currentHueShiftAnimation.kill();
+      currentTimeouts.forEach(timeout => clearTimeout(timeout));
+      currentTimeouts = [];
+
+      // Kill any GSAP tweens on the container and image
+      gsap.killTweensOf(saturnContainer);
+      gsap.killTweensOf(saturnImage);
+
+      // Reset image to stable pose
+      gsap.set(saturnImage, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        scale: 1,
+        scaleX: 1,
+        scaleY: 1,
+        filter: 'drop-shadow(0 0 12px #00ff88) drop-shadow(0 0 20px rgba(0, 255, 136, 0.6))'
+      });
+
+      e.preventDefault();
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      // Update position
+      let newX = clientX - dragOffsetX;
+      let newY = clientY - dragOffsetY;
+
+      // Keep within bounds
+      newX = Math.max(0, Math.min(newX, window.innerWidth - 250));
+      newY = Math.max(0, Math.min(newY, window.innerHeight - 250));
+
+      saturnContainer.style.left = newX + 'px';
+      saturnContainer.style.top = newY + 'px';
+
+      e.preventDefault();
+    }
+
+    function endDrag(e) {
+      if (!isDragging) return;
+
+      isDragging = false;
+      saturnImage.style.cursor = 'grab';
+      isManuallyPlaced = true;
+
+      // Make visible and stable
+      gsap.set(saturnContainer, { opacity: 1, scale: 1, rotation: 0 });
+
+      // Freeze for 60 seconds before resuming automatic behavior
+      const resumeTimeout = setTimeout(() => {
+        isManuallyPlaced = false;
+        // Fade out and restart cycle
+        gsap.to(saturnContainer, {
+          duration: 0.8,
+          opacity: 0,
+          scale: 0.5,
+          rotation: 360,
+          ease: 'power2.in',
+          onComplete: () => {
+            appearSaturn();
+          }
+        });
+      }, 60000); // 60 seconds freeze
+      currentTimeouts.push(resumeTimeout);
+
+      e.preventDefault();
+    }
+
+    // Mouse events
+    saturnImage.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDrag);
+
+    // Touch events for mobile
+    saturnImage.addEventListener('touchstart', startDrag, { passive: false });
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', endDrag, { passive: false });
 
     // Start the cycle
     setTimeout(appearSaturn, 3000);
