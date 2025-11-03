@@ -240,24 +240,42 @@
       });
 
       // Green matrix hue shift effect
-      gsap.to(saturnImage, {
+      const hueShiftAnimation = gsap.to(saturnImage, {
         duration: 3,
         filter: 'hue-rotate(360deg) saturate(2) brightness(1.2)',
         repeat: -1,
         ease: 'none'
       });
 
-      // Stay visible - REIGN LONGER! (5-9 seconds)
-      const visibleDuration = Math.random() * 4000 + 5000;
+      // Dance for a bit (5-9 seconds)
+      const danceDuration = Math.random() * 4000 + 5000;
 
       setTimeout(() => {
-        disappearSaturn(danceTimeline);
-      }, visibleDuration);
+        // FREEZE MODE: Stop the dance, pause for 30 seconds
+        danceTimeline.pause();
+
+        // Reset to neutral frozen pose
+        gsap.to(saturnImage, {
+          duration: 0.6,
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 1.2,
+          ease: 'power2.out',
+          onComplete: () => {
+            // Stay frozen for 30 seconds - SOVEREIGN STILLNESS!
+            setTimeout(() => {
+              disappearSaturn(danceTimeline, hueShiftAnimation);
+            }, 30000); // 30 seconds frozen
+          }
+        });
+      }, danceDuration);
     }
 
-    function disappearSaturn(danceTimeline) {
-      // Stop the dance timeline
+    function disappearSaturn(danceTimeline, hueShiftAnimation) {
+      // Stop the dance timeline and hue shift
       if (danceTimeline) danceTimeline.kill();
+      if (hueShiftAnimation) hueShiftAnimation.kill();
 
       // Fade out with cosmic spin
       gsap.to(saturnContainer, {
