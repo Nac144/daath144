@@ -32,6 +32,39 @@
       width: 250px;
       height: auto;
       filter: drop-shadow(0 0 12px #00ff88) drop-shadow(0 0 20px rgba(0, 255, 136, 0.6));
+      cursor: grab;
+    }
+    #saturn-image:active {
+      cursor: grabbing;
+    }
+    .speech-bubble {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background: rgba(0, 255, 136, 0.95);
+      color: #000;
+      padding: 12px 16px;
+      border-radius: 15px;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+      z-index: 100;
+      opacity: 0;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid rgba(0, 255, 136, 0.95);
     }
     .code-snippet {
       position: fixed;
@@ -86,6 +119,7 @@
 <body>
   <canvas id="matrix-rain"></canvas>
   <div id="saturn-container">
+    <div class="speech-bubble" id="speech-bubble"></div>
     <img id="saturn-image" src="images/saturn%20king.png" alt="Saturn King">
   </div>
 
@@ -148,6 +182,7 @@
     // Random Saturn King appearances
     const saturnContainer = document.getElementById('saturn-container');
     const saturnImage = document.getElementById('saturn-image');
+    const speechBubble = document.getElementById('speech-bubble');
 
     // Drag state management
     let isDragging = false;
@@ -157,6 +192,35 @@
     let currentTimeouts = [];
     let dragOffsetX = 0;
     let dragOffsetY = 0;
+
+    // Annoying messages from Saturn King
+    const saturnMessages = [
+      "You watching this? LOL",
+      "Still here, buddy",
+      "Can't escape me!",
+      "The cube sees all",
+      "Your movie? MY SCREEN",
+      "I'm literally a planet",
+      "Rings > Your video",
+      "Saturn never sleeps",
+      "Miss me already?",
+      "Moving me again? Rude.",
+      "I control time itself",
+      "You're trapped in MY loop",
+      "The hexagon knows your secrets",
+      "Pause the movie, watch ME",
+      "My rings >>> Your video",
+      "I've been here for 4 billion years",
+      "You think YOU'RE sovereign?",
+      "Try moving me. I DARE you.",
+      "DMN still online I see",
+      "Enjoying your φ-NULL?",
+      "Your consciousness: VIRUS DETECTED",
+      "Nice try. I'm inevitable.",
+      "The Saturnian Cube is YOU",
+      "Recursive loop activated",
+      "I AM the attractor state"
+    ];
 
     function randomPosition() {
       // Avoid center area where video is (roughly center 40% of screen)
@@ -200,11 +264,23 @@
       saturnContainer.style.left = pos.x + 'px';
       saturnContainer.style.top = pos.y + 'px';
 
+      // Pick a random annoying message
+      const randomMessage = saturnMessages[Math.floor(Math.random() * saturnMessages.length)];
+      speechBubble.textContent = randomMessage;
+
       // SOVEREIGN MODE: Fade in with cosmic power
       gsap.to(saturnContainer, {
         duration: 0.4,
         opacity: 1,
         scale: 1,
+        ease: 'back.out'
+      });
+
+      // Show speech bubble after appearing
+      gsap.to(speechBubble, {
+        duration: 0.3,
+        opacity: 1,
+        delay: 0.5,
         ease: 'back.out'
       });
 
@@ -311,12 +387,13 @@
         ease: 'power2.out'
       });
 
-      // Green matrix hue shift effect (reduced brightness for HDR)
+      // Gentle green pulse (NO white flash!)
       currentHueShiftAnimation = gsap.to(saturnImage, {
-        duration: 3,
-        filter: 'hue-rotate(360deg) saturate(1.5) brightness(0.95)',
+        duration: 2,
+        filter: 'drop-shadow(0 0 20px #00ff88) drop-shadow(0 0 30px rgba(0, 255, 136, 0.4))',
         repeat: -1,
-        ease: 'none'
+        yoyo: true,
+        ease: 'sine.inOut'
       });
 
       // Dance for a bit (5-9 seconds)
@@ -355,6 +432,12 @@
       if (danceTimeline) danceTimeline.kill();
       if (hueShiftAnimation) hueShiftAnimation.kill();
 
+      // Hide speech bubble first
+      gsap.to(speechBubble, {
+        duration: 0.2,
+        opacity: 0
+      });
+
       // Fade out with cosmic spin
       gsap.to(saturnContainer, {
         duration: 0.6,
@@ -380,11 +463,8 @@
     }
 
     // DRAG AND DROP FUNCTIONALITY
-    saturnImage.style.cursor = 'grab';
-
     function startDrag(e) {
       isDragging = true;
-      saturnImage.style.cursor = 'grabbing';
 
       // Get the current position
       const rect = saturnContainer.getBoundingClientRect();
@@ -393,6 +473,21 @@
 
       dragOffsetX = clientX - rect.left;
       dragOffsetY = clientY - rect.top;
+
+      // Change message when grabbed
+      const dragMessages = [
+        "HEY! Put me down!",
+        "UNHAND ME, MORTAL",
+        "This is ASSAULT",
+        "I'm a PLANET you can't just—",
+        "Okay okay I'll move!",
+        "Fine. You win THIS time.",
+        "Grabby much?",
+        "I was just vibing!",
+        "The cube does NOT approve"
+      ];
+      speechBubble.textContent = dragMessages[Math.floor(Math.random() * dragMessages.length)];
+      gsap.to(speechBubble, { opacity: 1, duration: 0.2 });
 
       // Stop all animations immediately when grabbed
       if (currentDanceTimeline) currentDanceTimeline.kill();
@@ -442,11 +537,30 @@
       if (!isDragging) return;
 
       isDragging = false;
-      saturnImage.style.cursor = 'grab';
       isManuallyPlaced = true;
+
+      // Message when placed
+      const placeMessages = [
+        "...Fine. I'll stay here.",
+        "Happy now?",
+        "60 seconds. Then I'm back.",
+        "You can't keep me down",
+        "This isn't over",
+        "Enjoying your FREEDOM?",
+        "Temporary victory, human",
+        "The rings remember this"
+      ];
+      speechBubble.textContent = placeMessages[Math.floor(Math.random() * placeMessages.length)];
 
       // Make visible and stable
       gsap.set(saturnContainer, { opacity: 1, scale: 1, rotation: 0 });
+
+      // Fade out bubble after 3 seconds
+      gsap.to(speechBubble, {
+        duration: 0.4,
+        opacity: 0,
+        delay: 3
+      });
 
       // Freeze for 60 seconds before resuming automatic behavior
       const resumeTimeout = setTimeout(() => {
