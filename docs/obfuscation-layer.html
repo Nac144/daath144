@@ -64,6 +64,44 @@
       }
     }
 
+    class TextFragment {
+      constructor(text) {
+        this.text = text;
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.08 + 0.03;
+        this.size = Math.random() * 4 + 10;
+        this.life = Math.random() * 500 + 300;
+        this.maxLife = this.life;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life--;
+
+        if (this.life <= 0 || this.x < -200 || this.x > canvas.width + 200 ||
+            this.y < -100 || this.y > canvas.height + 100) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        const alpha = (this.life / this.maxLife) * this.opacity;
+        ctx.save();
+        ctx.font = `${this.size}px 'Courier New', monospace`;
+        ctx.fillStyle = `rgba(120, 120, 150, ${alpha})`;
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.restore();
+      }
+    }
+
     class GlitchBand {
       constructor() {
         this.y = Math.random() * canvas.height;
@@ -104,6 +142,22 @@
     for (let i = 0; i < 5; i++) {
       glitchBands.push(new GlitchBand());
     }
+
+    // Philosophical text fragments (sneaked in)
+    const philosophyFragments = [
+      'normies operating within low-bitrate',
+      'deterministic consensus reality',
+      'Idiocy Protocol',
+      'social rules, linear time',
+      'fear of vulnerability',
+      'higher bitrate perception',
+      'incoherent low-resolution noise',
+      'no longer serves a function'
+    ];
+    const textFragments = [];
+    philosophyFragments.forEach(text => {
+      textFragments.push(new TextFragment(text));
+    });
 
     // Grid overlay
     function drawGrid() {
@@ -189,6 +243,12 @@
       for (const particle of noiseParticles) {
         particle.update();
         particle.draw();
+      }
+
+      // Update and draw text fragments (sneaked in)
+      for (const fragment of textFragments) {
+        fragment.update();
+        fragment.draw();
       }
 
       // Random glitch blocks
