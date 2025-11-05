@@ -888,8 +888,8 @@
         }
 
         .cube-wrapper {
-            width: 2cm;
-            height: 2cm;
+            width: 1.2cm;
+            height: 1.2cm;
             margin: 0 auto 10px;
             perspective: 800px;
             cursor: pointer;
@@ -919,8 +919,8 @@
 
         .cube-face {
             position: absolute;
-            width: 2cm;
-            height: 2cm;
+            width: 1.2cm;
+            height: 1.2cm;
             /* Black Box styling with unicursal hexagram overlay */
             background:
                 url('images/unicursal%20hexagram.png') center/80% no-repeat,
@@ -936,12 +936,12 @@
                     drop-shadow(0 0 6px var(--primary-color));
         }
 
-        .cube-face.front  { transform: translateZ(1cm); }
-        .cube-face.back   { transform: rotateY(180deg) translateZ(1cm); }
-        .cube-face.right  { transform: rotateY(90deg) translateZ(1cm); }
-        .cube-face.left   { transform: rotateY(-90deg) translateZ(1cm); }
-        .cube-face.top    { transform: rotateX(90deg) translateZ(1cm); }
-        .cube-face.bottom { transform: rotateX(-90deg) translateZ(1cm); }
+        .cube-face.front  { transform: translateZ(0.6cm); }
+        .cube-face.back   { transform: rotateY(180deg) translateZ(0.6cm); }
+        .cube-face.right  { transform: rotateY(90deg) translateZ(0.6cm); }
+        .cube-face.left   { transform: rotateY(-90deg) translateZ(0.6cm); }
+        .cube-face.top    { transform: rotateX(90deg) translateZ(0.6cm); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(0.6cm); }
 
         .cube-data {
             font-size: 8px;
