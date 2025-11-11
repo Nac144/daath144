@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ THE RESISTANCE | Silencing the Default Mode Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(0, 139, 139, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 80% 50%, rgba(139, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(0, 139, 139, 0.3), rgba(0, 0, 0, 0.9));
+            border: 4px solid #00ffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🛡️';
+            position: absolute;
+            font-size: 400px;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 72px;
+            color: #00ffff;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 32px;
+            color: #00aaaa;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
+
+        .header .tagline {
+            font-size: 22px;
+            color: #999999;
+            font-style: italic;
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .revelation-box {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(0, 139, 139, 0.2), rgba(0, 0, 0, 0.8));
+            border-left: 6px solid #00ffff;
+            border-radius: 8px;
+        }
+
+        .revelation-label {
+            font-size: 18px;
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .revelation-text {
+            font-size: 18px;
+            color: #dddddd;
+            line-height: 1.8;
+        }
+
+        .revelation-text strong {
+            color: #00ffff;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #00ffff;
+            text-align: center;
+            margin: 80px 0 40px 0;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+            letter-spacing: 4px;
+        }
+
+        .tier-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(10, 10, 30, 0.3));
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+        }
+
+        .tier-title {
+            font-size: 32px;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        .protocol-card {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 4px solid #00ffff;
+            border-radius: 6px;
+        }
+
+        .protocol-name {
+            font-size: 24px;
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .protocol-description {
+            font-size: 18px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .protocol-evidence {
+            font-size: 16px;
+            color: #00aaaa;
+            font-style: italic;
+            padding-left: 20px;
+            border-left: 2px solid rgba(0, 255, 255, 0.3);
+            margin-top: 10px;
+        }
+
+        .daily-stack {
+            margin: 60px 0;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(0, 139, 139, 0.4), rgba(0, 0, 0, 0.9));
+            border: 6px solid #00ffff;
+            border-radius: 12px;
+        }
+
+        .daily-stack-title {
+            font-size: 48px;
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(0, 255, 255, 1);
+            letter-spacing: 6px;
+        }
+
+        .daily-stack-content {
+            font-size: 20px;
+            color: #dddddd;
+            line-height: 2;
+        }
+
+        .stack-step {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 4px solid #00ffff;
+            border-radius: 4px;
+        }
+
+        .stack-result {
+            text-align: center;
+            font-size: 28px;
+            color: #00ffff;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .comparison-card {
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(10, 10, 30, 0.3));
+            border: 2px solid rgba(139, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .comparison-card.resistance {
+            border-color: rgba(0, 255, 255, 0.5);
+        }
+
+        .comparison-card h3 {
+            font-size: 28px;
+            color: #8b0000;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-card.resistance h3 {
+            color: #00ffff;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-card li {
+            font-size: 18px;
+            color: #cccccc;
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .comparison-card li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #8b0000;
+            font-weight: bold;
+        }
+
+        .comparison-card.resistance li::before {
+            content: '✓';
+            color: #00ffff;
+        }
+
+        .code-block {
+            margin: 30px 0;
+            padding: 25px;
+            background: #0a0a0a;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #00ff00;
+            line-height: 1.6;
+        }
+
+        .code-comment {
+            color: #666666;
+        }
+
+        .evidence-box {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(0, 139, 139, 0.1);
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+        }
+
+        .evidence-title {
+            font-size: 24px;
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .evidence-text {
+            font-size: 18px;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .nav-menu {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(10, 10, 30, 0.3));
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+        }
+
+        .nav-menu a {
+            color: #00ffff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #00aaaa;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🛡️ THE RESISTANCE 🛡️</h1>
+                <div class="subtitle">Silencing the Default Mode Network</div>
+                <div class="tagline">
+                    Evidence-based protocols to suppress the DMN (the neural substrate of the Black Cube)<br>
+                    and maintain right-hemisphere superposition without forced binary collapse
+                </div>
+            </div>
+        </div>
+
+        <div class="revelation-box">
+            <div class="revelation-label">🧠 THE RECOGNITION</div>
+            <div class="revelation-text">
+                <strong>The Default Mode Network (DMN) IS the neural substrate of the Black Cube.</strong>
+                <br><br>
+                <strong>DMN = Left Hemisphere Collapse Mechanism:</strong><br>
+                • Self-referential thinking = Narcissistic rigid position<br>
+                • Mind-wandering = Endless binary narratives<br>
+                • Rumination = Gödel-incomplete circular reasoning<br>
+                • Ego maintenance = The Euclidean fixed position that feeds on superposition<br><br>
+
+                <strong>DMN Suppression = Maintaining the Wave Function:</strong><br>
+                • Flow states = Right hemisphere superposition intact<br>
+                • Non-dual awareness = No binary collapse<br>
+                • Ego dissolution = Rigid position dissolved<br>
+                • Present-moment focus = Task-positive networks (not self-referential)<br><br>
+
+                <strong style="font-size: 24px; color: #00ffff;">
+                Everything we documented was THE DIAGNOSIS.<br>
+                This is THE CURE.
+                </strong>
+            </div>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <h3>DMN ACTIVE (The Collapse)</h3>
+                <ul>
+                    <li>Self-referential narrative</li>
+                    <li>Binary thinking</li>
+                    <li>Rigid ego position</li>
+                    <li>Left hemisphere dominance</li>
+                    <li>The Black Cube feeds</li>
+                    <li>Trauma-based circular reasoning</li>
+                    <li>Mind-wandering, rumination</li>
+                    <li>Past/future obsession</li>
+                </ul>
+            </div>
+
+            <div class="comparison-card resistance">
+                <h3>DMN SUPPRESSED (The Resistance)</h3>
+                <ul>
+                    <li>Present-moment awareness</li>
+                    <li>Non-dual consciousness</li>
+                    <li>Flow state / ego dissolution</li>
+                    <li>Right hemisphere superposition</li>
+                    <li>The wave function maintained</li>
+                    <li>Direct experience without narrative</li>
+                    <li>Focused attention, task engagement</li>
+                    <li>Timeless now</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-title">📊 TIER 1: FREE & LEGAL (Do Today) 📊</div>
+
+        <div class="tier-section">
+            <div class="protocol-card">
+                <div class="protocol-name">🏃 40-60 min Intense Cardio</div>
+                <div class="protocol-description">
+                    Run, row, bike, rucking—any sustained aerobic activity that elevates heart rate to 70-85% max.
+                </div>
+                <div class="protocol-evidence">
+                    → Meta-analysis of 27 studies: aerobic exercise drops DMN activity for ~20 min post-workout.<br>
+                    → Bonus: also raises BDNF & endocannabinoids (natural "runner's high" = DMN suppression)
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🧘 20-30 min Focused-Attention Meditation</div>
+                <div class="protocol-description">
+                    Breath counting, body scan, or any single-point focus technique.
+                </div>
+                <div class="protocol-evidence">
+                    → Long-term meditators show 20-50% less DMN activity at rest<br>
+                    → Even beginners see transient shutdown after one session (Brewer et al., 2011; Garrison et al., 2015)
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🎯 Flow States</div>
+                <div class="protocol-description">
+                    Hard climbing route, speed chess, playing an instrument you're proficient at—anything that demands complete attention.
+                </div>
+                <div class="protocol-evidence">
+                    → DMN literally goes offline when you're "in the zone" (Ulrich et al., 2014)<br>
+                    → Task-positive networks (TPNs) dominate; self-referential thinking impossible
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🧊 Cold Exposure</div>
+                <div class="protocol-description">
+                    3-5 min ice bath or cold shower at ≤10°C (50°F).
+                </div>
+                <div class="protocol-evidence">
+                    → Acute noradrenaline spike suppresses DMN and shifts to task-positive networks (Jung et al., 2022)<br>
+                    → Forces immediate present-moment awareness (impossible to ruminate while freezing)
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">⚗️ TIER 2: STILL LEGAL, SLIGHTLY MORE EFFORT ⚗️</div>
+
+        <div class="tier-section">
+            <div class="protocol-card">
+                <div class="protocol-name">☕ Caffeine + L-Theanine Stack</div>
+                <div class="protocol-description">
+                    50-70 mg caffeine + 200-400 mg L-theanine (coffee + green tea, or stack supplement).
+                </div>
+                <div class="protocol-evidence">
+                    → Shuts down mind-wandering and DMN within 30 min (Lin et al., 2021)<br>
+                    → Caffeine = alertness, L-theanine = smooth focus without jitters
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🥑 Ketone Esters or Ketogenic Diet</div>
+                <div class="protocol-description">
+                    Achieve ≥2 mmol/L blood BHB (beta-hydroxybutyrate) via strict keto diet or exogenous ketones.
+                </div>
+                <div class="protocol-evidence">
+                    → Ketones directly down-regulate DMN activity (Berti et al., 2022)<br>
+                    → Brain runs on ketones instead of glucose = altered network dynamics
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">⚡ Transcranial Direct-Current Stimulation (tDCS)</div>
+                <div class="protocol-description">
+                    Montages targeting left DLPFC or right IPL with home devices (~$100).
+                </div>
+                <div class="protocol-evidence">
+                    → Published protocols that reduce DMN connectivity<br>
+                    → Modulates cortical excitability; enhances task-positive networks
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🌊 Float Tank (Sensory Deprivation)</div>
+                <div class="protocol-description">
+                    60-90 min in float tank (saturated Epsom salt water, soundproof, lightproof).
+                </div>
+                <div class="protocol-evidence">
+                    → One of the strongest non-drug DMN suppressors (Vartanian et al., 2018)<br>
+                    → Theta brain waves + total DMN shutdown; profound ego dissolution
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">💊 TIER 3: PRESCRIPTION / CLINICAL 💊</div>
+
+        <div class="tier-section">
+            <div class="protocol-card">
+                <div class="protocol-name">💉 Low-Dose Ketamine Infusion</div>
+                <div class="protocol-description">
+                    0.5 mg/kg IV administered in clinical setting.
+                </div>
+                <div class="protocol-evidence">
+                    → Immediate DMN disconnection; lasts 1-2 weeks in depression studies<br>
+                    → Rapid anti-depressant effect correlates with DMN suppression
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">💊 SSRIs (Chronic Use)</div>
+                <div class="protocol-description">
+                    After 4-6 weeks of consistent SSRI treatment.
+                </div>
+                <div class="protocol-evidence">
+                    → Chronic SSRI use reduces DMN hyperactivity in Major Depressive Disorder (Sheline et al., 2009)<br>
+                    → Long-term neuroplastic changes, not acute suppression
+                </div>
+            </div>
+
+            <div class="protocol-card">
+                <div class="protocol-name">🧲 Transcranial Magnetic Stimulation (TMS)</div>
+                <div class="protocol-description">
+                    High-frequency left DLPFC protocol (FDA-cleared for depression).
+                </div>
+                <div class="protocol-evidence">
+                    → Reliably drops DMN activity<br>
+                    → Repeated sessions create sustained changes in network connectivity
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">🍄 TIER 4: STILL MUSHROOMS, BUT SMARTER 🍄</div>
+
+        <div class="tier-section">
+            <div class="protocol-card">
+                <div class="protocol-name">🍄 Low-Dose Psilocybin (1-1.5g)</div>
+                <div class="protocol-description">
+                    If you insist on psilocybin, 1-1.5g dried (NOT 5g) + eyes-closed in silence gives full DMN collapse with way less chaos.
+                </div>
+                <div class="protocol-evidence">
+                    → 5g is just ego-dissolution overkill for most people<br>
+                    → Lower doses = complete DMN shutdown without overwhelming experience<br>
+                    → fMRI studies show dose-dependent DMN deactivation starting at ~1g
+                </div>
+            </div>
+        </div>
+
+        <div class="daily-stack">
+            <div class="daily-stack-title">⚡ DAILY STACK FOR DMN SILENCE ⚡</div>
+            <div class="daily-stack-content">
+                The personal protocol for sustained DMN suppression (no drugs, no legal risk):
+
+                <div class="stack-step">
+                    <strong>Wake →</strong> 3 min cold shower<br>
+                    <span style="color: #00aaaa;">(Acute noradrenaline spike = immediate DMN suppression)</span>
+                </div>
+
+                <div class="stack-step">
+                    <strong>Morning →</strong> 200 mg L-theanine + 100 mg caffeine<br>
+                    <span style="color: #00aaaa;">(Sustained focus without mind-wandering)</span>
+                </div>
+
+                <div class="stack-step">
+                    <strong>Post-caffeine →</strong> 20 min breath-focus meditation (counting exhales to 10)<br>
+                    <span style="color: #00aaaa;">(Trains task-positive networks, weakens DMN baseline)</span>
+                </div>
+
+                <div class="stack-step">
+                    <strong>Mid-morning →</strong> 45 min zone-2 cardio<br>
+                    <span style="color: #00aaaa;">(Meta-analysis proven: 20+ min post-workout DMN silence)</span>
+                </div>
+
+                <div class="stack-result">
+                    → DMN flatlines for hours<br>
+                    → Zero spiders, zero sky-daddy necklaces<br>
+                    → 80% of mushroom effect, every day, no comedown
+                </div>
+
+                <strong>Pick any 2-3 from Tier 1 and you'll get the same result.</strong>
+            </div>
+        </div>
+
+        <div class="section-title">🔬 THE EVIDENCE 🔬</div>
+
+        <div class="evidence-box">
+            <div class="evidence-title">Why This Works: The Neuroscience</div>
+            <div class="evidence-text">
+                The Default Mode Network (DMN) comprises:<br><br>
+
+                • <strong>Medial prefrontal cortex (mPFC)</strong> - Self-referential processing<br>
+                • <strong>Posterior cingulate cortex (PCC)</strong> - Autobiographical memory<br>
+                • <strong>Precuneus</strong> - Self-consciousness, mind-wandering<br>
+                • <strong>Angular gyrus</strong> - Semantic processing, narrative construction<br><br>
+
+                <strong>When the DMN is active:</strong><br>
+                You are stuck in self-referential thought, rumination, planning, worrying—the left-hemisphere binary collapse mechanism.<br><br>
+
+                <strong>When the DMN is suppressed:</strong><br>
+                Task-positive networks (TPNs) dominate—dorsolateral prefrontal cortex (DLPFC), parietal cortex, motor cortex.
+                You are in the present moment, engaged with reality directly, no narrative filter.<br><br>
+
+                <strong>Key Studies:</strong><br>
+                • Brewer et al. (2011): Meditation and DMN suppression<br>
+                • Garrison et al. (2015): Long-term meditators show 20-50% less DMN activity<br>
+                • Ulrich et al. (2014): Flow states = DMN offline<br>
+                • Jung et al. (2022): Cold exposure suppresses DMN<br>
+                • Lin et al. (2021): L-theanine + caffeine shuts down mind-wandering<br>
+                • Berti et al. (2022): Ketones down-regulate DMN<br>
+                • Vartanian et al. (2018): Float tanks = strongest non-drug DMN suppression<br>
+                • Sheline et al. (2009): SSRIs reduce DMN hyperactivity in depression
+            </div>
+        </div>
+
+        <div class="code-block">
+            <code>
+<span class="code-comment">// The Resistance in Code</span>
+
+class DefaultModeNetwork {
+    constructor() {
+        this.active = true;
+        this.mechanism = "LEFT_HEMISPHERE_COLLAPSE";
+        this.outputs = ["self-reference", "rumination", "binary-thinking", "ego-maintenance"];
+    }
+
+    operate() {
+        <span class="code-comment">// When DMN is active, you are the Black Cube</span>
+        return {
+            consciousness: "collapsed",
+            thinking: "binary",
+            position: "rigid_euclidean",
+            mode: "parasitic_extraction"
+        };
+    }
+}
+
+class TheResistance {
+    constructor() {
+        this.protocols = [
+            "intense_cardio",
+            "focused_meditation",
+            "flow_states",
+            "cold_exposure",
+            "caffeine_theanine",
+            "float_tank"
+        ];
+    }
+
+    suppressDMN(protocol) {
+        <span class="code-comment">// Apply any Tier 1-2 protocol</span>
+        const dmn = new DefaultModeNetwork();
+        dmn.active = false;
+
+        <span class="code-comment">// When DMN is suppressed, superposition is maintained</span>
+        return {
+            consciousness: "superposition",
+            thinking: "non-dual",
+            position: "fluid_probabilistic",
+            mode: "direct_experience"
+        };
+    }
+
+    dailyStack() {
+        <span class="code-comment">// The proven stack for sustained DMN silence</span>
+        this.coldShower(180);  <span class="code-comment">// 3 min</span>
+        this.caffeineTheanine(100, 200);  <span class="code-comment">// mg</span>
+        this.breathMeditation(20);  <span class="code-comment">// 20 min</span>
+        this.cardio(45);  <span class="code-comment">// 45 min zone-2</span>
+
+        <span class="code-comment">// Result: DMN flatlines for hours</span>
+        return "wave_function_maintained";
+    }
+}
+
+<span class="code-comment">// The awakened human uses The Resistance</span>
+<span class="code-comment">// The parasitic system demands the collapse</span>
+<span class="code-comment">// This is the eternal war</span>
+            </code>
+        </div>
+
+        <div class="revelation-box">
+            <div class="revelation-label">⚡ THE ULTIMATE RECOGNITION</div>
+            <div class="revelation-text">
+                <strong style="font-size: 24px;">The awakened human doesn't just understand the collapse—they actively resist it.</strong>
+                <br><br>
+
+                Every protocol in this page is a weapon against the Black Cube.<br>
+                Every time you suppress the DMN, you maintain the wave function.<br>
+                Every moment in flow state, you escape the Euclidean prison.<br><br>
+
+                <strong>The theory (THE COLLAPSE) told you WHAT is happening.</strong><br>
+                <strong>The practice (THE RESISTANCE) tells you HOW to stop it.</strong><br><br>
+
+                This is not philosophy.<br>
+                This is neurological warfare.<br><br>
+
+                <div style="text-align: center; font-size: 28px; color: #00ffff; margin: 40px 0;">
+                    <strong>THE DMN IS THE BLACK CUBE.</strong><br>
+                    <strong>SUPPRESSING THE DMN IS THE RESISTANCE.</strong><br>
+                    <strong>MAINTAINING SUPERPOSITION IS FREEDOM.</strong>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">🏠 HOME</a>
+            <a href="lexicon.html">📖 LEXICON</a>
+            <a href="the-framework.html">⬛ THE FRAMEWORK</a>
+            <a href="the-parasite-revealed.html">🩸 THE PARASITE</a>
+        </nav>
+    </div>
+</body>
+</html>
