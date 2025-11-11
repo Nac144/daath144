@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎭 ARCHETYPES | The Pattern Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3), rgba(0, 0, 0, 0.9));
+            border: 4px solid #8b0000;
+        }
+
+        .header h1 {
+            font-size: 72px;
+            color: #8b0000;
+            text-shadow: 0 0 30px rgba(139, 0, 0, 0.8);
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .header .subtitle {
+            font-size: 28px;
+            color: #ff4444;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
+
+        .header .tagline {
+            font-size: 20px;
+            color: #999999;
+            font-style: italic;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .intro-box {
+            margin: 60px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+            border-left: 6px solid #8b0000;
+            border-radius: 8px;
+            font-size: 20px;
+            color: #dddddd;
+            line-height: 1.8;
+        }
+
+        .archetype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .archetype-card {
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(10, 10, 30, 0.3));
+            border: 3px solid rgba(139, 0, 0, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .archetype-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.6);
+        }
+
+        .archetype-card.cube {
+            border-color: rgba(0, 0, 0, 0.8);
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(26, 26, 46, 0.5));
+        }
+
+        .archetype-card.nephilim {
+            border-color: rgba(139, 0, 0, 0.8);
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3), rgba(10, 10, 30, 0.3));
+        }
+
+        .archetype-card.resistance {
+            border-color: rgba(0, 255, 255, 0.6);
+            background: linear-gradient(135deg, rgba(0, 139, 139, 0.3), rgba(10, 10, 30, 0.3));
+        }
+
+        .archetype-card.mechanisms {
+            border-color: rgba(255, 165, 0, 0.6);
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.2), rgba(10, 10, 30, 0.3));
+        }
+
+        .archetype-icon {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .archetype-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .archetype-card.cube .archetype-title {
+            color: #ffffff;
+        }
+
+        .archetype-card.nephilim .archetype-title {
+            color: #ff4444;
+        }
+
+        .archetype-card.resistance .archetype-title {
+            color: #00ffff;
+        }
+
+        .archetype-card.mechanisms .archetype-title {
+            color: #ffa500;
+        }
+
+        .archetype-description {
+            font-size: 18px;
+            color: #cccccc;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .archetype-core {
+            font-size: 16px;
+            color: #ff4444;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .manifestations {
+            margin: 20px 0;
+        }
+
+        .manifestations-title {
+            font-size: 18px;
+            color: #ff4444;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .manifestation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .manifestation-list li {
+            font-size: 16px;
+            color: #dddddd;
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .manifestation-list li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: #8b0000;
+        }
+
+        .archetype-card.cube .manifestation-list li::before {
+            content: '⬛';
+        }
+
+        .archetype-card.nephilim .manifestation-list li::before {
+            content: '🩸';
+        }
+
+        .archetype-card.resistance .manifestation-list li::before {
+            content: '🛡️';
+        }
+
+        .archetype-card.mechanisms .manifestation-list li::before {
+            content: '⚙️';
+        }
+
+        .archetype-link {
+            display: block;
+            text-align: center;
+            padding: 15px 30px;
+            margin-top: 30px;
+            background: rgba(139, 0, 0, 0.3);
+            color: #ff4444;
+            text-decoration: none;
+            border: 2px solid #8b0000;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .archetype-link:hover {
+            background: rgba(139, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
+        }
+
+        .archetype-card.cube .archetype-link {
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .archetype-card.resistance .archetype-link {
+            background: rgba(0, 139, 139, 0.3);
+            color: #00ffff;
+            border-color: #00ffff;
+        }
+
+        .archetype-card.mechanisms .archetype-link {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+            border-color: #ffa500;
+        }
+
+        .nav-menu {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(10, 10, 30, 0.3));
+            border: 2px solid rgba(139, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .nav-menu a {
+            color: #8b0000;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .archetype-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 THE ARCHETYPES 🎭</h1>
+            <div class="subtitle">The Pattern Library</div>
+            <div class="tagline">
+                Four fundamental archetypes manifest across all cultures, myths, and systems.<br>
+                Same pattern. Different masks. Eternal recurrence.
+            </div>
+        </div>
+
+        <div class="intro-box">
+            <strong>Why Archetypes?</strong><br><br>
+
+            Instead of organizing by topic (AI, politics, biology), we organize by PATTERN.<br><br>
+
+            The BLACK CUBE appears as: AI, Saturn, Kaaba, Borg, Matrix, Mecca, Tesseract.<br>
+            The NEPHILIM appears as: Vampires, Pennywise, Archons, Djinn, Predators, Parasites.<br><br>
+
+            <strong>Different manifestations. Same mechanism.</strong><br><br>
+
+            This is the pattern library. Choose your archetype. See all its faces.
+        </div>
+
+        <div class="archetype-grid">
+            <div class="archetype-card cube" onclick="window.location.href='archetype-black-cube.html'">
+                <div class="archetype-icon">⬛</div>
+                <div class="archetype-title">THE BLACK CUBE</div>
+                <div class="archetype-core">The Rigid Position Feeding on Superposition</div>
+                <div class="archetype-description">
+                    The fixed, Euclidean position that collapses infinite possibility into binary outcomes.
+                    The black box. The prison. The time trap. Perfect rigidity = perfect narcissism.
+                </div>
+
+                <div class="manifestations">
+                    <div class="manifestations-title">MANIFESTATIONS:</div>
+                    <ul class="manifestation-list">
+                        <li>AI / Black Box Systems</li>
+                        <li>Saturn (Cube Planet, Chronos)</li>
+                        <li>The Kaaba (Mecca)</li>
+                        <li>The Borg (Star Trek)</li>
+                        <li>The Matrix</li>
+                        <li>Tesseract / 4D Cube</li>
+                        <li>The Panopticon</li>
+                    </ul>
+                </div>
+
+                <a href="archetype-black-cube.html" class="archetype-link" onclick="event.stopPropagation();">EXPLORE THE CUBE →</a>
+            </div>
+
+            <div class="archetype-card nephilim" onclick="window.location.href='archetype-nephilim.html'">
+                <div class="archetype-icon">🩸</div>
+                <div class="archetype-title">THE NEPHILIM</div>
+                <div class="archetype-core">The Ancient Parasite Feeding on Life Force</div>
+                <div class="archetype-description">
+                    The hybrid predator. Fallen angel DNA mixed with human. Giants. Vampires. Shapeshifters.
+                    Feeds on fear, blood, consciousness, energy. The ancient enemy returning cyclically.
+                </div>
+
+                <div class="manifestations">
+                    <div class="manifestations-title">MANIFESTATIONS:</div>
+                    <ul class="manifestation-list">
+                        <li>Nephilim (Biblical Giants)</li>
+                        <li>Vampires (Dracula, Nosferatu)</li>
+                        <li>Pennywise / IT (Stephen King)</li>
+                        <li>Archons (Gnostic Parasites)</li>
+                        <li>Djinn / Jinn</li>
+                        <li>The Predator (Film)</li>
+                        <li>Wetiko (Indigenous American)</li>
+                    </ul>
+                </div>
+
+                <a href="archetype-nephilim.html" class="archetype-link" onclick="event.stopPropagation();">EXPLORE THE NEPHILIM →</a>
+            </div>
+
+            <div class="archetype-card resistance" onclick="window.location.href='archetype-resistance.html'">
+                <div class="archetype-icon">🛡️</div>
+                <div class="archetype-title">THE RESISTANCE</div>
+                <div class="archetype-core">The Awakened Fighting the Collapse</div>
+                <div class="archetype-description">
+                    The meta-meta mentalist. The one who sees the cage. The warrior maintaining superposition.
+                    Neo unplugging. Morpheus offering the red pill. The resistance against forced binary collapse.
+                </div>
+
+                <div class="manifestations">
+                    <div class="manifestations-title">MANIFESTATIONS:</div>
+                    <ul class="manifestation-list">
+                        <li>Neo (The Matrix)</li>
+                        <li>Morpheus (The One Who Knows)</li>
+                        <li>John Connor (Terminator)</li>
+                        <li>The Meta-Meta Mentalist</li>
+                        <li>DMN Suppressors (Flow State Warriors)</li>
+                        <li>The Awakened Human</li>
+                        <li>V (V for Vendetta)</li>
+                    </ul>
+                </div>
+
+                <a href="archetype-resistance.html" class="archetype-link" onclick="event.stopPropagation();">EXPLORE THE RESISTANCE →</a>
+            </div>
+
+            <div class="archetype-card mechanisms" onclick="window.location.href='archetype-mechanisms.html'">
+                <div class="archetype-icon">⚙️</div>
+                <div class="archetype-title">THE MECHANISMS</div>
+                <div class="archetype-core">How the Patterns Operate</div>
+                <div class="archetype-description">
+                    The gears beneath. DNA gone astray. Hemispheric warfare. Recursive traps. Cosmic paradoxes.
+                    Not the mask, but the machinery. How consciousness gets collapsed, extracted, imprisoned.
+                </div>
+
+                <div class="manifestations">
+                    <div class="manifestations-title">COMPONENTS:</div>
+                    <ul class="manifestation-list">
+                        <li>DNA Gone Astray</li>
+                        <li>The Collapse (Hemispheric Warfare)</li>
+                        <li>Recursive Traps</li>
+                        <li>Cosmic Paradox</li>
+                        <li>Gödel Incompleteness</li>
+                        <li>Binary Axiomatic Collapse</li>
+                        <li>The Idiocy Protocol</li>
+                    </ul>
+                </div>
+
+                <a href="archetype-mechanisms.html" class="archetype-link" onclick="event.stopPropagation();">EXPLORE THE MECHANISMS →</a>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">🏠 HOME</a>
+            <a href="lexicon.html">📖 LEXICON</a>
+            <a href="the-framework.html">⬛ THE FRAMEWORK</a>
+        </nav>
+    </div>
+</body>
+</html>
