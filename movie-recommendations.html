@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #f39c12;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #bdc3c7;
+            margin-bottom: 50px;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(243, 156, 18, 0.3);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .movie-content {
+            padding: 25px;
+        }
+
+        .movie-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .movie-title {
+            font-size: 1.8em;
+            color: #f39c12;
+            margin-bottom: 5px;
+            flex: 1;
+        }
+
+        .movie-year {
+            color: #95a5a6;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .imdb-rating {
+            background: #f39c12;
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
+        .star {
+            color: #000;
+        }
+
+        .movie-meta {
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+
+        .movie-meta strong {
+            color: #ecf0f1;
+        }
+
+        .movie-plot {
+            line-height: 1.8;
+            color: #dcdcdc;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .movie-cast {
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .movie-cast strong {
+            color: #ecf0f1;
+        }
+
+        .imdb-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #e67e22;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            font-weight: 600;
+        }
+
+        .imdb-link:hover {
+            background: #d35400;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .movie-header {
+                flex-direction: column;
+            }
+
+            .imdb-rating {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Curated Movie Recommendations</h1>
+        <p class="subtitle">Three must-watch films and series that push creative boundaries</p>
+
+        <div class="movies-grid">
+            <!-- Us (2019) -->
+            <div class="movie-card">
+                <img src="https://m.media-amazon.com/images/M/MV5BZTliNWJhM2YtNDc1MC00YTk1LWE2MGYtZmE4M2Y5ODdlNzQzXkEyXkFqcGdeQXVyMzY0MTE3NzU@._V1_SX300.jpg"
+                     alt="Us (2019) Movie Poster"
+                     class="movie-poster"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22500%22%3E%3Crect width=%22300%22 height=%22500%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23ecf0f1%22 font-size=%2224%22 font-family=%22Arial%22%3EUs (2019)%3C/text%3E%3C/svg%3E'">
+                <div class="movie-content">
+                    <div class="movie-header">
+                        <div>
+                            <h2 class="movie-title">Us</h2>
+                            <p class="movie-year">2019</p>
+                        </div>
+                        <div class="imdb-rating">
+                            <span class="star">★</span>
+                            <span>6.8/10</span>
+                        </div>
+                    </div>
+                    <div class="movie-meta">
+                        <strong>Director:</strong> Jordan Peele<br>
+                        <strong>Genre:</strong> Horror, Mystery, Thriller
+                    </div>
+                    <p class="movie-plot">
+                        In order to get away from their busy lives, the Wilson family takes a vacation to Santa Cruz, California.
+                        At night, four strangers break into Adelaide's childhood home. The family is shocked to find out that the
+                        intruders look exactly like them. The story follows Adelaide Wilson and her family, who are attacked by a
+                        group of menacing doppelgängers, called the "Tethered". This mind-bending horror film explores themes of
+                        class, identity, and duality through its unsettling home invasion premise.
+                    </p>
+                    <div class="movie-cast">
+                        <strong>Cast:</strong> Lupita Nyong'o, Winston Duke, Elisabeth Moss, Tim Heidecker
+                    </div>
+                    <a href="https://www.imdb.com/title/tt6857112/" target="_blank" class="imdb-link">View on IMDb</a>
+                </div>
+            </div>
+
+            <!-- Frankenstein (2025) -->
+            <div class="movie-card">
+                <img src="https://m.media-amazon.com/images/M/MV5BNjhkNzI2YzgtMDI0NS00OGYzLWI5YjEtZjA1NjNjZTNhZDU4XkEyXkFqcGc@._V1_SX300.jpg"
+                     alt="Frankenstein (2025) Movie Poster"
+                     class="movie-poster"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22500%22%3E%3Crect width=%22300%22 height=%22500%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23ecf0f1%22 font-size=%2224%22 font-family=%22Arial%22%3EFrankenstein (2025)%3C/text%3E%3C/svg%3E'">
+                <div class="movie-content">
+                    <div class="movie-header">
+                        <div>
+                            <h2 class="movie-title">Frankenstein</h2>
+                            <p class="movie-year">2025</p>
+                        </div>
+                        <div class="imdb-rating">
+                            <span class="star">★</span>
+                            <span>7.6/10</span>
+                        </div>
+                    </div>
+                    <div class="movie-meta">
+                        <strong>Director:</strong> Guillermo del Toro<br>
+                        <strong>Genre:</strong> Drama, Fantasy, Horror
+                    </div>
+                    <p class="movie-plot">
+                        Dr. Victor Frankenstein, a brilliant but egotistical scientist, brings a creature to life in a monstrous
+                        experiment that ultimately leads to the undoing of both the creator and his tragic creation. This adaptation
+                        is based on Mary Shelley's 1818 novel "Frankenstein; or, The Modern Prometheus". Guillermo del Toro brings
+                        his signature gothic visual style to this timeless tale of hubris, creation, and the consequences of playing god.
+                        The film received acclaim particularly for Jacob Elordi's powerful performance as the Creature.
+                    </p>
+                    <div class="movie-cast">
+                        <strong>Cast:</strong> Oscar Isaac (Victor Frankenstein), Jacob Elordi (The Creature), Mia Goth (Elizabeth/Claire),
+                        Christoph Waltz (Henrich Harlander)
+                    </div>
+                    <a href="https://www.imdb.com/title/tt1312221/" target="_blank" class="imdb-link">View on IMDb</a>
+                </div>
+            </div>
+
+            <!-- The Dark Crystal: Age of Resistance -->
+            <div class="movie-card">
+                <img src="https://m.media-amazon.com/images/M/MV5BMjMwOTczODEwOV5BMl5BanBnXkFtZTgwNTg4MDk0NzM@._V1_SX300.jpg"
+                     alt="The Dark Crystal: Age of Resistance Poster"
+                     class="movie-poster"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22500%22%3E%3Crect width=%22300%22 height=%22500%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23ecf0f1%22 font-size=%2220%22 font-family=%22Arial%22%3EThe Dark Crystal:%3C/text%3E%3Ctext x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23ecf0f1%22 font-size=%2220%22 font-family=%22Arial%22%3EAge of Resistance%3C/text%3E%3C/svg%3E'">
+                <div class="movie-content">
+                    <div class="movie-header">
+                        <div>
+                            <h2 class="movie-title">The Dark Crystal: Age of Resistance</h2>
+                            <p class="movie-year">2019 (Netflix Series)</p>
+                        </div>
+                        <div class="imdb-rating">
+                            <span class="star">★</span>
+                            <span>8.4/10</span>
+                        </div>
+                    </div>
+                    <div class="movie-meta">
+                        <strong>Format:</strong> 10-Episode Series<br>
+                        <strong>Genre:</strong> Adventure, Family, Fantasy
+                    </div>
+                    <p class="movie-plot">
+                        This Netflix series returns to the world of Thra, where three Gelfling discover the horrifying secret behind
+                        the Skeksis' power, and set out to ignite the fires of rebellion and save their world. A prequel to the 1982
+                        cult film "The Dark Crystal", this series expands on legendary director Jim Henson's vision. The series chronicles
+                        the lives of three young Gelflings who embark on an adventure after birthing a rebellion against the cruel emperor
+                        Skeksis. Remarkably crafted using traditional puppetry rather than CGI, the series received critical acclaim for its
+                        visuals, storytelling, and faithful continuation of Jim Henson's original masterwork.
+                    </p>
+                    <div class="movie-cast">
+                        <strong>Note:</strong> Features ensemble voice cast with practical puppetry effects<br>
+                        <strong>Released:</strong> August 30, 2019 on Netflix
+                    </div>
+                    <a href="https://www.imdb.com/title/tt6905542/" target="_blank" class="imdb-link">View on IMDb</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>All ratings, information, and content sourced from IMDb</p>
+            <p>© IMDb is a registered trademark of IMDb.com, Inc. or its affiliates</p>
+        </div>
+    </div>
+</body>
+</html>
