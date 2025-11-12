@@ -63,55 +63,8 @@
         .movie-poster {
             width: 100%;
             height: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .poster-us {
-            background: linear-gradient(135deg, #8b0000 0%, #2d0a0a 100%);
-        }
-
-        .poster-frankenstein {
-            background: linear-gradient(135deg, #1a3a1a 0%, #0d1f0d 100%);
-        }
-
-        .poster-crystal {
-            background: linear-gradient(135deg, #4a0e4e 0%, #1a051c 100%);
-        }
-
-        .poster-title {
-            font-size: 3.5em;
-            font-weight: bold;
-            color: #f39c12;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
-            margin-bottom: 15px;
-            z-index: 2;
-        }
-
-        .poster-year {
-            font-size: 1.8em;
-            color: #ecf0f1;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            z-index: 2;
-        }
-
-        .poster-rating {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #f39c12;
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.3em;
-            z-index: 3;
+            object-fit: cover;
+            display: block;
         }
 
         .movie-content {
@@ -232,11 +185,7 @@
         <div class="movies-grid">
             <!-- Us (2019) -->
             <div class="movie-card">
-                <div class="movie-poster poster-us">
-                    <div class="poster-rating">★ 6.8</div>
-                    <div class="poster-title">US</div>
-                    <div class="poster-year">2019</div>
-                </div>
+                <img src="https://tse1.mm.bing.net/th/id/OIP.bv2wssEZbfPIwU8nA3-EgwHaLH" alt="Us (2019) Movie Poster" class="movie-poster">
                 <div class="movie-content">
                     <div class="movie-header">
                         <div>
@@ -268,11 +217,7 @@
 
             <!-- Frankenstein (2025) -->
             <div class="movie-card">
-                <div class="movie-poster poster-frankenstein">
-                    <div class="poster-rating">★ 7.6</div>
-                    <div class="poster-title">FRANKENSTEIN</div>
-                    <div class="poster-year">2025</div>
-                </div>
+                <img src="https://image.tmdb.org/t/p/original/sGwJHNyxz0WkBXHLb0s4zPy9jS1.jpg" alt="Frankenstein (2025) Movie Poster" class="movie-poster">
                 <div class="movie-content">
                     <div class="movie-header">
                         <div>
@@ -305,11 +250,7 @@
 
             <!-- The Dark Crystal: Age of Resistance -->
             <div class="movie-card">
-                <div class="movie-poster poster-crystal">
-                    <div class="poster-rating">★ 8.4</div>
-                    <div class="poster-title" style="font-size: 2.8em;">THE DARK CRYSTAL</div>
-                    <div class="poster-year">Age of Resistance • 2019</div>
-                </div>
+                <img src="https://image.tmdb.org/t/p/original/rEkTkEgrk3VeyxSfhhnHkdanmIw.jpg" alt="The Dark Crystal: Age of Resistance Poster" class="movie-poster">
                 <div class="movie-content">
                     <div class="movie-header">
                         <div>
