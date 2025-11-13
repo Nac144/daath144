@@ -322,7 +322,7 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 140px); /* Reduced further - slimmer DMN menu */
+            height: 100vh;
             flex-shrink: 0;
         }
 
