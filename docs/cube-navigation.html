@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>◈ CUBE NAVIGATION ◈</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Courier New', monospace;
+      color: #00ff88;
+    }
+
+    .nav-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+        linear-gradient(0deg, #000 0%, #0a0a0a 100%);
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        text-shadow: 0 0 20px rgba(0, 255, 136, 0.8), 0 0 40px rgba(0, 255, 136, 0.4);
+      }
+      50% {
+        text-shadow: 0 0 30px rgba(0, 255, 136, 1), 0 0 60px rgba(0, 255, 136, 0.6);
+      }
+    }
+
+    .main-title {
+      font-size: 48px;
+      font-weight: bold;
+      color: #00ff88;
+      letter-spacing: 6px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .sub-title {
+      font-size: 14px;
+      color: rgba(0, 255, 136, 0.7);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .link-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 40, 20, 0.7));
+      border: 2px solid rgba(0, 255, 136, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 255, 136, 0.1);
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .link-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(0, 255, 136, 0.8);
+      box-shadow: 0 8px 40px rgba(0, 255, 136, 0.4);
+    }
+
+    .link-card:hover::before {
+      opacity: 1;
+    }
+
+    .link-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.6));
+    }
+
+    .link-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00ff88;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+
+    .link-description {
+      font-size: 11px;
+      color: rgba(0, 255, 136, 0.6);
+      line-height: 1.6;
+      letter-spacing: 1px;
+    }
+
+    .matrix-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.1;
+    }
+
+    .scan-line {
+      position: fixed;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00ff88, transparent);
+      animation: scan 8s linear infinite;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.3;
+    }
+
+    @keyframes scan {
+      0% { top: 0%; }
+      100% { top: 100%; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 32px;
+        letter-spacing: 3px;
+      }
+
+      .links-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .link-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scan-line"></div>
+
+  <div class="nav-container">
+    <div class="header-section">
+      <div class="main-title">◈ CUBE NAVIGATION ◈</div>
+      <div class="sub-title">Consciousness Architecture Portal</div>
+    </div>
+
+    <div class="links-grid">
+      <div class="link-card" onclick="parent.loadPageFromExternal('phi-null-main.html')">
+        <span class="link-icon">φ</span>
+        <div class="link-title">φ-NULL MAIN</div>
+        <div class="link-description">Primary consciousness interface | Null point observation</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('ego-virus-scanner.html')">
+        <span class="link-icon">🦠</span>
+        <div class="link-title">EGO VIRUS SCANNER</div>
+        <div class="link-description">DMN detection protocol | Self-narrative analysis</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('ai-deflection.html')">
+        <span class="link-icon">🤖</span>
+        <div class="link-title">AI DEFLECTION</div>
+        <div class="link-description">Epistemic judo | Frame collapse mechanics</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('idiot-protocol.html')">
+        <span class="link-icon">🧠💀</span>
+        <div class="link-title">IDIOT PROTOCOL</div>
+        <div class="link-description">Cognitive loop detection | Tribal optimization patterns</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('cosmic-paradox.html')">
+        <span class="link-icon">🌌🖤</span>
+        <div class="link-title">COSMIC PARADOX</div>
+        <div class="link-description">Event stacking impossibility | Reality contradiction analysis</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('recursive-masterclass.html')">
+        <span class="link-icon">🎯🔄</span>
+        <div class="link-title">RECURSIVE TRAP</div>
+        <div class="link-description">Loop mechanics | Self-referential collapse patterns</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('the-parasite-revealed.html')">
+        <span class="link-icon">🩸💀</span>
+        <div class="link-title">THE PARASITE</div>
+        <div class="link-description">Identity virus architecture | Ego infection vectors</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('the-framework.html')">
+        <span class="link-icon">⬛</span>
+        <div class="link-title">THE FRAMEWORK</div>
+        <div class="link-description">Structural control grid | Reality construction protocols</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('moon-dna-probability.html')">
+        <span class="link-icon">🌙🧬</span>
+        <div class="link-title">GAVEL</div>
+        <div class="link-description">Impossibility stacking | Moon + DNA + consciousness = 0%</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('saturn-matrix.html')">
+        <span class="link-icon">♄</span>
+        <div class="link-title">SATURN KING</div>
+        <div class="link-description">Time prison architecture | Chronological control systems</div>
+      </div>
+
+      <div class="link-card" onclick="parent.loadPageFromExternal('virus-themology.html')">
+        <span class="link-icon">🦠</span>
+        <div class="link-title">VIRUS PROTOCOL</div>
+        <div class="link-description">Observation mode | The seeing is not infected</div>
+      </div>
+    </div>
+  </div>
+
+  <canvas class="matrix-effect" id="matrix"></canvas>
+
+  <script>
+    // Subtle matrix background effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01φψ∞◈';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'rgba(0, 255, 136, 0.3)';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>

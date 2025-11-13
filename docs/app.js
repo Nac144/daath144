@@ -579,3 +579,22 @@
         })();
 
         // Consciousness Cube Simulator - Clean minimal display (no coordinate updates)
+
+        // Navigation functions for cube-navigation.html
+        function loadNavigationPage() {
+            // Load the navigation page in all iframes
+            const activeStyle = document.querySelector('.menu-container.active');
+            const iframe = activeStyle.querySelector('iframe');
+            if (iframe) {
+                iframe.src = 'cube-navigation.html';
+            }
+        }
+
+        function loadPageFromExternal(page) {
+            // Called from within cube-navigation.html to load a specific page
+            const activeStyle = document.querySelector('.menu-container.active');
+            const iframe = activeStyle.querySelector('iframe');
+            if (iframe) {
+                iframe.src = page;
+            }
+        }
