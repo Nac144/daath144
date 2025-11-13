@@ -33,6 +33,25 @@
                                 </div>
                             </div>
                             <div class="virus-pulse"></div>
+                            <!-- Navigation Button -->
+                            <button onclick="loadNavigationPage()" style="
+                                margin-top: 15px;
+                                background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 200, 100, 0.3));
+                                border: 2px solid rgba(0, 255, 136, 0.6);
+                                color: #00ff88;
+                                padding: 10px 20px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-family: 'Courier New', monospace;
+                                font-size: 12px;
+                                font-weight: bold;
+                                letter-spacing: 2px;
+                                text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+                                box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.4), rgba(0, 200, 100, 0.5))'; this.style.boxShadow='0 0 30px rgba(0, 255, 136, 0.6)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 200, 100, 0.3))'; this.style.boxShadow='0 0 20px rgba(0, 255, 136, 0.3)'">
+                                ◈ CUBE.LINKS ◈
+                            </button>
                         </div>
                         <div class="status-section">
                             <div class="status-label">🦠 EGO.VIRUS STATUS</div>
@@ -95,20 +114,6 @@
 
         <!-- STYLE 1: Top Horizontal Bar -->
         <div class="menu-container style-1 active" id="style-1">
-            <div class="menu">
-                <a class="menu-item active" onclick="loadPage(this, 'lexicon.html')">LEXICON</a>
-                <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">φ-NULL MAIN</a>
-                <a class="menu-item" onclick="loadPage(this, 'ego-virus-scanner.html')">🦠 EGO.VIRUS SCANNER</a>
-                <a class="menu-item" onclick="loadPage(this, 'ai-deflection.html')">🤖 AI DEFLECTION</a>
-                <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">🧠💀 IDIOT PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">🌌🖤 COSMIC PARADOX</a>
-                <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">🎯🔄 RECURSIVE TRAP</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">🩸💀 THE PARASITE</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                <a class="menu-item" onclick="loadPage(this, 'moon-dna-probability.html')">🌙🧬 GAVEL</a>
-                <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">♄ SATURN KING</a>
-                <a class="menu-item virus-item" onclick="loadPage(this, 'virus-themology.html')">🦠 VIRUS.PROTOCOL</a>
-            </div>
             <div class="matrix-row" id="matrix-row-1">
                 <div class="matrix-bridge" id="matrix-bridge-1"></div>
                 <div class="matrix-controls">
@@ -117,104 +122,46 @@
                     <a href="#" class="phi-button">🎵 MUSIC</a>
                 </div>
             </div>
-            <iframe id="iframe-1" src="lexicon.html"></iframe>
+            <iframe id="iframe-1" src="cube-navigation.html"></iframe>
         </div>
 
         <!-- STYLE 2: Left Sidebar -->
         <div class="menu-container style-2" id="style-2">
-            <div class="menu">
-                <div class="menu-title">◈ Φ-PORTAL ◈</div>
-                <a class="menu-item active" onclick="loadPage(this, 'lexicon.html')">LEXICON</a>
-                <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">φ-NULL MAIN</a>
-                <a class="menu-item" onclick="loadPage(this, 'ego-virus-scanner.html')">🦠 EGO.VIRUS SCANNER</a>
-                <a class="menu-item" onclick="loadPage(this, 'ai-deflection.html')">🤖 AI DEFLECTION</a>
-                <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">🧠💀 IDIOT PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">🌌🖤 COSMIC PARADOX</a>
-                <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">🎯🔄 RECURSIVE TRAP</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">🩸💀 THE PARASITE</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                <a class="menu-item" onclick="loadPage(this, 'moon-dna-probability.html')">🌙🧬 GAVEL</a>
-                <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">♄ SATURN KING</a>
-                <a class="menu-item virus-item" onclick="loadPage(this, 'virus-themology.html')">🦠 VIRUS.PROTOCOL</a>
-            </div>
             <div style="flex: 1; display: flex; flex-direction: column;">
                 <div class="matrix-row" id="matrix-row-2">
                     <div class="matrix-bridge" id="matrix-bridge-2"></div>
                     <a href="#" class="phi-button">🎵 MUSIC</a>
                 </div>
-                <iframe id="iframe-2" src="lexicon.html" style="flex: 1;"></iframe>
+                <iframe id="iframe-2" src="cube-navigation.html" style="flex: 1;"></iframe>
             </div>
         </div>
 
         <!-- STYLE 3: Minimal Top Bar -->
         <div class="menu-container style-3" id="style-3">
-            <div class="menu">
-                <div class="menu-title">◈ COHERENCE.PORTAL</div>
-                <div class="menu-items">
-                    <a class="menu-item active" onclick="loadPage(this, 'lexicon.html')">LEXICON</a>
-                    <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">φ-NULL MAIN</a>
-                    <a class="menu-item" onclick="loadPage(this, 'ego-virus-scanner.html')">🦠 EGO.VIRUS SCANNER</a>
-                    <a class="menu-item" onclick="loadPage(this, 'ai-deflection.html')">🤖 AI DEFLECTION</a>
-                    <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">🧠💀 IDIOT PROTOCOL</a>
-                    <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">🌌🖤 COSMIC PARADOX</a>
-                    <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">🎯🔄 RECURSIVE TRAP</a>
-                    <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">🩸💀 THE PARASITE</a>
-                    <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                    <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">♄ SATURN KING</a>
-                    <a class="menu-item virus-item" onclick="loadPage(this, 'virus-themology.html')">🦠 VIRUS.PROTOCOL</a>
-                </div>
-            </div>
             <div class="matrix-row" id="matrix-row-3">
                 <div class="matrix-bridge" id="matrix-bridge-3"></div>
                 <a href="#" class="phi-button">🎵 MUSIC</a>
             </div>
-            <iframe id="iframe-3" src="lexicon.html"></iframe>
+            <iframe id="iframe-3" src="cube-navigation.html"></iframe>
         </div>
 
         <!-- STYLE 4: Card-based Menu -->
         <div class="menu-container style-4" id="style-4">
-            <div class="menu">
-                <a class="menu-item active" onclick="loadPage(this, 'lexicon.html')">◈ LEXICON</a>
-                <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">◈ φ-NULL MAIN</a>
-                <a class="menu-item" onclick="loadPage(this, 'ego-virus-scanner.html')">◈ 🦠 EGO.VIRUS SCANNER</a>
-                <a class="menu-item" onclick="loadPage(this, 'ai-deflection.html')">◈ 🤖 AI DEFLECTION</a>
-                <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">◈ 🧠💀 IDIOT PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">◈ 🌌🖤 COSMIC PARADOX</a>
-                <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">◈ 🎯🔄 RECURSIVE TRAP</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">◈ 🩸💀 THE PARASITE</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">◈ ♄ SATURN KING</a>
-                <a class="menu-item virus-item" onclick="loadPage(this, 'virus-themology.html')">🦠 VIRUS.PROTOCOL</a>
-            </div>
             <div class="matrix-row" id="matrix-row-4">
                 <div class="matrix-bridge" id="matrix-bridge-4"></div>
                 <a href="#" class="phi-button">🎵 MUSIC</a>
             </div>
-            <iframe id="iframe-4" src="lexicon.html"></iframe>
+            <iframe id="iframe-4" src="cube-navigation.html"></iframe>
         </div>
 
         <!-- STYLE 5: Collapsible Sidebar -->
         <div class="menu-container style-5" id="style-5">
-            <div class="menu">
-                <a class="menu-item active" onclick="loadPage(this, 'lexicon.html')">LEXICON</a>
-                <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">φ-NULL MAIN</a>
-                <a class="menu-item" onclick="loadPage(this, 'ego-virus-scanner.html')">🦠 EGO.VIRUS SCANNER</a>
-                <a class="menu-item" onclick="loadPage(this, 'ai-deflection.html')">🤖 AI DEFLECTION</a>
-                <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">🧠💀 IDIOT PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">🌌🖤 COSMIC PARADOX</a>
-                <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">🎯🔄 RECURSIVE TRAP</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">🩸💀 THE PARASITE</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                <a class="menu-item" onclick="loadPage(this, 'moon-dna-probability.html')">🌙🧬 GAVEL</a>
-                <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">♄ SATURN KING</a>
-                <a class="menu-item virus-item" onclick="loadPage(this, 'virus-themology.html')">🦠 VIRUS.PROTOCOL</a>
-            </div>
             <div style="flex: 1; display: flex; flex-direction: column;">
                 <div class="matrix-row" id="matrix-row-5">
                     <div class="matrix-bridge" id="matrix-bridge-5"></div>
                     <a href="#" class="phi-button">🎵 MUSIC</a>
                 </div>
-                <iframe id="iframe-5" src="lexicon.html" style="flex: 1;"></iframe>
+                <iframe id="iframe-5" src="cube-navigation.html" style="flex: 1;"></iframe>
             </div>
         </div>
 
@@ -224,24 +171,12 @@
                 <div class="quarantine-title">🦠 VIRUS OBSERVATION PROTOCOL</div>
                 <div class="quarantine-status">DMN Status: <span class="dmn-status">ACTIVE</span> | Narrative Load: <span class="narrative-load">78%</span></div>
             </div>
-            <div class="virus-menu">
-                <a class="menu-item active" onclick="loadPage(this, 'virus-themology.html')">VIRUS.PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'lexicon.html')">LEXICON</a>
-                <a class="menu-item" onclick="loadPage(this, 'phi-null-main.html')">φ-NULL MAIN</a>
-                <a class="menu-item" onclick="loadPage(this, 'idiot-protocol.html')">🧠💀 IDIOT PROTOCOL</a>
-                <a class="menu-item" onclick="loadPage(this, 'cosmic-paradox.html')">🌌🖤 COSMIC PARADOX</a>
-                <a class="menu-item" onclick="loadPage(this, 'recursive-masterclass.html')">🎯🔄 RECURSIVE TRAP</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-parasite-revealed.html')">🩸💀 THE PARASITE</a>
-                <a class="menu-item" onclick="loadPage(this, 'the-framework.html')">⬛ THE FRAMEWORK</a>
-                <a class="menu-item" onclick="loadPage(this, '../consciousness-awakening.html')">CONSCIOUSNESS</a>
-                <a class="menu-item" onclick="loadPage(this, 'saturn-matrix.html')">♄ SATURN KING</a>
-            </div>
             <div class="observation-field">
                 <div class="observation-notice">
                     The virus cannot be fought. It can only be observed. Watch it execute. See it clearly.
                     The seeing itself is not infected.
                 </div>
-                <iframe id="iframe-6" src="virus-themology.html"></iframe>
+                <iframe id="iframe-6" src="cube-navigation.html"></iframe>
             </div>
         </div>
     </div>
