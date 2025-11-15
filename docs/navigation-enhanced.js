@@ -119,6 +119,15 @@
             category: 'Core'
         },
         {
+            id: 'linguistic-spells',
+            file: 'linguistic-spells.html',
+            title: 'LINGUISTIC SPELLS',
+            icon: '📜🔮',
+            description: 'Word inversions | Priesthood gatekeeping | Etymology as archaeology',
+            keywords: ['language', 'spell', 'spelling', 'inversion', 'wild', 'villain', 'pagan', 'heathen', 'latin', 'priesthood', 'literacy', 'etymology', 'meaning'],
+            category: 'Core'
+        },
+        {
             id: 'cube-navigation',
             file: 'cube-navigation.html',
             title: 'CUBE NAVIGATION',
