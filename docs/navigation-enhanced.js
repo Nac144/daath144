@@ -128,6 +128,15 @@
             category: 'Core'
         },
         {
+            id: 'false-humility',
+            file: 'false-humility.html',
+            title: 'FALSE HUMILITY',
+            icon: '⚔️🎭',
+            description: 'Dominance restrained vs powerlessness camouflaged | The sword test',
+            keywords: ['humility', 'false', 'power', 'dominance', 'sword', 'makaveli', 'weakness', 'virtue', 'submission', 'fear', 'modesty', 'obedience'],
+            category: 'Core'
+        },
+        {
             id: 'cube-navigation',
             file: 'cube-navigation.html',
             title: 'CUBE NAVIGATION',
