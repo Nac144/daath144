@@ -16,57 +16,54 @@
     <div class="container">
         <!-- Compact Header: Floating Compartments -->
         <div class="compact-header">
-            <!-- Left Control Panel -->
+            <!-- Horizontal Control Panel -->
             <div class="control-panel">
                 <div class="panel-title">◈ SYSTEM CONTROL ◈</div>
 
-                <!-- Navigation Button -->
-                <button onclick="loadNavigationPage()" class="nav-button">
-                    ⚡ NAVIGATION
-                </button>
+                <div class="control-grid">
+                    <!-- Music Portal Button -->
+                    <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button">
+                        🎵 MUSIC
+                    </button>
 
-                <!-- Music Portal Button -->
-                <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button">
-                    🎵 MUSIC PORTAL
-                </button>
+                    <!-- Color Scheme -->
+                    <div class="control-row">
+                        <label for="colorScheme">COLOR:</label>
+                        <select id="colorScheme" onchange="changeColorScheme(this.value)">
+                            <option value="1">Matrix Green</option>
+                            <option value="2">Blue Cyber</option>
+                            <option value="3">Fire Red</option>
+                            <option value="4">Purple Neon</option>
+                            <option value="5">Gold</option>
+                            <option value="6">Silver</option>
+                            <option value="7">Orange/Teal</option>
+                            <option value="8">Lime/Magenta</option>
+                            <option value="9">Aqua/Coral</option>
+                            <option value="10">Emerald/Ruby</option>
+                            <option value="11">HELL RED</option>
+                            <option value="12">Virus Green</option>
+                            <option value="13">White Simulacra</option>
+                        </select>
+                    </div>
 
-                <!-- Color Scheme -->
-                <div class="control-row">
-                    <label for="colorScheme">COLOR:</label>
-                    <select id="colorScheme" onchange="changeColorScheme(this.value)">
-                        <option value="1">Matrix Green</option>
-                        <option value="2">Blue Cyber</option>
-                        <option value="3">Fire Red</option>
-                        <option value="4">Purple Neon</option>
-                        <option value="5">Gold</option>
-                        <option value="6">Silver</option>
-                        <option value="7">Orange/Teal</option>
-                        <option value="8">Lime/Magenta</option>
-                        <option value="9">Aqua/Coral</option>
-                        <option value="10">Emerald/Ruby</option>
-                        <option value="11">HELL RED</option>
-                        <option value="12">Virus Green</option>
-                        <option value="13">White Simulacra</option>
-                    </select>
-                </div>
+                    <!-- Bitrate Display -->
+                    <div class="status-row">
+                        <span class="status-label">BITRATE:</span>
+                        <span class="bitrate-value">10^9</span>
+                        <span class="status-unit">bits/s</span>
+                    </div>
 
-                <!-- Bitrate Display -->
-                <div class="status-row">
-                    <span class="status-label">BITRATE:</span>
-                    <span class="bitrate-value">10^9</span>
-                    <span class="status-unit">bits/s</span>
-                </div>
+                    <!-- System Status -->
+                    <div class="status-row">
+                        <span class="status-label">STATUS:</span>
+                        <span class="status-active">ONLINE</span>
+                    </div>
 
-                <!-- System Status -->
-                <div class="status-row">
-                    <span class="status-label">STATUS:</span>
-                    <span class="status-active">ONLINE</span>
-                </div>
-
-                <!-- DMN Status -->
-                <div class="status-row">
-                    <span class="status-label">DMN:</span>
-                    <span class="status-offline">OFFLINE</span>
+                    <!-- DMN Status -->
+                    <div class="status-row">
+                        <span class="status-label">DMN:</span>
+                        <span class="status-offline">OFFLINE</span>
+                    </div>
                 </div>
             </div>
 
