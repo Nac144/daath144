@@ -101,6 +101,36 @@
             </div>
         </div>
 
+        <!-- Live Data Panel -->
+        <div class="live-data-panel">
+            <div class="data-title">◈ LIVE MATRIX DATA ◈</div>
+            <div class="data-grid">
+                <div class="data-item">
+                    <span class="data-icon">🌙</span>
+                    <span class="data-label">MOON:</span>
+                    <span class="data-value" id="moonPhase">Loading...</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-icon">⏱️</span>
+                    <span class="data-label">UNIX:</span>
+                    <span class="data-value" id="unixTime">Loading...</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-icon">👥</span>
+                    <span class="data-label">POPULATION:</span>
+                    <span class="data-value" id="population">Loading...</span>
+                </div>
+
+                <div class="data-item">
+                    <span class="data-icon">₿</span>
+                    <span class="data-label">BTC:</span>
+                    <span class="data-value" id="btcPrice">Loading...</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content Frame -->
         <div class="menu-container style-1 active" id="style-1">
             <div class="matrix-row" id="matrix-row-1">
@@ -245,5 +275,6 @@
 
     <script src="app.js"></script>
     <script src="navigation-enhanced.js"></script>
+    <script src="live-data.js"></script>
 </body>
 </html>
