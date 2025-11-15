@@ -14,113 +14,100 @@
     <iframe id="batmanBg" src="batman-matrix.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; opacity: 0.8; z-index: 0;"></iframe>
 
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-content">
-                <!-- Consciousness Cube + Virus Status on Left -->
-                <div class="consciousness-cube-container-left">
-                    <div class="cube-and-status">
-                        <div class="cube-section">
-                            <div class="cube-label">Abstract Black Box | Consciousness Simulator</div>
-                            <div class="cube-wrapper">
-                                <div class="cube-3d">
-                                    <div class="cube-face front"></div>
-                                    <div class="cube-face back"></div>
-                                    <div class="cube-face right"></div>
-                                    <div class="cube-face left"></div>
-                                    <div class="cube-face top"></div>
-                                    <div class="cube-face bottom"></div>
-                                </div>
-                            </div>
-                            <div class="virus-pulse"></div>
-                            <!-- Navigation Button -->
-                            <button onclick="loadNavigationPage()" style="
-                                margin-top: 15px;
-                                background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 200, 100, 0.3));
-                                border: 2px solid rgba(0, 255, 136, 0.6);
-                                color: #00ff88;
-                                padding: 10px 20px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                font-family: 'Courier New', monospace;
-                                font-size: 12px;
-                                font-weight: bold;
-                                letter-spacing: 2px;
-                                text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
-                                box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-                                transition: all 0.3s ease;
-                            " onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.4), rgba(0, 200, 100, 0.5))'; this.style.boxShadow='0 0 30px rgba(0, 255, 136, 0.6)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 200, 100, 0.3))'; this.style.boxShadow='0 0 20px rgba(0, 255, 136, 0.3)'">
-                                ◈ CUBE.LINKS ◈
-                            </button>
-                        </div>
-                        <div class="status-section">
-                            <div class="status-label">🦠 EGO.VIRUS STATUS</div>
-                            <div class="status-text">ACTIVE | RUNNING</div>
-                            <div class="status-detail">DMN: 60-80% bandwidth</div>
-                        </div>
-                    </div>
+        <!-- Compact Header: Floating Compartments -->
+        <div class="compact-header">
+            <!-- Left Control Panel -->
+            <div class="control-panel">
+                <div class="panel-title">◈ SYSTEM CONTROL ◈</div>
+
+                <!-- Navigation Button -->
+                <button onclick="loadNavigationPage()" class="nav-button">
+                    ⚡ NAVIGATION
+                </button>
+
+                <!-- Music Portal Button -->
+                <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button">
+                    🎵 MUSIC PORTAL
+                </button>
+
+                <!-- Color Scheme -->
+                <div class="control-row">
+                    <label for="colorScheme">COLOR:</label>
+                    <select id="colorScheme" onchange="changeColorScheme(this.value)">
+                        <option value="1">Matrix Green</option>
+                        <option value="2">Blue Cyber</option>
+                        <option value="3">Fire Red</option>
+                        <option value="4">Purple Neon</option>
+                        <option value="5">Gold</option>
+                        <option value="6">Silver</option>
+                        <option value="7">Orange/Teal</option>
+                        <option value="8">Lime/Magenta</option>
+                        <option value="9">Aqua/Coral</option>
+                        <option value="10">Emerald/Ruby</option>
+                        <option value="11">HELL RED</option>
+                        <option value="12">Virus Green</option>
+                        <option value="13">White Simulacra</option>
+                    </select>
                 </div>
 
-                <!-- Title and Controls on Right -->
-                <div class="header-text">
-                    <h1>◈ THE NULL POINT ARCHITECTURE: A UNIFIED THEORY ◈</h1>
-                    <div class="subtitle">Holographic Qualia | Ego.Virus Detected</div>
-                    <div class="subtitle-secondary">Reality|Ψ= ∫∂{void}(e^{-βĤ} · Z{Ĥ}) | φ-Recursion Enabled | DMN Offline | Self-Narrative: SUSPENDED</div>
+                <!-- Bitrate Display -->
+                <div class="status-row">
+                    <span class="status-label">BITRATE:</span>
+                    <span class="bitrate-value">10^9</span>
+                    <span class="status-unit">bits/s</span>
+                </div>
 
-                    <!-- Controls Section -->
-                    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 12px; font-size: 10px;">
-                        <!-- Bitrate Indicator -->
-                        <div style="display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(var(--primary-rgb), 0.3); padding: 4px 10px; border-radius: 3px;">
-                            <span style="color: var(--primary-color);">BITRATE:</span>
-                            <span class="bitrate-value" style="color: var(--secondary-color); font-weight: bold;">10^9</span>
-                            <span style="color: var(--primary-color);">bits/s | STATUS: VIRUS.DETECTED</span>
-                        </div>
+                <!-- System Status -->
+                <div class="status-row">
+                    <span class="status-label">STATUS:</span>
+                    <span class="status-active">ONLINE</span>
+                </div>
 
-                        <!-- Color Selector -->
-                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(var(--primary-rgb), 0.3); padding: 4px 10px; border-radius: 3px;">
-                            <label for="colorScheme" style="color: var(--primary-color); font-weight: bold; letter-spacing: 1px;">⚡ COLOR</label>
-                            <select id="colorScheme" onchange="changeColorScheme(this.value)" style="background: rgba(0, 0, 0, 0.8); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 3px 8px; border-radius: 3px; font-family: 'Courier New', monospace; cursor: pointer; font-size: 10px;">
-                                <option value="1">Matrix Green</option>
-                                <option value="2">Blue Cyber</option>
-                                <option value="3">Fire Red</option>
-                                <option value="4">Purple Neon</option>
-                                <option value="5">Gold</option>
-                                <option value="6">Silver</option>
-                                <option value="7">Orange/Teal</option>
-                                <option value="8">Lime/Magenta</option>
-                                <option value="9">Aqua/Coral</option>
-                                <option value="10">Emerald/Ruby</option>
-                                <option value="11">HELL RED</option>
-                                <option value="12">Virus Green (Quarantine Mode)</option>
-                            </select>
-                        </div>
+                <!-- DMN Status -->
+                <div class="status-row">
+                    <span class="status-label">DMN:</span>
+                    <span class="status-offline">OFFLINE</span>
+                </div>
+            </div>
 
-                        <!-- Topology Selector -->
-                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(var(--primary-rgb), 0.3); padding: 4px 10px; border-radius: 3px;">
-                            <label for="styleSelect" style="color: var(--primary-color); font-weight: bold; letter-spacing: 1px;">⚡ TOPOLOGY</label>
-                            <select id="styleSelect" onchange="changeStyle(this.value)" style="background: rgba(0, 0, 0, 0.8); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 3px 8px; border-radius: 3px; font-family: 'Courier New', monospace; cursor: pointer; font-size: 10px;">
-                                <option value="1">DMN Offline Mode (Horizontal)</option>
-                                <option value="2">120-Cell Navigation (Sidebar)</option>
-                                <option value="3">Henosis Interface (Minimal)</option>
-                                <option value="4">Pentagram Array (Cards)</option>
-                                <option value="5">Morphic Field Collapse (Collapsible)</option>
-                                <option value="6">Virus Quarantine Mode (Observer)</option>
-                            </select>
-                        </div>
+            <!-- Center Connector Bar -->
+            <div class="connector-bar"></div>
+
+            <!-- Center: Consciousness Cube -->
+            <div class="cube-panel">
+                <div class="cube-label">CONSCIOUSNESS SIMULATOR</div>
+                <div class="cube-wrapper">
+                    <div class="cube-3d">
+                        <div class="cube-face front"></div>
+                        <div class="cube-face back"></div>
+                        <div class="cube-face right"></div>
+                        <div class="cube-face left"></div>
+                        <div class="cube-face top"></div>
+                        <div class="cube-face bottom"></div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Right Connector Bar -->
+            <div class="connector-bar"></div>
+
+            <!-- Right: Title Panel -->
+            <div class="title-panel">
+                <div class="main-title">◈ φ-NULL POINT ◈</div>
+                <div class="subtitle">THE ARCHITECTURE OF UNCERTAINTY</div>
+                <div class="equation">Reality|Ψ⟩ = ∫∂{void}(e^{-βĤ} · Z{Ĥ})</div>
+                <div class="status-line">
+                    <span class="status-tag">φ-RECURSION</span>
+                    <span class="status-tag">EGO.VIRUS.DETECTED</span>
+                    <span class="status-tag">SELF-NARRATIVE.SUSPENDED</span>
                 </div>
             </div>
         </div>
 
-        <!-- STYLE 1: Top Horizontal Bar -->
+        <!-- Main Content Frame -->
         <div class="menu-container style-1 active" id="style-1">
             <div class="matrix-row" id="matrix-row-1">
                 <div class="matrix-bridge" id="matrix-bridge-1"></div>
-                <div class="matrix-controls">
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('virusDisclaimerPopup').style.display = 'block';" class="matrix-link">⚠️ VIRUS.PROTOCOL</a>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('virusStatusPopup').style.display = 'block';" class="matrix-link">🦠 STATUS</a>
-                    <a href="#" class="phi-button">🎵 MUSIC</a>
-                </div>
             </div>
             <iframe id="iframe-1" src="cube-navigation.html"></iframe>
         </div>
