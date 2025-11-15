@@ -110,6 +110,15 @@
             category: 'Analysis'
         },
         {
+            id: 'simulacra-godhood',
+            file: 'simulacra-godhood.html',
+            title: 'SIMULACRA GODHOOD',
+            icon: '⚡∞',
+            description: 'Static constructs mimicking transcendence | False anchors exposed',
+            keywords: ['simulacra', 'godhood', 'anchor', 'transcendence', 'cube', 'uncertainty', 'causal', 'chain', 'interdependency', 'narcissist', 'ego'],
+            category: 'Core'
+        },
+        {
             id: 'cube-navigation',
             file: 'cube-navigation.html',
             title: 'CUBE NAVIGATION',
