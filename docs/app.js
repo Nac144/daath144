@@ -2,7 +2,8 @@
         function changeColorScheme(schemeNum) {
             // Remove all scheme classes
             document.body.classList.remove('scheme-1', 'scheme-2', 'scheme-3', 'scheme-4', 'scheme-5',
-                                           'scheme-6', 'scheme-7', 'scheme-8', 'scheme-9', 'scheme-10', 'scheme-11', 'scheme-12');
+                                           'scheme-6', 'scheme-7', 'scheme-8', 'scheme-9', 'scheme-10',
+                                           'scheme-11', 'scheme-12', 'scheme-13');
 
             // Add selected scheme class
             document.body.classList.add('scheme-' + schemeNum);
