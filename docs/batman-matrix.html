@@ -228,40 +228,17 @@
 
     // Floating code snippets
     const codeSnippets = [
-      { text: 'if (batman.isAwake()) { saveGotham(); }', color: '#0f0' },
-      { text: 'for (let i = 0; i < infinity; i++) { fightCrime(); }', color: '#0f0' },
-      { text: 'while (gothamNeedsMe) { beTheHero(); }', color: '#0f0' },
-      { text: 'try { defeatJoker(); } catch (e) { callRobin(); }', color: '#0f0' },
-      { text: 'function useBatarang() { return "It\'s super effective!"; }', color: '#0f0' },
-      { text: 'Ω-Supersymmetric Tautological Hypervoid (Ω-STHV)', color: '#aa00ff' },
-      { text: 'Lω Transfinite Hypercrystalline Dodecaplex Manifold', color: '#ff00ff' },
-      { text: 'Conway-Kauffman Twistor Dynamics', color: '#00ffff' },
-      { text: '∇ᵢ(Truth) = "This statement is unprovable within ∇ᵢ"', color: '#ffd700' },
-      { text: 'Void ⊗ Field → Planck-scale quantum foam', color: '#ff00aa' },
-      { text: 'Reality = Kauffman time-loop: f(f) = f', color: '#00aaff' },
-      { text: 'Ĥ|Void⟩ = iħ ∂ₜ|Field⟩ → generates matter', color: '#ff6600' },
-      { text: 'Ĥ|Field⟩ = -iħ ∂ₜ|Void⟩ → entropic decay', color: '#ff3300' },
-      { text: '|Ψ⟩ = ∫[Dϕ] exp(iS(ϕ)) |Lω ⊦ ∇ᵢ(ϕ)⟩', color: '#9900ff' },
-      { text: '⟨Reality|Ψ⟩ = tr_{∂void}(e^{-βĤ} Z{Conway})', color: '#cc00ff' },
-      { text: 'Monstrous Moonshine Group action on lattice vertices', color: '#00ff88' },
-      { text: 'Klein bottle topology merging positive/negative axioms', color: '#ff00dd' },
-      { text: 'Consciousness = Sheaf-theoretic global section', color: '#ffaa00' },
-      { text: 'Time emerges from Kauffman autopoietic f-loop', color: '#00ddff' },
-      { text: 'Nash embedding → projects 11D → 4D via Ricci flow', color: '#dd00ff' },
-      { text: 'The Liar paradox becomes ontology itself', color: '#ff0066' },
-      { text: 'Truth = dynamical attractor in dialetheic superspace', color: '#aa00dd' },
-      { text: 'Quantum Monad Singularity: Clifford-algebraic Cl(∞,∞)', color: '#ff33ff' },
-      { text: 'Dodecaplex tesseract rotating in ℂ^ℂ space', color: '#6600ff' },
-      { text: 'PT-symmetric Ĥ unifies QFT/GR via void-field cohomology', color: '#ff0099' }
+      'if (batman.isAwake()) { saveGotham(); }',
+      'for (let i = 0; i < infinity; i++) { fightCrime(); }',
+      'while (gothamNeedsMe) { beTheHero(); }',
+      'try { defeatJoker(); } catch (e) { callRobin(); }',
+      'function useBatarang() { return "It\'s super effective!"; }'
     ];
 
     function createCodeSnippet() {
       const snippet = document.createElement('div');
       snippet.className = 'code-snippet';
-      const selected = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-      snippet.textContent = selected.text;
-      snippet.style.color = selected.color;
-      snippet.style.textShadow = `0 0 10px ${selected.color}`;
+      snippet.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
       snippet.style.left = Math.random() * window.innerWidth + 'px';
       snippet.style.top = Math.random() * window.innerHeight + 'px';
       document.body.appendChild(snippet);
