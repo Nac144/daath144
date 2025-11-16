@@ -238,9 +238,13 @@
     </div>
 
     <!-- Breadcrumb Navigation -->
-    <div id="breadcrumbNav" class="breadcrumb-nav" style="display: none;">
+    <div id="breadcrumbNav" class="breadcrumb-nav">
         <span class="breadcrumb-icon">◈</span>
-        <div id="breadcrumbPath" class="breadcrumb-path"></div>
+        <div id="breadcrumbPath" class="breadcrumb-path">
+            <span class="breadcrumb-item" onclick="loadPageFromExternal('cube-navigation.html')">NAVIGATION</span>
+            <span class="breadcrumb-separator">→</span>
+            <span class="breadcrumb-current">CUBE NAVIGATION</span>
+        </div>
     </div>
 
     <script src="app.js"></script>
