@@ -1557,13 +1557,14 @@
            BREADCRUMB NAVIGATION - PURPLE PERSISTENT
            ======================================== */
         .breadcrumb-nav-persistent {
-            position: relative;
-            margin: 0 0 0 8px;
+            position: absolute;
+            top: 28px;
+            left: 8px;
             background: rgba(0, 0, 0, 0.9);
             border: 1px solid rgba(0, 255, 136, 0.4);
             border-radius: 4px;
             padding: 4px 10px;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 6px;
             z-index: 10003;
@@ -1572,7 +1573,6 @@
             font-size: 9px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: fit-content;
         }
 
         .breadcrumb-nav-persistent:hover {
