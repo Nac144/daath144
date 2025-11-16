@@ -185,6 +185,9 @@
                 return;
             }
 
+            // Start minimized
+            this.element.classList.add('minimized');
+
             // Event listeners
             this.input.addEventListener('keydown', (e) => this.handleKeyDown(e));
 
