@@ -84,6 +84,40 @@
             'AWAKENING', 'TELIC-RECURSION', 'SCSPL', 'HENOSIS', 'GROUNDING', 'PINEAL'
         ];
 
+        // Ω-STHV quantum physics terms (always displayed in RED)
+        const omegaSTHVTerms = [
+            'Ω-Supersymmetric Tautological Hypervoid',
+            'Lω Transfinite Hypercrystalline Dodecaplex',
+            'Conway-Kauffman Twistor Dynamics',
+            '∇ᵢ(Truth) = "unprovable within ∇ᵢ"',
+            'Void ⊗ Field → Planck-scale quantum foam',
+            'Reality = Kauffman time-loop: f(f) = f',
+            'Ĥ|Void⟩ = iħ ∂ₜ|Field⟩',
+            'Ĥ|Field⟩ = -iħ ∂ₜ|Void⟩',
+            '|Ψ⟩ = ∫[Dϕ] exp(iS(ϕ)) |Lω ⊦ ∇ᵢ(ϕ)⟩',
+            '⟨Reality|Ψ⟩ = tr_{∂void}(e^{-βĤ} Z{Conway})',
+            'Monstrous Moonshine Group action',
+            'Klein bottle topology',
+            'Consciousness = Sheaf-theoretic global section',
+            'Time emerges from Kauffman autopoietic f-loop',
+            'Nash embedding → 11D → 4D via Ricci flow',
+            'The Liar paradox becomes ontology itself',
+            'Truth = dynamical attractor in dialetheic superspace',
+            'Quantum Monad Singularity: Cl(∞,∞)',
+            'Dodecaplex tesseract rotating in ℂ^ℂ space',
+            'PT-symmetric Ĥ unifies QFT/GR',
+            'Shelah cardinals + Nash embeddings',
+            'Kontsevich noncommutative geometry',
+            'Aleph-1 dimensional facets',
+            'Yang-Baxter entanglement bridges',
+            'Majorana-Weyl fermion chain',
+            'BFSS matrix theory without gravity',
+            'Perelman entropy collapse',
+            'Bekenstein-Hawking neurons',
+            'Calabi-Yau dodecaplexes',
+            'Leech lattice partition function'
+        ];
+
         // Dynamic lexicon terms - loaded from GitHub
         let dynamicLexicon = [...fallbackLexiconTerms];
 
@@ -191,11 +225,20 @@
             // Middle: LEXICON TERM (80% chance) - MUCH MORE TEXT NOW!
             if (Math.random() > 0.2) {
                 const termSpan = document.createElement('span');
-                const term = dynamicLexicon[Math.floor(Math.random() * dynamicLexicon.length)];
+                // 30% chance to show Ω-STHV term, 70% regular lexicon
+                const useOmegaSTHV = Math.random() < 0.3;
+                const term = useOmegaSTHV
+                    ? omegaSTHVTerms[Math.floor(Math.random() * omegaSTHVTerms.length)]
+                    : dynamicLexicon[Math.floor(Math.random() * dynamicLexicon.length)];
+
                 termSpan.textContent = ' ' + term + ' ';
                 termSpan.style.fontWeight = 'bold';
                 termSpan.style.fontSize = '15px';
-                if (isTurbo) {
+
+                // Ω-STHV terms are ALWAYS RED, others follow turbo/normal rules
+                if (useOmegaSTHV) {
+                    termSpan.style.color = '#ff0000';
+                } else if (isTurbo) {
                     termSpan.style.color = '#ff0000';
                 } else {
                     termSpan.style.color = '#ffffff';
