@@ -934,6 +934,73 @@
             100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
         }
 
+        @keyframes rotateCubeInsane {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
+            25% { transform: rotateX(180deg) rotateY(90deg) rotateZ(45deg) scale(1.3); }
+            50% { transform: rotateX(270deg) rotateY(180deg) rotateZ(180deg) scale(0.8); }
+            75% { transform: rotateX(90deg) rotateY(270deg) rotateZ(270deg) scale(1.2); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg) scale(1); }
+        }
+
+        /* HYPERCUBE 4D TRANSFORMATION */
+        .hypercube-mode {
+            perspective: 1200px !important;
+        }
+
+        .cube-3d.tesseract-transform {
+            animation: tesseractRotation 5s ease-in-out !important;
+        }
+
+        @keyframes tesseractRotation {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) rotateW(0deg);
+            }
+            25% {
+                transform: rotateX(45deg) rotateY(135deg) rotateZ(90deg) scale3d(1.2, 0.8, 1.5);
+                filter: hue-rotate(90deg) brightness(1.5);
+            }
+            50% {
+                transform: rotateX(180deg) rotateY(270deg) rotateZ(180deg) scale3d(0.7, 1.3, 0.9);
+                filter: hue-rotate(180deg) brightness(2);
+            }
+            75% {
+                transform: rotateX(270deg) rotateY(45deg) rotateZ(270deg) scale3d(1.4, 1.1, 0.8);
+                filter: hue-rotate(270deg) brightness(1.5);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg) rotateW(360deg);
+                filter: hue-rotate(360deg) brightness(1);
+            }
+        }
+
+        /* Tesseract inner cube effect */
+        .cube-3d.tesseract-transform .cube-face {
+            box-shadow:
+                inset 0 0 20px rgba(var(--primary-rgb), 0.8),
+                0 0 40px rgba(var(--primary-rgb), 0.6),
+                inset 0 0 0 2px rgba(var(--secondary-rgb), 0.4);
+            animation: tesseractFaceGlow 5s ease-in-out;
+        }
+
+        @keyframes tesseractFaceGlow {
+            0%, 100% {
+                opacity: 1;
+                border-color: var(--primary-color);
+            }
+            25% {
+                opacity: 0.7;
+                border-color: var(--secondary-color);
+            }
+            50% {
+                opacity: 1;
+                border-color: #ff00ff;
+            }
+            75% {
+                opacity: 0.8;
+                border-color: #00ffff;
+            }
+        }
+
         .cube-face {
             position: absolute;
             width: 1cm;

@@ -58,6 +58,58 @@
             }, 300);
         }, 7830); // 7.83 Hz converted to ms (Schumann resonance easter egg)
 
+        // CUBE INTERACTION - Matrix Intensifier & Hypercube 4D
+        let cubeEffectMode = 0; // 0 = matrix intensifier, 1 = hypercube
+        const cubeWrapper = document.querySelector('.cube-wrapper');
+
+        if (cubeWrapper) {
+            cubeWrapper.addEventListener('click', function() {
+                if (cubeEffectMode === 0) {
+                    // MATRIX INTENSIFIER
+                    triggerMatrixIntensifier();
+                    cubeEffectMode = 1;
+                } else {
+                    // HYPERCUBE 4D ROTATION
+                    triggerHypercube();
+                    cubeEffectMode = 0;
+                }
+            });
+        }
+
+        function triggerMatrixIntensifier() {
+            // Send message to batman-matrix iframe to go INSANE
+            const batmanIframe = document.getElementById('batmanBg');
+            if (batmanIframe && batmanIframe.contentWindow) {
+                batmanIframe.contentWindow.postMessage({ type: 'MATRIX_INTENSIFY' }, '*');
+            }
+
+            // Visual feedback on cube
+            const cube = document.querySelector('.cube-3d');
+            if (cube) {
+                cube.style.animation = 'rotateCubeInsane 0.5s linear';
+                setTimeout(() => {
+                    cube.style.animation = 'rotateCube 12s infinite linear';
+                }, 500);
+            }
+        }
+
+        function triggerHypercube() {
+            const cubeWrapper = document.querySelector('.cube-wrapper');
+            const cube = document.querySelector('.cube-3d');
+
+            if (cubeWrapper && cube) {
+                // Transform to hypercube
+                cubeWrapper.classList.add('hypercube-mode');
+                cube.classList.add('tesseract-transform');
+
+                // Return to normal after 5 seconds
+                setTimeout(() => {
+                    cubeWrapper.classList.remove('hypercube-mode');
+                    cube.classList.remove('tesseract-transform');
+                }, 5000);
+            }
+        }
+
         // Matrix Bridge Effect - Horizontal scrolling with COLLISION
         const matrixChars = 'ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ0123456789ZΞΦ◈:・."=*+-<>¦|_░▒▓█▄▀■□●◆◇★☆∴∵≡≠∞∫∑√';
 

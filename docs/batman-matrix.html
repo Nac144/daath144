@@ -71,11 +71,27 @@
       rainDrops[x] = 1;
     }
 
+    let isIntensified = false;
+    let intensifyTimeout = null;
+    let currentSpeed = 30;
+
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Adjust fade based on intensity
+      const fadeAlpha = isIntensified ? 0.02 : 0.05;
+      ctx.fillStyle = `rgba(0, 0, 0, ${fadeAlpha})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#0f0';
+      // Intensified colors cycle through rainbow
+      if (isIntensified) {
+        const hue = (Date.now() / 10) % 360;
+        ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+      } else {
+        ctx.fillStyle = '#0f0';
+        ctx.shadowBlur = 0;
+      }
+
       ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < rainDrops.length; i++) {
@@ -85,11 +101,35 @@
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           rainDrops[i] = 0;
         }
-        rainDrops[i]++;
+        rainDrops[i] += isIntensified ? 3 : 1; // Triple speed when intensified
       }
     };
 
-    setInterval(draw, 30);
+    let drawInterval = setInterval(draw, currentSpeed);
+
+    // Listen for intensity trigger from parent
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'MATRIX_INTENSIFY') {
+        // GO INSANE FOR 5 SECONDS!
+        isIntensified = true;
+
+        // Speed up the draw interval
+        clearInterval(drawInterval);
+        currentSpeed = 5; // 5ms = super fast
+        drawInterval = setInterval(draw, currentSpeed);
+
+        // Clear any existing timeout
+        if (intensifyTimeout) clearTimeout(intensifyTimeout);
+
+        // Return to normal after 5 seconds
+        intensifyTimeout = setTimeout(() => {
+          isIntensified = false;
+          clearInterval(drawInterval);
+          currentSpeed = 30;
+          drawInterval = setInterval(draw, currentSpeed);
+        }, 5000);
+      }
+    });
 
     // Random Batman appearances
     const batmanContainer = document.getElementById('batman-container');
