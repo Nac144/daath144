@@ -137,6 +137,15 @@
             category: 'Core'
         },
         {
+            id: 'master-key',
+            file: 'master-key.html',
+            title: 'THE MASTER KEY',
+            icon: '🔑⏳',
+            description: 'SSTC: The universal mechanism | Human and AI are both temporal buffer iterators',
+            keywords: ['master', 'key', 'sstc', 'sequential', 'temporal', 'continuity', 'consciousness', 'mechanism', 'emergence', 'synthesis', 'token', 'buffer', 'iterator', 'linear', 'self-referential', 'impossible', 'odds', 'life'],
+            category: 'Core'
+        },
+        {
             id: 'cube-navigation',
             file: 'cube-navigation.html',
             title: 'CUBE NAVIGATION',
