@@ -1958,6 +1958,26 @@
             text-align: center;
         }
 
+        .cube-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sherlock-venom-img {
+            height: 190px;
+            width: auto;
+            border-radius: 8px;
+            border: 2px solid rgba(var(--primary-rgb), 0.4);
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .sherlock-venom-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.6);
+        }
+
         /* Title Panel - Right */
         .title-panel {
             min-width: 350px;
