@@ -153,6 +153,15 @@
             description: 'Consciousness Architecture Portal',
             keywords: ['cube', 'navigation', 'portal', 'menu'],
             category: 'Navigation'
+        },
+        {
+            id: 'model-validity',
+            file: 'model-validity-framework.html',
+            title: 'VALIDITY ASSESSMENT',
+            icon: '⚖️',
+            description: 'Epistemic status | Scientific vs philosophical framework | Honest self-assessment',
+            keywords: ['validity', 'assessment', 'scientific', 'philosophical', 'falsifiable', 'epistemic', 'theory', 'cosmology', 'evaluation'],
+            category: 'Core'
         }
     ];
 
