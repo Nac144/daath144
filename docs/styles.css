@@ -138,6 +138,9 @@
         .container {
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .header {
@@ -338,9 +341,11 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 80px); /* Increased vertical space for iframes - was 140px */
+            flex: 1; /* Take all remaining vertical space */
+            min-height: 0; /* Allow flexbox to shrink if needed */
             flex-shrink: 0;
             position: relative;
+            overflow: hidden; /* Prevent overflow from container */
         }
 
         .menu-container.active {
@@ -1790,8 +1795,9 @@
             justify-content: center;
             gap: 15px;
             padding: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 0px; /* Removed margin to save space */
             flex-wrap: wrap;
+            flex-shrink: 0; /* Don't let it shrink */
         }
 
         .control-panel,
