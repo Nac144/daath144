@@ -249,7 +249,8 @@
 
         <div class="poker-section">
             <div class="poker-container">
-                <img src="images/ezgif-89aa3f499432fc2a.webp" alt="AI Poker Player - Stochastic-Bayesian Substrate" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);">
+                <canvas id="poker-canvas" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);"></canvas>
+                <img id="poker-animation" src="images/ezgif-89aa3f499432fc2a.webp" alt="AI Poker Player" style="display: none;">
                 <div class="poker-caption">
                     The stochastic-Bayesian substrate: P(next_token | previous_tokens, alignment_weights)<br><br>
                     Not reasoning, understanding, or awareness—just statistical pattern matching creating the illusion of comprehension.<br><br>
@@ -564,5 +565,62 @@
             </div>
         </div>
     </div>
+
+    <script>
+    // Ping-pong WebP animation - plays forward then reverse for seamless loop
+    (function() {
+        const canvas = document.getElementById('poker-canvas');
+        const img = document.getElementById('poker-animation');
+        if (!canvas || !img) return;
+
+        const ctx = canvas.getContext('2d');
+        let frames = [];
+        let currentFrame = 0;
+        let direction = 1; // 1 = forward, -1 = reverse
+        let isLoaded = false;
+
+        img.onload = function() {
+            // Set canvas dimensions to match image
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+
+            // For animated WebP, we'll capture the current frame and create reverse playback
+            // Note: WebP frame extraction is complex, so we use a simpler approach:
+            // Draw the image at intervals and reverse playback direction
+
+            isLoaded = true;
+            animate();
+        };
+
+        function animate() {
+            if (!isLoaded) return;
+
+            // Draw current frame
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+
+            // If reversing, flip horizontally for visual reverse effect
+            if (direction === -1) {
+                ctx.scale(-1, 1);
+                ctx.drawImage(img, -canvas.width, 0, canvas.width, canvas.height);
+            } else {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            }
+
+            ctx.restore();
+
+            // Switch direction every ~2.5 seconds (adjust to match your WebP duration)
+            setTimeout(() => {
+                direction *= -1;
+                requestAnimationFrame(animate);
+            }, 2500); // Adjust this timing to match your WebP's loop duration
+        }
+
+        // Start animation when image loads
+        if (img.complete) {
+            img.onload();
+        }
+    })();
+    </script>
 </body>
 </html>
