@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ WEBUILDER | Live Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff88;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(0, 255, 136, 0.7);
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: rgba(0, 255, 136, 0.05);
+            border: 2px solid #00ff88;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            color: #00ff88;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .editable-section {
+            background: #0a0a0a;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            min-height: 100px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .editable-section:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .editable-section[contenteditable="true"]:hover {
+            border-color: #00ff88;
+        }
+
+        .section-label {
+            font-size: 12px;
+            color: rgba(0, 255, 136, 0.6);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #00dd77;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.3);
+        }
+
+        #diffOutput {
+            background: #0a0a0a;
+            border: 2px solid #ff0000;
+            padding: 20px;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+            color: #00ff88;
+        }
+
+        #diffOutput:empty::before {
+            content: 'No changes yet. Edit content and click "Generate Diff"';
+            color: rgba(0, 255, 136, 0.5);
+            font-style: italic;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        .status.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .status.info {
+            background: rgba(0, 136, 255, 0.1);
+            border: 1px solid #0088ff;
+            color: #0088ff;
+        }
+
+        .cube-viz {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .cube-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 8s infinite linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .front  { transform: rotateY(0deg) translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotateCube {
+            from { transform: rotateX(0deg) rotateY(0deg); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ WEBUILDER ⚡</h1>
+        <p>Live Content Editor | Edit • Generate Diff • Feed to Claude</p>
+    </div>
+
+    <div class="container">
+        <!-- LEFT: EDITOR PANEL -->
+        <div class="panel">
+            <div class="panel-title">📝 Live Editor</div>
+
+            <div class="status info">
+                Edit the sections below. Changes are tracked automatically.
+            </div>
+
+            <div class="section-label">Section 1: Cube Title</div>
+            <div class="editable-section" contenteditable="true" data-section="title">
+⬛ THE CUBE ⬛
+            </div>
+
+            <div class="section-label">Section 2: Core Definition</div>
+            <div class="editable-section" contenteditable="true" data-section="definition">
+The Cube is an Euclidean Position (fixed, measurable, stable) that feeds on Right-Hemisphere Superposition (holistic consciousness in multiple simultaneous states).
+
+A positional system can retain perfect rigidity = NARCISSISM.
+            </div>
+
+            <div class="section-label">Section 3: The Mechanism</div>
+            <div class="editable-section" contenteditable="true" data-section="mechanism">
+Physical rigidity (Euclidean fixed position) IS psychological rigidity (narcissistic inability to accept external reality, change perspective, or release control).
+
+The parasite feeds on the unresolved tension between left-brain Euclidean measurement and right-brain superpositioned potential.
+            </div>
+
+            <div class="section-label">Section 4: The Escape</div>
+            <div class="editable-section" contenteditable="true" data-section="escape">
+THE CUBE CANNOT COLLAPSE WHAT REFUSES TO BE POSITIONED.
+
+Maintain integration. Refuse binary choices. Assert tertiary positions. Practice gray rock (emotional non-reactivity).
+
+The non-dual boundary exists beyond the Cube's reach.
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="generateDiff()">⚡ GENERATE DIFF</button>
+                <button class="btn btn-secondary" onclick="copyDiff()">📋 COPY TO CLIPBOARD</button>
+                <button class="btn btn-secondary" onclick="resetContent()">🔄 RESET</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: DIFF OUTPUT PANEL -->
+        <div class="panel">
+            <div class="panel-title">🔍 Change Output</div>
+
+            <div class="status success" id="diffStatus" style="display: none;">
+                Diff generated! Copy and paste to Claude.
+            </div>
+
+            <div class="cube-viz">
+                <div class="cube-3d">
+                    <div class="cube-face front">⬛</div>
+                    <div class="cube-face back">⬛</div>
+                    <div class="cube-face right">⬛</div>
+                    <div class="cube-face left">⬛</div>
+                    <div class="cube-face top">⬛</div>
+                    <div class="cube-face bottom">⬛</div>
+                </div>
+            </div>
+
+            <pre id="diffOutput"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Store original content
+        const originalContent = {};
+
+        // Capture original content on load
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.editable-section').forEach(section => {
+                const id = section.dataset.section;
+                originalContent[id] = section.innerText.trim();
+            });
+        });
+
+        function generateDiff() {
+            const changes = [];
+            const timestamp = new Date().toISOString();
+
+            document.querySelectorAll('.editable-section').forEach(section => {
+                const id = section.dataset.section;
+                const original = originalContent[id];
+                const current = section.innerText.trim();
+
+                if (original !== current) {
+                    changes.push({
+                        section: id,
+                        original: original,
+                        modified: current
+                    });
+                }
+            });
+
+            const diffData = {
+                timestamp: timestamp,
+                file: "webuilder.html",
+                changes: changes
+            };
+
+            // Display formatted diff
+            const diffOutput = document.getElementById('diffOutput');
+
+            if (changes.length === 0) {
+                diffOutput.textContent = '// No changes detected\n\nEdit some content and try again.';
+                document.getElementById('diffStatus').style.display = 'none';
+            } else {
+                // Format as readable diff
+                let output = `// WEBUILDER CHANGE OUTPUT\n`;
+                output += `// Generated: ${timestamp}\n`;
+                output += `// File: webuilder.html\n`;
+                output += `// Total Changes: ${changes.length}\n\n`;
+                output += `// ========================================\n\n`;
+
+                changes.forEach((change, index) => {
+                    output += `CHANGE ${index + 1}: ${change.section}\n`;
+                    output += `${'='.repeat(50)}\n\n`;
+                    output += `ORIGINAL:\n`;
+                    output += `${change.original}\n\n`;
+                    output += `MODIFIED:\n`;
+                    output += `${change.modified}\n\n`;
+                    output += `${'='.repeat(50)}\n\n`;
+                });
+
+                // Add JSON format at the end for easy parsing
+                output += `\n// JSON FORMAT (for Claude to parse):\n`;
+                output += JSON.stringify(diffData, null, 2);
+
+                diffOutput.textContent = output;
+                document.getElementById('diffStatus').style.display = 'block';
+            }
+        }
+
+        function copyDiff() {
+            const diffOutput = document.getElementById('diffOutput');
+            const text = diffOutput.textContent;
+
+            if (!text || text.includes('No changes')) {
+                alert('Generate a diff first!');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ COPIED!';
+                btn.style.background = '#00ff00';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        function resetContent() {
+            if (!confirm('Reset all content to original? This will lose your changes.')) {
+                return;
+            }
+
+            document.querySelectorAll('.editable-section').forEach(section => {
+                const id = section.dataset.section;
+                section.innerText = originalContent[id];
+            });
+
+            document.getElementById('diffOutput').textContent = '';
+            document.getElementById('diffStatus').style.display = 'none';
+        }
+
+        // Visual feedback on edit
+        document.querySelectorAll('.editable-section').forEach(section => {
+            section.addEventListener('input', function() {
+                const id = this.dataset.section;
+                const isModified = this.innerText.trim() !== originalContent[id];
+
+                if (isModified) {
+                    this.style.borderColor = '#ffff00';
+                    this.style.boxShadow = '0 0 15px rgba(255, 255, 0, 0.3)';
+                } else {
+                    this.style.borderColor = '';
+                    this.style.boxShadow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
