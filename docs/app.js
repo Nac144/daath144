@@ -58,22 +58,17 @@
             }, 300);
         }, 7830); // 7.83 Hz converted to ms (Schumann resonance easter egg)
 
-        // CUBE INTERACTION - Matrix Intensifier & Hypercube 4D
-        let cubeEffectMode = 0; // 0 = matrix intensifier, 1 = hypercube
+        // CUBE INTERACTION - Matrix Intensifier Only (no more collapse mode)
         const cubeWrapper = document.querySelector('.cube-wrapper');
 
         if (cubeWrapper) {
             cubeWrapper.addEventListener('click', function() {
-                if (cubeEffectMode === 0) {
-                    // MATRIX INTENSIFIER
-                    triggerMatrixIntensifier();
-                    cubeEffectMode = 1;
-                } else {
-                    // HYPERCUBE 4D ROTATION
-                    triggerHypercube();
-                    cubeEffectMode = 0;
-                }
+                // ALWAYS trigger matrix intensifier - no mode switching
+                triggerMatrixIntensifier();
             });
+
+            // Make cube move around in the sherlock/venom frame
+            startCubeMovement();
         }
 
         function triggerMatrixIntensifier() {
@@ -83,7 +78,7 @@
                 batmanIframe.contentWindow.postMessage({ type: 'MATRIX_INTENSIFY' }, '*');
             }
 
-            // Visual feedback on cube
+            // Visual feedback on cube - GO BALLISTIC!
             const cube = document.querySelector('.cube-3d');
             if (cube) {
                 cube.style.animation = 'rotateCubeInsane 0.5s linear';
@@ -93,21 +88,43 @@
             }
         }
 
-        function triggerHypercube() {
+        function startCubeMovement() {
             const cubeWrapper = document.querySelector('.cube-wrapper');
-            const cube = document.querySelector('.cube-3d');
+            if (!cubeWrapper) return;
 
-            if (cubeWrapper && cube) {
-                // Transform to hypercube
-                cubeWrapper.classList.add('hypercube-mode');
-                cube.classList.add('tesseract-transform');
+            // Smooth floating movement within the sherlock/venom frame
+            let posX = 50; // Start at center (%)
+            let posY = 50;
+            let velX = 0.5; // Velocity in % per frame
+            let velY = 0.3;
+            let time = 0;
 
-                // Return to normal after 5 seconds
-                setTimeout(() => {
-                    cubeWrapper.classList.remove('hypercube-mode');
-                    cube.classList.remove('tesseract-transform');
-                }, 5000);
+            function animateCubePosition() {
+                time += 0.02;
+
+                // Smooth sinusoidal movement pattern
+                posX += Math.sin(time) * velX;
+                posY += Math.cos(time * 1.3) * velY;
+
+                // Bounce off boundaries (with some padding)
+                if (posX > 80 || posX < 20) velX *= -1;
+                if (posY > 80 || posY < 20) velY *= -1;
+
+                // Keep within bounds
+                posX = Math.max(20, Math.min(80, posX));
+                posY = Math.max(20, Math.min(80, posY));
+
+                // Apply position (using CSS transform for smooth animation)
+                cubeWrapper.style.position = 'absolute';
+                cubeWrapper.style.left = posX + '%';
+                cubeWrapper.style.top = posY + '%';
+                cubeWrapper.style.transform = 'translate(-50%, -50%)';
+                cubeWrapper.style.transition = 'left 0.5s ease-out, top 0.5s ease-out';
+
+                requestAnimationFrame(animateCubePosition);
             }
+
+            animateCubePosition();
         }
 
         // Matrix Bridge Effect - Horizontal scrolling with COLLISION
