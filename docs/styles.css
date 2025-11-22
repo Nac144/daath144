@@ -338,7 +338,7 @@
         /* Hide all styles by default */
         .menu-container {
             display: none;
-            height: calc(100vh - 140px); /* Reduced further - slimmer DMN menu */
+            height: calc(100vh - 80px); /* Increased vertical space for iframes - was 140px */
             flex-shrink: 0;
             position: relative;
         }
