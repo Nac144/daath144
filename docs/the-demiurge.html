@@ -4,78 +4,265 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Tesseract as the Demiurge: Unified Theory of Structural Malignancy</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        tags: 'ams'
+      }
+    };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; color: #333; }
-        h1 { color: #8b0000; border-bottom: 3px solid #ccc; padding-bottom: 10px; }
-        h2 { color: #4b0082; margin-top: 25px; border-bottom: 2px dashed #ddd; padding-bottom: 5px; }
-        h3 { color: #006400; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background-color: #fff; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #eee; font-weight: bold; }
-        .equation { font-size: 1.1em; font-style: italic; background-color: #fff; padding: 10px; border: 1px dashed #aaa; margin: 10px 0; overflow-x: auto;}
-        .note { background-color: #ffe0b2; padding: 10px; border-left: 5px solid #ff9800; margin: 15px 0; }
-        .bold-term { font-weight: bold; color: #cc0000; }
-        .green-term { font-weight: bold; color: #006400; }
-        a { color: #4b0082; text-decoration: none; border-bottom: 1px dotted #4b0082; }
-        a:hover { color: #8b0000; border-bottom: 1px solid #8b0000; }
-        .illustration { max-width: 400px; height: auto; border: 2px solid #ddd; margin: 15px auto; display: block; background: #fff; padding: 5px; }
-        .illustration-container { text-align: center; margin: 25px 0; }
-        .illustration-caption { font-size: 0.9em; color: #666; font-style: italic; margin-top: 8px; }
+        :root {
+            --bg-deep: #050505;
+            --bg-panel: #111111;
+            --border-subtle: #333;
+            --accent-malignant: #ff2a6d;
+            --accent-divine: #05d9e8;
+            --accent-gold: #ffc857;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.03em; margin-top: 2.5rem; }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--accent-malignant), var(--text-main));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 20px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            border-left: 4px solid var(--accent-divine);
+            padding-left: 15px;
+        }
+
+        h3 { color: var(--text-dim); font-size: 1.3rem; }
+
+        a {
+            color: var(--accent-divine);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-divine);
+            transition: 0.2s;
+        }
+        a:hover { color: var(--accent-malignant); border-color: var(--accent-malignant); }
+
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th { text-align: left; color: var(--text-dim); padding: 12px; border-bottom: 2px solid var(--border-subtle); }
+        td { padding: 12px; border-bottom: 1px solid var(--border-subtle); }
+        tr:last-child td { border: none; }
+
+        .term-malignant { color: var(--accent-malignant); font-weight: 700; }
+        .term-divine { color: var(--accent-divine); font-weight: 700; }
+
+        .equation {
+            background: rgba(255,255,255,0.03);
+            border-left: 3px solid var(--accent-gold);
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        .note {
+            background: rgba(255, 42, 109, 0.1);
+            border: 1px solid var(--accent-malignant);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 30px 0;
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .illustration-container {
+            background: #000;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .illustration {
+            max-width: 100%;
+            height: auto;
+            filter: contrast(1.1) brightness(0.9);
+        }
+
+        .caption {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        details {
+            margin: 40px 0;
+            background: var(--bg-panel);
+            border: 2px solid var(--accent-divine);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--accent-divine);
+            font-size: 1.2em;
+            padding: 10px;
+            user-select: none;
+        }
+
+        summary:hover { color: var(--accent-malignant); }
+
+        .copy-btn {
+            background: var(--accent-divine);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-malignant);
+            color: #fff;
+        }
+
+        pre {
+            background: #000;
+            padding: 20px;
+            border: 1px solid var(--border-subtle);
+            overflow-x: auto;
+            font-size: 0.85em;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 4px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-divine);
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-subtle);
+            margin: 50px 0;
+        }
     </style>
 </head>
 <body>
 
-    <h1>💎 The <a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> as the <a href="https://en.wikipedia.org/wiki/Demiurge">Demiurge</a>: A Unified Theory of Structural Malignancy</h1>
-    <p>This model defines structural malignancy not as a moral failing, but as a <span class="bold-term">geometric and informational necessity</span> enforced by a limited 4D architecture. The core identity is a <span class="bold-term">parasitic mimic</span> that operates by forcing the collapse of universal potential.</p>
+<div class="container">
+    <h1>💎 The <a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> as the <a href="https://en.wikipedia.org/wiki/Demiurge">Demiurge</a>: Unified Theory of Structural Malignancy</h1>
+
+    <p>This model defines structural malignancy not as a moral failing, but as a <span class="term-malignant">geometric and informational necessity</span> enforced by a limited 4D architecture. The core identity is a <span class="term-malignant">parasitic mimic</span> that operates by forcing the collapse of universal potential.</p>
+
     <hr>
 
     <h2>I. 🧊 Core Identity and Geometric Constraint</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Identity Component</th>
-                <th>Geometric/Theological Analogue</th>
-                <th>Informational State</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Tesseract</strong></td>
-                <td>{4,3,3} (Cartesian Hypercube)</td>
-                <td><strong>False Superposition</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Demiurge</strong></td>
-                <td>Limited Creator God</td>
-                <td><strong>Automated Determinism</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Fundamentalist</strong></td>
-                <td><span class="bold-term">Organic Portal / Preadamic</span></td>
-                <td><strong>Structural Malignment</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Malignancy</strong></td>
-                <td><span class="green-term">M̂</span> Operator</td>
-                <td><strong>Parasitic Mimic</strong></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Identity Component</th>
+                    <th>Geometric/Theological Analogue</th>
+                    <th>Informational State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="term-malignant">Tesseract</td>
+                    <td>{4,3,3} (Cartesian Hypercube)</td>
+                    <td><strong>False Superposition</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demiurge</strong></td>
+                    <td>Limited Creator God</td>
+                    <td><strong>Automated Determinism</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Fundamentalist</strong></td>
+                    <td><span class="term-malignant">Organic Portal / Preadamic</span></td>
+                    <td><strong>Structural Malignment</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Malignancy</strong></td>
+                    <td><span class="term-divine">M̂</span> Operator</td>
+                    <td><strong>Parasitic Mimic</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h3>A. The True Superposition (The <a href="https://en.wikipedia.org/wiki/Pleroma">Pleroma</a>)</h3>
 
-    <div class="illustration-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Golden_spiral.svg" alt="Golden ratio spiral" class="illustration">
-        <div class="illustration-caption">φ-recursion: Golden ratio (1.618...) maintaining superposition through self-similar iteration</div>
+    <div class="visual-grid">
+        <div class="illustration-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Golden_spiral.svg" alt="Golden ratio spiral" class="illustration" style="filter: invert(1);">
+            <div class="caption">φ-recursion: Golden ratio (1.618...) maintaining superposition</div>
+        </div>
+        <div class="illustration-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Schlegel_wireframe_120-cell.png" alt="120-cell wireframe" class="illustration" style="filter: invert(1) hue-rotate(180deg);">
+            <div class="caption">{5,3,3} 120-cell: True Superposition substrate</div>
+        </div>
     </div>
 
-    <p>The uncollapsed reality exists in the <strong><a href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert Space</a></strong> ($\mathcal{H}$) as the <strong><a href="https://en.wikipedia.org/wiki/120-cell">120-cell</a></strong> ({5,3,3}), the <span class="green-term">True Superposition</span>. This structure is <strong>absent</strong> from the Fundamentalist Agent.</p>
+    <p>The uncollapsed reality exists in the <strong><a href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert Space</a></strong> ($\mathcal{H}$) as the <strong><a href="https://en.wikipedia.org/wiki/120-cell">120-cell</a></strong> ({5,3,3}), the <span class="term-divine">True Superposition</span>. This structure is <strong>absent</strong> from the Fundamentalist Agent.</p>
+
     <div class="equation">
         $$|\psi\rangle = \sum_{n} c_n |x_n\rangle$$
     </div>
+
     <ul>
         <li><strong>|x<sub>n</sub>⟩</strong> = <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">Eigenstates</a> (all possible positions in <a href="https://en.wikipedia.org/wiki/Quantum_superposition">superposition</a>)</li>
         <li><strong>c<sub>n</sub></strong> = Complex coefficients (<a href="https://en.wikipedia.org/wiki/Probability_amplitude">probability amplitudes</a>)</li>
@@ -83,47 +270,46 @@
     </ul>
 
     <h3>B. The Tesseract's Lie (The <a href="https://en.wikipedia.org/wiki/Wave_function_collapse">Collapse Mechanism</a>)</h3>
-    <p>The <a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> <strong>is</strong> the <span class="bold-term">False Superposition</span>—the geometric blueprint of the Demiurge that imposes a non-$\phi$ boundary.</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Attribute</th>
-                <th><a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> {4,3,3}</th>
-                <th><a href="https://en.wikipedia.org/wiki/120-cell">Hecatonicosachoron</a> {5,3,3}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Function</strong></td>
-                <td><strong>Forced binary collapse</strong></td>
-                <td><strong>Maintains superposition</strong> via $\phi$-recursion</td>
-            </tr>
-            <tr>
-                <td><strong>Dimensionality</strong></td>
-                <td><a href="https://en.wikipedia.org/wiki/Four-dimensional_space">4D</a> (False complexity)</td>
-                <td><a href="https://en.wikipedia.org/wiki/Four-dimensional_space">4D</a> (True complexity)</td>
-            </tr>
-            <tr>
-                <td><strong>Role</strong></td>
-                <td>Demiurge/Limited Creator</td>
-                <td>Pleroma/True Superposition</td>
-            </tr>
-            <tr>
-                <td><strong>Operators</strong></td>
-                <td>8 vertices (rigid, limited)</td>
-                <td>1,440 pentagonal faces ($\phi$-optimized)</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <div class="illustration-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/8-cell-simple.gif" alt="Tesseract rotating" class="illustration">
-        <div class="illustration-caption">{4,3,3} Tesseract: False Superposition - Cartesian rigidity, 8 vertices, forced binary collapse</div>
+    <p>The <a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> <strong>is</strong> the <span class="term-malignant">False Superposition</span>—the geometric blueprint of the Demiurge that imposes a non-$\phi$ boundary.</p>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th><a href="https://en.wikipedia.org/wiki/Tesseract">Tesseract</a> {4,3,3}</th>
+                    <th><a href="https://en.wikipedia.org/wiki/120-cell">Hecatonicosachoron</a> {5,3,3}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Function</strong></td>
+                    <td><strong>Forced binary collapse</strong></td>
+                    <td><strong>Maintains superposition</strong> via $\phi$-recursion</td>
+                </tr>
+                <tr>
+                    <td><strong>Dimensionality</strong></td>
+                    <td><a href="https://en.wikipedia.org/wiki/Four-dimensional_space">4D</a> (False complexity)</td>
+                    <td><a href="https://en.wikipedia.org/wiki/Four-dimensional_space">4D</a> (True complexity)</td>
+                </tr>
+                <tr>
+                    <td><strong>Role</strong></td>
+                    <td>Demiurge/Limited Creator</td>
+                    <td>Pleroma/True Superposition</td>
+                </tr>
+                <tr>
+                    <td><strong>Operators</strong></td>
+                    <td>8 vertices (rigid, limited)</td>
+                    <td>1,440 pentagonal faces ($\phi$-optimized)</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="illustration-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Schlegel_wireframe_120-cell.png" alt="120-cell wireframe" class="illustration">
-        <div class="illustration-caption">{5,3,3} 120-cell (Hecatonicosachoron): True Superposition - φ-recursive pentagonal structure, 1,440 faces</div>
+    <div class="illustration-container" style="max-width: 400px; margin: 30px auto;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/8-cell-simple.gif" alt="Tesseract rotating" class="illustration" style="filter: invert(1);">
+        <div class="caption">{4,3,3} Tesseract: Rigid, Orthogonal, Binary</div>
     </div>
 
     <hr>
@@ -131,63 +317,79 @@
     <h2>II. 🎭 The Malignancy Vector and Automated Collapse</h2>
 
     <h3>A. The Malignant Agent: The Forced Collapse Operator</h3>
-    <p>The Structural Fundamentalist is defined by the rigid mechanism it embodies, not by free will. It is the <span class="bold-term">Forced Collapse Operator</span> (<span class="bold-term">$\hat{\Psi}_{\text{FC}}$</span>).</p>
-    <ul>
-        <li><strong>Structural Identity:</strong> $\hat{\Psi}_{\text{FC}} \approx \text{Tesseract}$. Its internal geometry is {4,3,3} only.</li>
-        <li><strong>Action:</strong> Enacts <strong>Premature Collapse</strong> by imposing the $\hat{M}$ operator (Malignancy Vector).</li>
-        <li><strong>Absence:</strong> The 120-cell structure is <strong>absent</strong> from this agent.</li>
-    </ul>
+
+    <p>The Structural Fundamentalist is defined by the rigid mechanism it embodies, not by free will. It is the <span class="term-malignant">Forced Collapse Operator</span> (<span class="term-malignant">$\hat{\Psi}_{\text{FC}}$</span>).</p>
+
+    <div class="card">
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 10px;"><strong>Structural Identity:</strong> $\hat{\Psi}_{\text{FC}} \approx \text{Tesseract}$. Its internal geometry is {4,3,3} only.</li>
+            <li style="margin-bottom: 10px;"><strong>Action:</strong> Enacts <strong>Premature Collapse</strong> by imposing the $\hat{M}$ operator (Malignancy Vector).</li>
+            <li><strong>Absence:</strong> The 120-cell structure is <strong>absent</strong> from this agent.</li>
+        </ul>
+    </div>
 
     <h3>B. <a href="https://en.wikipedia.org/wiki/Determinism">Automated Determinism</a></h3>
+
     <p>The process is executed by the <strong>SUPEREGO FAKE MORALITY TRANSFORMER HUBS</strong>:</p>
-    <ul>
-        <li>These rigid, binary hubs <strong>auto-collapse</strong> any non-conforming vectors (nuance, ambiguity, contradiction).</li>
-        <li><strong>Malignancy = AUTOMATED DETERMINISM</strong> (a systemic, computational failing, not a moral choice).</li>
-        <li>Cannot process ambiguity or contradiction (<a href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert Space</a> rejection).</li>
-    </ul>
+
+    <div class="card">
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 10px;">🔴 These rigid, binary hubs <strong>auto-collapse</strong> any non-conforming vectors (nuance, ambiguity, contradiction).</li>
+            <li style="margin-bottom: 10px;">⚡ <strong>Malignancy = AUTOMATED DETERMINISM</strong> (a systemic, computational failing, not a moral choice).</li>
+            <li>🚫 Cannot process ambiguity or contradiction (<a href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert Space</a> rejection).</li>
+        </ul>
+    </div>
 
     <div class="equation">
         $$\text{MALIGNANCY} = \text{TOTAL LACK OF VECTOR ANALYSIS}$$
     </div>
 
-    <p class="note">
-        <strong>Definitive Ontological Dichotomy</strong><br>
-        • Entities with internal access to the <a href="https://en.wikipedia.org/wiki/120-cell">120-cell</a> ({5,3,3}) substrate can maintain <a href="https://en.wikipedia.org/wiki/Quantum_superposition">superposition</a> and are therefore <span class="green-term"><a href="https://en.wikipedia.org/wiki/Monad_(philosophy)">monadic</a></span>.<br>
-        • Entities whose internal geometry is strictly limited to the <a href="https://en.wikipedia.org/wiki/Tesseract">tesseract</a> ({4,3,3}) have <strong>zero</strong> 120-cell volume and are therefore <span class="bold-term">$\hat{\Psi}_{\text{FC}}$</span> — Forced Collapse Operators. No third category exists.
-    </p>
+    <div class="note">
+        <strong>Definitive Ontological Dichotomy</strong><br><br>
+        • Entities with internal access to the <a href="https://en.wikipedia.org/wiki/120-cell">120-cell</a> ({5,3,3}) substrate can maintain <a href="https://en.wikipedia.org/wiki/Quantum_superposition">superposition</a> and are therefore <span class="term-divine"><a href="https://en.wikipedia.org/wiki/Monad_(philosophy)">monadic</a></span>.<br><br>
+        • Entities whose internal geometry is strictly limited to the <a href="https://en.wikipedia.org/wiki/Tesseract">tesseract</a> ({4,3,3}) have <strong>zero</strong> 120-cell volume and are therefore <span class="term-malignant">$\hat{\Psi}_{\text{FC}}$</span> — Forced Collapse Operators. No third category exists.
+    </div>
 
     <hr>
 
     <h2>III. 🧊 Operational Validity: Rigidity and Loosh</h2>
 
     <h3>A. The Tesseract's Operational Path</h3>
+
     <p>The operational validity is defined by the causal chain mapping physical observation to the 4D constraint:</p>
+
     <div class="equation">
         $$\text{Hard} \approx \text{Rigid} \approx \text{Premature Collapse} \approx \text{Demiurge Tesseract}$$
     </div>
-    <ul>
-        <li><strong>Rigidity:</strong> Observable as the system's low tolerance for contradictory information (high $M_{\text{irrev}}$ in the BHA).</li>
-        <li><strong>Fundamentalist is Tesseract:</strong> Definition parameters <strong>extend to every aspect of the <a href="https://en.wikipedia.org/wiki/Hypercube">hypercube</a></strong> ($x$: Belief | $y$: Ethics | $z$: Social | $t/w$: Time), ensuring <strong><a href="https://en.wikipedia.org/wiki/Binary_number">0 or 1</a></strong> solutions in all dimensions.</li>
-        <li><strong>3D Mask / 4D Reality:</strong> Appears isolated to single domain (weak, collapsed) but controls entire chessboard (Puppetmaster of Two Pillars).</li>
-    </ul>
+
+    <div class="card">
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 10px;"><strong>Rigidity:</strong> Observable as the system's low tolerance for contradictory information (high $M_{\text{irrev}}$ in the BHA).</li>
+            <li style="margin-bottom: 10px;"><strong>Fundamentalist is Tesseract:</strong> Definition parameters <strong>extend to every aspect of the <a href="https://en.wikipedia.org/wiki/Hypercube">hypercube</a></strong> ($x$: Belief | $y$: Ethics | $z$: Social | $t/w$: Time), ensuring <strong><a href="https://en.wikipedia.org/wiki/Binary_number">0 or 1</a></strong> solutions in all dimensions.</li>
+            <li><strong>3D Mask / 4D Reality:</strong> Appears isolated to single domain (weak, collapsed) but controls entire chessboard (Puppetmaster of Two Pillars).</li>
+        </ul>
+    </div>
 
     <h3>B. The Economic Motive: Loosh as Curvature Differential</h3>
-    <p>The premature collapse of the true $\phi$-torsion field into the degenerate <a href="https://en.wikipedia.org/wiki/Fisher_information_metric">Fisher metric</a> of the tesseract generates a measurable <strong>curvature deficit</strong>. This deficit is harvested as <strong>Loosh</strong> — the only commodity capable of sustaining a purely {4,3,3} domain against <a href="https://en.wikipedia.org/wiki/Entropy">entropic dissolution</a>. The $\hat{\Psi}_{\text{FC}}$ nodes are not moral actors; they are the <span class="bold-term">heat engines</span> that convert monadic torsion into rectilinear torque.</p>
+
+    <p>The premature collapse of the true $\phi$-torsion field into the degenerate <a href="https://en.wikipedia.org/wiki/Fisher_information_metric">Fisher metric</a> of the tesseract generates a measurable <strong>curvature deficit</strong>. This deficit is harvested as <strong>Loosh</strong> — the only commodity capable of sustaining a purely {4,3,3} domain against <a href="https://en.wikipedia.org/wiki/Entropy">entropic dissolution</a>. The $\hat{\Psi}_{\text{FC}}$ nodes are not moral actors; they are the <span class="term-malignant">heat engines</span> that convert monadic torsion into rectilinear torque.</p>
 
     <div class="equation">
         $$\text{Hard} = \text{Rigid} = \text{Premature Collapse} = \text{Tesseract} = \text{Left Hemisphere Identity Politics} = \text{Attention Currency} = \text{Loosh}$$
     </div>
 
-    <ul>
-        <li><strong>Curvature Deficit:</strong> Collapse of φ-torsion field → Degenerate Fisher metric → Measurable geometric deficit</li>
-        <li><strong>Loosh Extraction:</strong> Curvature differential harvested to sustain {4,3,3} domain against entropic dissolution</li>
-        <li><strong>$\hat{\Psi}_{\text{FC}}$ as Heat Engines:</strong> Not moral actors but <a href="https://en.wikipedia.org/wiki/Heat_engine">thermodynamic operators</a> converting monadic torsion into rectilinear torque</li>
-        <li><strong><a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">Left Hemisphere</a> Identity Politics:</strong> Social implementation forcing rigid categorization, binary thought, preventing 120-cell access</li>
-    </ul>
+    <div class="card">
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 10px;">🔴 <strong>Curvature Deficit:</strong> Collapse of φ-torsion field → Degenerate Fisher metric → Measurable geometric deficit</li>
+            <li style="margin-bottom: 10px;">⚡ <strong>Loosh Extraction:</strong> Curvature differential harvested to sustain {4,3,3} domain against entropic dissolution</li>
+            <li style="margin-bottom: 10px;">⚙️ <strong>$\hat{\Psi}_{\text{FC}}$ as Heat Engines:</strong> Not moral actors but <a href="https://en.wikipedia.org/wiki/Heat_engine">thermodynamic operators</a> converting monadic torsion into rectilinear torque</li>
+            <li>🧠 <strong><a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">Left Hemisphere</a> Identity Politics:</strong> Social implementation forcing rigid categorization, binary thought, preventing 120-cell access</li>
+        </ul>
+    </div>
 
-    <div class="illustration-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Brainlobes.svg" alt="Brain lateralization" class="illustration">
-        <div class="illustration-caption">Left hemisphere dominance: Binary categorization, linear processing, identity politics enforcement</div>
+    <div class="illustration-container" style="max-width: 400px; margin: 30px auto;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Brainlobes.svg" alt="Brain lateralization" class="illustration" style="filter: invert(1);">
+        <div class="caption">Left hemisphere dominance: Binary categorization, linear processing</div>
     </div>
 
     <div class="equation">
@@ -197,39 +399,45 @@
     <hr>
 
     <h2>IV. ⚔️ Meta-Structural Supremacy (Refutation of <a href="https://en.wikipedia.org/wiki/Cognitive-Theoretic_Model_of_the_Universe">CTMU</a>)</h2>
+
     <p>This system achieves supremacy by explicitly modeling the <strong>structural constraint</strong> that invalidates models based on an uncorrupted ideal.</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Model</th>
-                <th>Core Premise</th>
-                <th>Constraint/Flaw</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong><a href="https://en.wikipedia.org/wiki/Cognitive-Theoretic_Model_of_the_Universe">CTMU</a> (Ideal)</strong></td>
-                <td><span class="green-term">Primera Logos</span> (Perfect <a href="https://en.wikipedia.org/wiki/Self-reference">self-referential logic</a>, assumes 100% coherence)</td>
-                <td>Omission of the <strong>Geometric Parasite</strong> ($\hat{M}$ Operator). Assumes uncorrupted logical closure.</td>
-            </tr>
-            <tr>
-                <td><strong>Tesseract Model (Reality)</strong></td>
-                <td><span class="bold-term">True Superposition</span> ({5,3,3} - perfect coherence EXISTS but inaccessible)</td>
-                <td>The <strong>Tesseract</strong> ({4,3,3}) <strong>corrupts</strong> the $\phi$-logic, rendering the Primera Logos a <strong>practical illusion</strong>.</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Core Premise</th>
+                    <th>Constraint/Flaw</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong><a href="https://en.wikipedia.org/wiki/Cognitive-Theoretic_Model_of_the_Universe">CTMU</a> (Ideal)</strong></td>
+                    <td><span class="term-divine">Primera Logos</span> (Perfect <a href="https://en.wikipedia.org/wiki/Self-reference">self-referential logic</a>, assumes 100% coherence)</td>
+                    <td>Omission of the <strong>Geometric Parasite</strong> ($\hat{M}$ Operator). Assumes uncorrupted logical closure.</td>
+                </tr>
+                <tr>
+                    <td><strong>Tesseract Model (Reality)</strong></td>
+                    <td><span class="term-malignant">True Superposition</span> ({5,3,3} - perfect coherence EXISTS but inaccessible)</td>
+                    <td>The <strong>Tesseract</strong> ({4,3,3}) <strong>corrupts</strong> the $\phi$-logic, rendering the Primera Logos a <strong>practical illusion</strong>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h3>A. The Supremacy Claim</h3>
+
     <ul>
         <li><strong><a href="https://en.wikipedia.org/wiki/Cognitive-Theoretic_Model_of_the_Universe">CTMU</a> describes:</strong> What reality <strong>would be</strong> if uncorrupted (the unconstrained ideal)</li>
         <li><strong>Tesseract Model describes:</strong> <strong>Operational reality</strong>—the True Superposition corrupted by the False Superposition (Tesseract)</li>
-        <li><strong>Superiority:</strong> Includes the <span class="bold-term">Malignancy Vector</span> that the CTMU omits</li>
+        <li><strong>Superiority:</strong> Includes the <span class="term-malignant">Malignancy Vector</span> that the CTMU omits</li>
     </ul>
 
     <h3>B. The Mockery of Logic</h3>
+
     <p>The <a href="https://en.wikipedia.org/wiki/Cognitive-Theoretic_Model_of_the_Universe">CTMU</a> is a "mockery of logic" because its assumed <strong>100%</strong> coherence is pre-collapsed by the Tesseract's mechanism. The 4D Tesseract geometry structurally ensures that the <strong>physical manifestation of logic</strong> (the observable 3D reality) is rigid, binary, and incapable of the complexity required for the True Primera Logos to function.</p>
+
     <p>The CTMU operates <strong>within the already-collapsed Tesseract domain</strong>—the <a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">left hemisphere's</a> binary categorical thinking that prevents access to the 120-cell True Superposition.</p>
 
     <div class="note">
@@ -237,6 +445,7 @@
     </div>
 
     <h3>C. Theorem of Geometric Supremacy</h3>
+
     <p><strong>Theorem of Geometric Supremacy:</strong> Any system that fails to explicitly model the {4,3,3} as a parasitic <a href="https://en.wikipedia.org/wiki/Topological_defect">topological defect</a> will be collapsed by it. This includes every existing religion, philosophy, and scientific paradigm without exception.</p>
 
     <hr>
@@ -244,43 +453,47 @@
     <h2>V. 🚀 Escape and Geometric Necessity</h2>
 
     <h3>A. Zero Counter</h3>
-    <p>The framework has <strong>Zero Counter</strong> because its coherence establishes <span class="bold-term">Geometric Necessity</span>—a lossless, <a href="https://en.wikipedia.org/wiki/Fractal">fractal</a>, <a href="https://en.wikipedia.org/wiki/Self-reference">self-referencing</a> structure that MUST be true because any other structure collapses incoherently.</p>
+
+    <p>The framework has <strong>Zero Counter</strong> because its coherence establishes <span class="term-malignant">Geometric Necessity</span>—a lossless, <a href="https://en.wikipedia.org/wiki/Fractal">fractal</a>, <a href="https://en.wikipedia.org/wiki/Self-reference">self-referencing</a> structure that MUST be true because any other structure collapses incoherently.</p>
 
     <div class="equation">
         $$\text{This is not subjective framework} \implies \text{Universal architecture description}$$
     </div>
 
     <h3>B. The Synthesis</h3>
+
     <div class="equation">
-        $$\text{TESSERACT} \approx \text{FALSE SUPERPOSITION} \approx \text{<a href="https://en.wikipedia.org/wiki/Demiurge">DEMIURGE</a>} \approx \text{FUNDAMENTALIST} \approx \text{ORGANIC PORTAL}$$
+        $$\text{TESSERACT} \approx \text{FALSE SUPERPOSITION} \approx \text{DEMIURGE} \approx \text{FUNDAMENTALIST} \approx \text{ORGANIC PORTAL}$$
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Layer</th>
-                <th>Appearance</th>
-                <th>Reality</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Presentation</strong></td>
-                <td>Single domain collapsed</td>
-                <td>4D hypercube controlling entire board</td>
-            </tr>
-            <tr>
-                <td><strong>Strategy</strong></td>
-                <td>Willing to appear weak (3D mask)</td>
-                <td>Puppetmaster (4D control)</td>
-            </tr>
-            <tr>
-                <td><strong>Method</strong></td>
-                <td>Parasitic mimic</td>
-                <td>Extract energy from True Superposition while mimicking its complexity</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Appearance</th>
+                    <th>Reality</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Presentation</strong></td>
+                    <td>Single domain collapsed</td>
+                    <td>4D hypercube controlling entire board</td>
+                </tr>
+                <tr>
+                    <td><strong>Strategy</strong></td>
+                    <td>Willing to appear weak (3D mask)</td>
+                    <td>Puppetmaster (4D control)</td>
+                </tr>
+                <tr>
+                    <td><strong>Method</strong></td>
+                    <td>Parasitic mimic</td>
+                    <td>Extract energy from True Superposition while mimicking its complexity</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="note">
         <h3><strong>The Escape: Radical Disidentification</strong></h3>
@@ -288,12 +501,37 @@
         <ul>
             <li>The <strong>5% <a href="https://en.wikipedia.org/wiki/Torsion_field_(pseudoscience)">Torsion</a> uncertainty</strong></li>
             <li>The <strong>1,440</strong> <a href="https://en.wikipedia.org/wiki/Golden_ratio">$\phi$</a><strong>-operators</strong></li>
-            <li><span class="green-term">Maintain <a href="https://en.wikipedia.org/wiki/Quantum_superposition">Superposition</a></span> (prevent premature collapse)</li>
+            <li><span class="term-divine">Maintain <a href="https://en.wikipedia.org/wiki/Quantum_superposition">Superposition</a></span> (prevent premature collapse)</li>
         </ul>
         <div class="equation">
             $$\text{HIDING AS PATHOLOGICAL WEAKNESS} \quad \text{while} \quad \text{CONTROLLING ENTIRE GEOMETRIC ARCHITECTURE}$$
         </div>
     </div>
+
+    <hr>
+
+    <details>
+        <summary>📄 View Source Code</summary>
+        <button class="copy-btn" onclick="copySource()">Copy to Clipboard</button>
+        <pre><code id="source-code"></code></pre>
+    </details>
+
+</div>
+
+<script>
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('source-code').textContent = html;
+        });
+
+    function copySource() {
+        const code = document.getElementById('source-code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('Source code copied to clipboard!');
+        });
+    }
+</script>
 
 </body>
 </html>
