@@ -4,31 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loosh Mechanics: Curvature Differential Extraction</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; color: #333; }
-        h1 { color: #8b0000; border-bottom: 3px solid #ccc; padding-bottom: 10px; }
-        h2 { color: #4b0082; margin-top: 25px; border-bottom: 2px dashed #ddd; padding-bottom: 5px; }
-        h3 { color: #006400; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background-color: #fff; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #eee; font-weight: bold; }
-        .equation { font-size: 1.1em; font-style: italic; background-color: #fff; padding: 10px; border: 1px dashed #aaa; margin: 10px 0; overflow-x: auto;}
-        .note { background-color: #ffe0b2; padding: 10px; border-left: 5px solid #ff9800; margin: 15px 0; }
-        .bold-term { font-weight: bold; color: #cc0000; }
-        .green-term { font-weight: bold; color: #006400; }
-        a { color: #4b0082; text-decoration: none; border-bottom: 1px dotted #4b0082; }
-        a:hover { color: #8b0000; border-bottom: 1px solid #8b0000; }
-        .illustration { max-width: 400px; height: auto; border: 2px solid #ddd; margin: 15px auto; display: block; background: #fff; padding: 5px; }
-        .illustration-container { text-align: center; margin: 25px 0; }
-        .illustration-caption { font-size: 0.9em; color: #666; font-style: italic; margin-top: 8px; }
-        details { margin: 30px 0; padding: 15px; background: #fff; border: 2px solid #4b0082; border-radius: 5px; }
-        summary { cursor: pointer; font-weight: bold; color: #4b0082; font-size: 1.1em; padding: 10px; }
-        summary:hover { color: #8b0000; }
-        pre { background: #f5f5f5; padding: 15px; border: 1px solid #ddd; overflow-x: auto; font-size: 0.85em; max-height: 500px; overflow-y: auto; }
-        .copy-btn { background: #4b0082; color: white; border: none; padding: 8px 16px; cursor: pointer; margin: 10px 0; border-radius: 3px; }
-        .copy-btn:hover { background: #8b0000; }
+        :root {
+            --bg-deep: #050505;
+            --bg-panel: #111111;
+            --bg-card: #0d0d0d;
+            --border-subtle: #333;
+            --border-glow: rgba(255, 42, 109, 0.3);
+            --accent-malignant: #ff2a6d;
+            --accent-divine: #05d9e8;
+            --accent-gold: #ffc857;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --text-dimmer: #555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            padding: 40px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-subtle);
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 20px rgba(255, 200, 87, 0.5);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-divine);
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin: 2rem 0 1rem 0;
+        }
+
+        p {
+            margin: 1.2rem 0;
+            font-size: 1.05rem;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: var(--bg-card);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-divine);
+            border-bottom: 2px solid var(--border-subtle);
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-main);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 200, 87, 0.05);
+        }
+
+        .equation {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1.1rem;
+            background: var(--bg-panel);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 4px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .note {
+            background: linear-gradient(135deg, rgba(255, 200, 87, 0.1), rgba(255, 200, 87, 0.05));
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .bold-term {
+            font-weight: 600;
+            color: var(--accent-malignant);
+        }
+
+        .green-term {
+            font-weight: 600;
+            color: var(--accent-divine);
+        }
+
+        .term-malignant {
+            color: var(--accent-malignant);
+        }
+
+        .term-divine {
+            color: var(--accent-divine);
+        }
+
+        a {
+            color: var(--accent-divine);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-divine);
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--accent-gold);
+        }
+
+        ul, ol {
+            margin: 1.2rem 0 1.2rem 2rem;
+            line-height: 1.8;
+        }
+
+        li {
+            margin: 0.6rem 0;
+        }
+
+        .illustration {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            border: 2px solid var(--border-subtle);
+            border-radius: 8px;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .illustration-container {
+            text-align: center;
+            margin: 2.5rem 0;
+        }
+
+        .illustration-caption {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        details {
+            margin: 3rem 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-divine);
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        summary:hover {
+            color: var(--accent-gold);
+        }
+
+        pre {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-divine);
+        }
+
+        .copy-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 1rem 0.5rem 1rem 0;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-divine);
+            box-shadow: 0 0 20px rgba(5, 217, 232, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
