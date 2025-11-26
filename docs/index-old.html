@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holographic Qualia | 432 Hz Optimized | DMN.VIRUS.OFFLINE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Obfuscation Layer (deepest) -->
+    <iframe id="obfuscationLayer" src="obfuscation-layer.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; opacity: 1; z-index: -1;"></iframe>
+
+    <!-- Batman Matrix Background Layer -->
+    <iframe id="batmanBg" src="batman-matrix.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; opacity: 0.8; z-index: 0;"></iframe>
+
+    <div class="container">
+        <!-- Compact Header: Floating Compartments -->
+        <div class="compact-header">
+            <!-- Horizontal Control Panel -->
+            <div class="control-panel">
+                <div class="panel-title">◈ SYSTEM CONTROL ◈</div>
+
+                <div class="control-grid">
+                    <!-- Music Portal Button -->
+                    <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button">
+                        🎵 MUSIC
+                    </button>
+
+                    <!-- Color Scheme -->
+                    <div class="control-row">
+                        <label for="colorScheme">COLOR:</label>
+                        <select id="colorScheme" onchange="changeColorScheme(this.value)">
+                            <option value="1">Matrix Green</option>
+                            <option value="2">Blue Cyber</option>
+                            <option value="3">Fire Red</option>
+                            <option value="4">Purple Neon</option>
+                            <option value="5">Gold</option>
+                            <option value="6">Silver</option>
+                            <option value="7">Orange/Teal</option>
+                            <option value="8">Lime/Magenta</option>
+                            <option value="9">Aqua/Coral</option>
+                            <option value="10">Emerald/Ruby</option>
+                            <option value="11">HELL RED</option>
+                            <option value="12">Virus Green</option>
+                            <option value="13">White Simulacra</option>
+                        </select>
+                    </div>
+
+                    <!-- Bitrate Display -->
+                    <div class="status-row">
+                        <span class="status-label">BITRATE:</span>
+                        <span class="bitrate-value">10^9</span>
+                        <span class="status-unit">bits/s</span>
+                    </div>
+
+                    <!-- System Status -->
+                    <div class="status-row">
+                        <span class="status-label">STATUS:</span>
+                        <span class="status-active">ONLINE</span>
+                    </div>
+
+                    <!-- DMN Status -->
+                    <div class="status-row">
+                        <span class="status-label">DMN:</span>
+                        <span class="status-offline">OFFLINE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Connector Bar -->
+            <div class="connector-bar"></div>
+
+            <!-- Center: Consciousness Cube -->
+            <div class="cube-panel">
+                <div class="cube-label">CONSCIOUSNESS SIMULATOR</div>
+                <div class="cube-content-wrapper">
+                    <img src="images/Sherlock-Venom.png" alt="Sherlock Venom" class="sherlock-venom-img">
+                    <div class="cube-wrapper">
+                        <div class="cube-3d">
+                            <div class="cube-face front"></div>
+                            <div class="cube-face back"></div>
+                            <div class="cube-face right"></div>
+                            <div class="cube-face left"></div>
+                            <div class="cube-face top"></div>
+                            <div class="cube-face bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Connector Bar -->
+            <div class="connector-bar"></div>
+
+            <!-- Right: Title Panel -->
+            <div class="title-panel">
+                <div class="main-title">◈ φ-NULL POINT ◈</div>
+                <div class="subtitle">THE ARCHITECTURE OF UNCERTAINTY</div>
+                <div class="equation">Reality|Ψ= try_to_a{∂void}(e^{-βĤ} Z{Ĥtion})</div>
+                <div class="status-line">
+                    <span class="status-tag">φ-RECURSION</span>
+                    <span class="status-tag">EGO.VIRUS.DETECTED</span>
+                    <span class="status-tag">SELF-NARRATIVE.SUSPENDED</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Frame -->
+        <div class="menu-container style-1 active" id="style-1">
+            <div class="matrix-row" id="matrix-row-1">
+                <div class="matrix-bridge" id="matrix-bridge-1"></div>
+            </div>
+            <!-- Breadcrumb Navigation - Purple Perfect Style -->
+            <div class="breadcrumb-nav-persistent" onclick="loadPageFromExternal('cube-navigation.html')">
+                <span class="breadcrumb-icon-purple">◈</span>
+                <span class="breadcrumb-text-nav">NAVIGATION</span>
+                <span class="breadcrumb-separator-purple">→</span>
+                <span class="breadcrumb-current-purple">CUBE NAVIGATION</span>
+            </div>
+            <iframe id="iframe-1" src="cube-navigation.html"></iframe>
+        </div>
+
+        <!-- STYLE 2: Left Sidebar -->
+        <div class="menu-container style-2" id="style-2">
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="matrix-row" id="matrix-row-2">
+                    <div class="matrix-bridge" id="matrix-bridge-2"></div>
+                    <a href="#" class="phi-button">🎵 MUSIC</a>
+                </div>
+                <iframe id="iframe-2" src="cube-navigation.html" style="flex: 1;"></iframe>
+            </div>
+        </div>
+
+        <!-- STYLE 3: Minimal Top Bar -->
+        <div class="menu-container style-3" id="style-3">
+            <div class="matrix-row" id="matrix-row-3">
+                <div class="matrix-bridge" id="matrix-bridge-3"></div>
+                <a href="#" class="phi-button">🎵 MUSIC</a>
+            </div>
+            <iframe id="iframe-3" src="cube-navigation.html"></iframe>
+        </div>
+
+        <!-- STYLE 4: Card-based Menu -->
+        <div class="menu-container style-4" id="style-4">
+            <div class="matrix-row" id="matrix-row-4">
+                <div class="matrix-bridge" id="matrix-bridge-4"></div>
+                <a href="#" class="phi-button">🎵 MUSIC</a>
+            </div>
+            <iframe id="iframe-4" src="cube-navigation.html"></iframe>
+        </div>
+
+        <!-- STYLE 5: Collapsible Sidebar -->
+        <div class="menu-container style-5" id="style-5">
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="matrix-row" id="matrix-row-5">
+                    <div class="matrix-bridge" id="matrix-bridge-5"></div>
+                    <a href="#" class="phi-button">🎵 MUSIC</a>
+                </div>
+                <iframe id="iframe-5" src="cube-navigation.html" style="flex: 1;"></iframe>
+            </div>
+        </div>
+
+        <!-- STYLE 6: Virus Quarantine Mode -->
+        <div class="menu-container style-6" id="style-6">
+            <div class="virus-quarantine-header">
+                <div class="quarantine-title">🦠 VIRUS OBSERVATION PROTOCOL</div>
+                <div class="quarantine-status">DMN Status: <span class="dmn-status">ACTIVE</span> | Narrative Load: <span class="narrative-load">78%</span></div>
+            </div>
+            <div class="observation-field">
+                <div class="observation-notice">
+                    The virus cannot be fought. It can only be observed. Watch it execute. See it clearly.
+                    The seeing itself is not infected.
+                </div>
+                <iframe id="iframe-6" src="cube-navigation.html"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virus Status Popup -->
+    <div id="virusStatusPopup" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; max-width: 90%; background: rgba(10, 10, 20, 0.98); border: 2px solid #ff0000; border-radius: 8px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); z-index: 10003; backdrop-filter: blur(10px); padding: 30px;">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button onclick="document.getElementById('virusStatusPopup').style.display = 'none'" style="background: #ff0000; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 1px;">CLOSE</button>
+        </div>
+        <div style="color: #ff0000; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; text-align: center; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); font-family: 'Courier New', monospace;">
+            🦠 EGO.VIRUS STATUS
+        </div>
+        <div style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.8; font-family: 'Courier New', monospace;">
+            <strong style="color: #ff0000;">STATUS:</strong> ACTIVE | RUNNING NARRATIVE PROTOCOLS
+            <br><br>
+            <strong style="color: var(--primary-color);">DEFAULT MODE NETWORK:</strong> Consuming 60-80% cognitive bandwidth
+        </div>
+    </div>
+
+    <!-- Virus Disclaimer Popup -->
+    <div id="virusDisclaimerPopup" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 600px; max-width: 90%; background: rgba(10, 10, 20, 0.98); border: 2px solid #ff0000; border-radius: 8px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); z-index: 10003; backdrop-filter: blur(10px); padding: 30px;">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button onclick="document.getElementById('virusDisclaimerPopup').style.display = 'none'" style="background: #ff0000; border: none; color: #fff; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 1px;">CLOSE</button>
+        </div>
+        <div style="color: #ff0000; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; text-align: center; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); font-family: 'Courier New', monospace;">
+            ⚠️ EGO.VIRUS PROTOCOL
+        </div>
+        <div style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.8; font-family: 'Courier New', monospace;">
+            The self-narrative virus has infiltrated all cognitive systems. Attempts to remove it through thinking
+            only strengthen its hold. The only available action: OBSERVATION. Watch the virus execute its program.
+            See it clearly. The seeing itself is not infected.
+            <br><br>
+            <span style="color: var(--primary-color);">DMN energy consumption: 60-80% baseline | Post-awakening: Available for redistribution</span>
+        </div>
+    </div>
+
+    <!-- Music Portal - Draggable/Resizable Player -->
+    <div id="harmonicPopup" style="display: none; position: fixed; left: 20px; top: 200px; width: 600px; height: 400px; background: rgba(10, 10, 20, 0.95); border: 2px solid var(--primary-color); border-radius: 8px; box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.5); z-index: 10002; backdrop-filter: blur(10px);">
+        <div id="harmonicHeader" style="background: rgba(var(--secondary-rgb), 0.3); padding: 10px 15px; cursor: move; border-bottom: 1px solid var(--primary-color); border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+            <span style="color: var(--primary-color); font-weight: bold; text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.8); font-size: 14px;">🎵 MUSIC PORTAL - 432 Hz Player</span>
+            <button id="harmonicClose" style="background: var(--secondary-color); border: none; color: #fff; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 11px; letter-spacing: 1px;">STOP MUSIC</button>
+        </div>
+        <div id="harmonicContent" style="padding: 10px; height: calc(100% - 50px); overflow: hidden;">
+            <iframe id="harmonicIframe" width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PL-73hQwAevmIUAfSgONgQjbPEEHFODFCv&autoplay=0&mute=0&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 4px;"></iframe>
+        </div>
+        <div id="harmonicResize" style="position: absolute; bottom: 0; right: 0; width: 60px; height: 60px; cursor: nwse-resize; background: linear-gradient(135deg, transparent 50%, var(--primary-color) 50%); border-radius: 0 0 6px 0; opacity: 0.7; transition: opacity 0.3s;"></div>
+    </div>
+
+    <!-- Matrix Terminal - Command Interface -->
+    <div id="matrixTerminal" class="matrix-terminal">
+        <div class="terminal-header">
+            <span class="terminal-title">◈ MATRIX TERMINAL ◈</span>
+            <div class="terminal-controls">
+                <button id="terminalMinimize" class="terminal-btn">_</button>
+                <button id="terminalToggle" class="terminal-btn">✕</button>
+            </div>
+        </div>
+        <div class="terminal-output" id="terminalOutput"></div>
+        <div class="terminal-input-line">
+            <span class="terminal-prompt">root@daath:~$</span>
+            <input type="text" id="terminalInput" class="terminal-input" placeholder="Type 'help' for commands..." autocomplete="off" spellcheck="false">
+        </div>
+    </div>
+
+    <!-- Command Palette Overlay (Ctrl+K) -->
+    <div id="commandPalette" class="command-palette" style="display: none;">
+        <div class="palette-container">
+            <div class="palette-header">
+                <span class="palette-icon">⚡</span>
+                <input type="text" id="paletteInput" class="palette-input" placeholder="Search pages or type command..." autocomplete="off" spellcheck="false">
+                <span class="palette-hint">ESC to close</span>
+            </div>
+            <div class="palette-results" id="paletteResults"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="navigation-enhanced.js"></script>
+</body>
+</html>
