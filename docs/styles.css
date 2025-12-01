@@ -2235,3 +2235,10 @@
                 padding: 6px 12px;
             }
         }
+
+        /* Tablet/Mobile: Ensure iframe content is visible */
+        @media (max-width: 1024px) {
+            .menu-container {
+                min-height: 60vh !important; /* Force minimum height on tablets */
+            }
+        }
