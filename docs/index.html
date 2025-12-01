@@ -104,6 +104,11 @@
             </div>
         </div>
 
+        <!-- Resize Handle -->
+        <div id="resizeHandle" class="resize-handle">
+            <div class="resize-indicator"></div>
+        </div>
+
         <!-- Main Content Frame -->
         <div class="menu-container style-1 active" id="style-1">
             <div class="matrix-row" id="matrix-row-1">
@@ -249,5 +254,80 @@
 
     <script src="app.js"></script>
     <script src="navigation-enhanced.js"></script>
+
+    <!-- Resize Handle Functionality -->
+    <script>
+    (function() {
+        const resizeHandle = document.getElementById('resizeHandle');
+        const header = document.querySelector('.header');
+        let isResizing = false;
+        let startY = 0;
+        let startHeight = 0;
+
+        resizeHandle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            startY = e.clientY;
+            startHeight = header.offsetHeight;
+            resizeHandle.classList.add('dragging');
+            document.body.style.cursor = 'ns-resize';
+            document.body.style.userSelect = 'none';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isResizing) return;
+
+            const deltaY = e.clientY - startY;
+            const newHeight = startHeight + deltaY;
+
+            // Constrain between 100px and 80% of viewport
+            const minHeight = 100;
+            const maxHeight = window.innerHeight * 0.8;
+            const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+
+            header.style.height = constrainedHeight + 'px';
+            header.style.flex = 'none';
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isResizing) {
+                isResizing = false;
+                resizeHandle.classList.remove('dragging');
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+            }
+        });
+
+        // Touch support for tablets
+        resizeHandle.addEventListener('touchstart', function(e) {
+            isResizing = true;
+            startY = e.touches[0].clientY;
+            startHeight = header.offsetHeight;
+            resizeHandle.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isResizing) return;
+
+            const deltaY = e.touches[0].clientY - startY;
+            const newHeight = startHeight + deltaY;
+
+            const minHeight = 100;
+            const maxHeight = window.innerHeight * 0.8;
+            const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+
+            header.style.height = constrainedHeight + 'px';
+            header.style.flex = 'none';
+        });
+
+        document.addEventListener('touchend', function() {
+            if (isResizing) {
+                isResizing = false;
+                resizeHandle.classList.remove('dragging');
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
