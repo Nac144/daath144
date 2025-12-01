@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesseract {4,3,3}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00ffff;
+            font-size: 14px;
+            line-height: 1.6;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ffff;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .spec {
+            color: #888;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="info">
+    <div><strong>TESSERACT {4,3,3}</strong></div>
+    <div class="spec">8 cubic cells</div>
+    <div class="spec">24 square faces</div>
+    <div class="spec">32 edges</div>
+    <div class="spec">16 vertices</div>
+    <div class="spec">90° orthogonal only</div>
+    <div class="spec">384 symmetries</div>
+</div>
+
+<div class="controls">
+    <div>4D → 3D → 2D projection</div>
+    <div class="spec">Rotating on XW and YZ planes</div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Tesseract vertices in 4D space
+const vertices4D = [
+    [-1, -1, -1, -1], [1, -1, -1, -1], [1, 1, -1, -1], [-1, 1, -1, -1],
+    [-1, -1, 1, -1], [1, -1, 1, -1], [1, 1, 1, -1], [-1, 1, 1, -1],
+    [-1, -1, -1, 1], [1, -1, -1, 1], [1, 1, -1, 1], [-1, 1, -1, 1],
+    [-1, -1, 1, 1], [1, -1, 1, 1], [1, 1, 1, 1], [-1, 1, 1, 1]
+];
+
+// Tesseract edges (connect vertices)
+const edges = [
+    // Inner cube (w = -1)
+    [0, 1], [1, 2], [2, 3], [3, 0],
+    [4, 5], [5, 6], [6, 7], [7, 4],
+    [0, 4], [1, 5], [2, 6], [3, 7],
+    // Outer cube (w = 1)
+    [8, 9], [9, 10], [10, 11], [11, 8],
+    [12, 13], [13, 14], [14, 15], [15, 12],
+    [8, 12], [9, 13], [10, 14], [11, 15],
+    // Connections between cubes
+    [0, 8], [1, 9], [2, 10], [3, 11],
+    [4, 12], [5, 13], [6, 14], [7, 15]
+];
+
+let angleXW = 0;
+let angleYZ = 0;
+
+function rotateXW(point, angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return [
+        point[0] * cos - point[3] * sin,
+        point[1],
+        point[2],
+        point[0] * sin + point[3] * cos
+    ];
+}
+
+function rotateYZ(point, angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return [
+        point[0],
+        point[1] * cos - point[2] * sin,
+        point[1] * sin + point[2] * cos,
+        point[3]
+    ];
+}
+
+function project4Dto3D(point) {
+    const distance = 2;
+    const w = point[3];
+    const scale = distance / (distance - w);
+    return [
+        point[0] * scale,
+        point[1] * scale,
+        point[2] * scale
+    ];
+}
+
+function project3Dto2D(point) {
+    const scale = 200;
+    const perspective = 400;
+    const z = point[2];
+    const factor = perspective / (perspective + z);
+    return [
+        point[0] * factor * scale + canvas.width / 2,
+        point[1] * factor * scale + canvas.height / 2,
+        z
+    ];
+}
+
+function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Rotate and project vertices
+    const projectedVertices = vertices4D.map(v => {
+        let rotated = rotateXW(v, angleXW);
+        rotated = rotateYZ(rotated, angleYZ);
+        const p3d = project4Dto3D(rotated);
+        return project3Dto2D(p3d);
+    });
+
+    // Sort edges by depth for proper rendering
+    const edgesWithDepth = edges.map(edge => {
+        const v1 = projectedVertices[edge[0]];
+        const v2 = projectedVertices[edge[1]];
+        const avgZ = (v1[2] + v2[2]) / 2;
+        return { edge, depth: avgZ };
+    });
+
+    edgesWithDepth.sort((a, b) => a.depth - b.depth);
+
+    // Draw edges
+    edgesWithDepth.forEach(({ edge, depth }) => {
+        const v1 = projectedVertices[edge[0]];
+        const v2 = projectedVertices[edge[1]];
+
+        // Color based on depth (cyan gradient)
+        const normalizedDepth = (depth + 200) / 400;
+        const brightness = Math.floor(normalizedDepth * 255);
+
+        ctx.strokeStyle = `rgb(0, ${brightness}, ${brightness})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(v1[0], v1[1]);
+        ctx.lineTo(v2[0], v2[1]);
+        ctx.stroke();
+    });
+
+    // Draw vertices
+    projectedVertices.forEach(v => {
+        const normalizedDepth = (v[2] + 200) / 400;
+        const brightness = Math.floor(normalizedDepth * 255);
+
+        ctx.fillStyle = `rgb(0, ${brightness}, ${brightness})`;
+        ctx.beginPath();
+        ctx.arc(v[0], v[1], 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Glow effect
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = `rgb(0, ${brightness}, ${brightness})`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    });
+
+    angleXW += 0.005;
+    angleYZ += 0.007;
+
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+draw();
+</script>
+
+</body>
+</html>
