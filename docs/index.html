@@ -260,9 +260,13 @@
     (function() {
         const resizeHandle = document.getElementById('resizeHandle');
         const header = document.querySelector('.header');
+        const container = document.querySelector('.container');
         let isResizing = false;
         let startY = 0;
         let startHeight = 0;
+
+        // Initialize: make container allow overflow
+        container.style.overflow = 'visible';
 
         resizeHandle.addEventListener('mousedown', function(e) {
             isResizing = true;
@@ -285,8 +289,13 @@
             const maxHeight = window.innerHeight * 0.8;
             const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
 
+            // Set height and override flex properties
             header.style.height = constrainedHeight + 'px';
-            header.style.flex = 'none';
+            header.style.minHeight = constrainedHeight + 'px';
+            header.style.maxHeight = constrainedHeight + 'px';
+            header.style.flexGrow = '0';
+            header.style.flexShrink = '0';
+            header.style.flexBasis = constrainedHeight + 'px';
         });
 
         document.addEventListener('mouseup', function() {
@@ -317,8 +326,13 @@
             const maxHeight = window.innerHeight * 0.8;
             const constrainedHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
 
+            // Set height and override flex properties
             header.style.height = constrainedHeight + 'px';
-            header.style.flex = 'none';
+            header.style.minHeight = constrainedHeight + 'px';
+            header.style.maxHeight = constrainedHeight + 'px';
+            header.style.flexGrow = '0';
+            header.style.flexShrink = '0';
+            header.style.flexBasis = constrainedHeight + 'px';
         });
 
         document.addEventListener('touchend', function() {
