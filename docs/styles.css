@@ -2238,7 +2238,21 @@
 
         /* Tablet/Mobile: Ensure iframe content is visible */
         @media (max-width: 1024px) {
+            body {
+                overflow: auto !important; /* Allow scrolling on tablets */
+            }
+
+            .container {
+                height: auto !important; /* Let container grow beyond viewport */
+                min-height: 100vh;
+            }
+
             .menu-container {
-                min-height: 60vh !important; /* Force minimum height on tablets */
+                min-height: 600px !important; /* Force substantial height on tablets */
+                flex-shrink: 0 !important; /* Prevent shrinking */
+            }
+
+            .menu-container iframe {
+                min-height: 500px !important; /* Force iframe minimum height */
             }
         }
