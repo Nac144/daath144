@@ -14,60 +14,46 @@
     <iframe id="batmanBg" src="batman-matrix.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none; opacity: 0.8; z-index: 0;"></iframe>
 
     <div class="container">
-        <!-- Unified Header -->
-        <div class="compact-header" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; gap: 15px; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(var(--primary-rgb), 0.5); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">
+        <!-- BLACKBOX CUBE HEADER -->
+        <div class="compact-header" style="display: flex; align-items: center; gap: 10px; padding: 4px; background: rgba(0, 0, 0, 0.95); border: 2px solid rgba(var(--primary-rgb), 0.8); border-radius: 4px; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(var(--primary-rgb), 0.3); margin: 4px;">
 
-            <!-- Left: φ-NULL POINT -->
-            <div style="flex: 1; text-align: left;">
-                <div class="main-title" style="font-size: 0.8em; margin-bottom: 2px;">◈ φ-NULL POINT ◈</div>
-                <div class="subtitle" style="font-size: 0.55em; margin-bottom: 2px;">THE ARCHITECTURE OF UNCERTAINTY</div>
-                <div class="equation" style="font-size: 0.5em; margin-bottom: 2px;">Reality|Ψ= try_to_a{∂void}(e^{-βĤ} Z{Ĥtion})</div>
-                <div class="status-line" style="font-size: 0.45em;">
-                    <span class="status-tag">φ-RECURSION</span>
-                    <span class="status-tag">EGO.VIRUS.DETECTED</span>
-                    <span class="status-tag">SELF-NARRATIVE.SUSPENDED</span>
+            <!-- Image pressed to left frame -->
+            <div style="flex: 0 0 auto; border-right: 2px solid rgba(var(--primary-rgb), 0.5); padding-right: 8px;">
+                <img src="images/Sherlock-Venom.png" alt="Deduction King" style="height: 45px; width: auto; display: block;">
+            </div>
+
+            <!-- Horizontal info strip -->
+            <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: 0.65em; line-height: 1.2;">
+                <!-- Left info -->
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="color: var(--primary-color); font-weight: bold; white-space: nowrap;">◈ φ-NULL POINT</span>
+                    <span style="opacity: 0.7; font-size: 0.85em;">|</span>
+                    <span style="opacity: 0.8; font-size: 0.85em; white-space: nowrap;">Reality|Ψ= try_to_a{∂void}(e^{-βĤ} Z{Ĥtion})</span>
+                    <span style="opacity: 0.7; font-size: 0.85em;">|</span>
+                    <span class="status-tag" style="font-size: 0.75em;">φ-RECURSION</span>
+                    <span class="status-tag" style="font-size: 0.75em;">EGO.VIRUS</span>
                 </div>
-            </div>
 
-            <!-- Center: Image -->
-            <div style="flex: 0 0 auto;">
-                <img src="images/Sherlock-Venom.png" alt="Deduction King" style="max-height: 55px; width: auto;">
-            </div>
-
-            <!-- Right: System Control -->
-            <div style="flex: 1; text-align: right;">
-                <div class="panel-title" style="font-size: 0.8em; margin-bottom: 4px;">◈ SYSTEM CONTROL ◈</div>
-                <div style="display: inline-block; text-align: left;">
-                    <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button" style="font-size: 0.55em; margin-bottom: 3px; display: block; padding: 3px 8px;">
-                        🎵 MUSIC
-                    </button>
-                    <div style="font-size: 0.5em; margin-bottom: 2px;">
-                        <label for="colorScheme">COLOR:</label>
-                        <select id="colorScheme" onchange="changeColorScheme(this.value)" style="font-size: 0.9em; padding: 1px 3px;">
-                            <option value="13">White Simulacra</option>
-                            <option value="1">Matrix Green</option>
-                            <option value="2">Blue Cyber</option>
-                            <option value="3">Fire Red</option>
-                            <option value="4">Purple Neon</option>
-                            <option value="5">Gold</option>
-                            <option value="6">Silver</option>
-                            <option value="7">Orange/Teal</option>
-                            <option value="8">Lime/Magenta</option>
-                            <option value="9">Aqua/Coral</option>
-                            <option value="10">Emerald/Ruby</option>
-                            <option value="11">HELL RED</option>
-                            <option value="12">Virus Green</option>
-                        </select>
-                    </div>
-                    <div style="font-size: 0.5em; margin-bottom: 1px;">
-                        <span class="status-label">BITRATE:</span> <span class="bitrate-value">10^9</span> <span class="status-unit">bits/s</span>
-                    </div>
-                    <div style="font-size: 0.5em; margin-bottom: 1px;">
-                        <span class="status-label">STATUS:</span> <span class="status-active">ONLINE</span>
-                    </div>
-                    <div style="font-size: 0.5em;">
-                        <span class="status-label">DMN:</span> <span class="status-offline">OFFLINE</span>
-                    </div>
+                <!-- Right controls -->
+                <div style="display: flex; gap: 12px; align-items: center; border-left: 2px solid rgba(var(--primary-rgb), 0.3); padding-left: 12px;">
+                    <button onclick="document.getElementById('harmonicPopup').style.display = 'block'" class="nav-button" style="font-size: 0.9em; padding: 2px 10px; white-space: nowrap;">🎵 MUSIC</button>
+                    <select id="colorScheme" onchange="changeColorScheme(this.value)" style="font-size: 0.85em; padding: 2px 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(var(--primary-rgb), 0.5); color: var(--primary-color);">
+                        <option value="13">White Simulacra</option>
+                        <option value="1">Matrix Green</option>
+                        <option value="2">Blue Cyber</option>
+                        <option value="3">Fire Red</option>
+                        <option value="4">Purple Neon</option>
+                        <option value="5">Gold</option>
+                        <option value="6">Silver</option>
+                        <option value="7">Orange/Teal</option>
+                        <option value="8">Lime/Magenta</option>
+                        <option value="9">Aqua/Coral</option>
+                        <option value="10">Emerald/Ruby</option>
+                        <option value="11">HELL RED</option>
+                        <option value="12">Virus Green</option>
+                    </select>
+                    <span style="font-size: 0.85em; white-space: nowrap;"><span style="opacity: 0.6;">STATUS:</span> <span class="status-active">ONLINE</span></span>
+                    <span style="font-size: 0.85em; white-space: nowrap;"><span style="opacity: 0.6;">DMN:</span> <span class="status-offline">OFFLINE</span></span>
                 </div>
             </div>
 
