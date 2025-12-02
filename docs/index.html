@@ -107,6 +107,7 @@
         <!-- Resize Handle -->
         <div id="resizeHandle" class="resize-handle">
             <div class="resize-indicator"></div>
+            <button id="headerToggle" class="header-toggle">▼ COLLAPSE HEADER</button>
         </div>
 
         <!-- Main Content Frame -->
@@ -267,6 +268,23 @@
 
         // Initialize: make container allow overflow
         container.style.overflow = 'visible';
+
+        // Header toggle functionality
+        const toggleButton = document.getElementById('headerToggle');
+        let isCollapsed = false;
+
+        toggleButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            isCollapsed = !isCollapsed;
+
+            if (isCollapsed) {
+                header.classList.add('collapsed');
+                toggleButton.textContent = '▲ EXPAND HEADER';
+            } else {
+                header.classList.remove('collapsed');
+                toggleButton.textContent = '▼ COLLAPSE HEADER';
+            }
+        });
 
         resizeHandle.addEventListener('mousedown', function(e) {
             isResizing = true;
