@@ -3,263 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodecahedron - φ Spiral</title>
+    <title>Grok Dodecahedron - White Page Edition</title>
     <style>
-        body {
-            background: #ffffff;
-            margin: 0;
-            overflow: hidden;
-        }
-        canvas {
-            display: block;
-            cursor: grab;
-        }
-        canvas:active {
-            cursor: grabbing;
-        }
+        body { margin:0; background:#ffffff; overflow:hidden; }
+        canvas { display:block; cursor:grab; }
+        canvas:active { cursor:grabbing; }
     </style>
 </head>
 <body>
-    <canvas id="c"></canvas>
+<canvas id="c"></canvas>
 
 <script>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 
 let width, height;
-function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-}
-window.addEventListener('resize', resize);
-resize();
+function resize(){ width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+window.addEventListener('resize', resize); resize();
 
 const PHI = 21/13;
 const INV_PHI = 1/PHI;
-
 let vertices = [];
 
-for(let x of [-1, 1]) for(let y of [-1, 1]) for(let z of [-1, 1])
-    vertices.push({x, y, z});
+for(let x of [-1,1]) for(let y of [-1,1]) for(let z of [-1,1]) vertices.push({x,y,z});
+for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
+for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
+for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
 
-for(let x of [-1, 1]) for(let y of [-1, 1])
-    vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
-
-for(let x of [-1, 1]) for(let y of [-1, 1])
-    vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
-
-for(let x of [-1, 1]) for(let y of [-1, 1])
-    vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
-
-const neighbors = Array(20).fill().map(() => []);
+const neighbors = Array(20).fill().map(()=>[]);
 const threshold = 1.25;
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);}
+for(let i=0;i<20;i++)for(let j=i+1;j<20;j++)if(dist(vertices[i],vertices[j])<threshold){neighbors[i].push(j);neighbors[j].push(i);}
 
-function dist(v1, v2) {
-    return Math.sqrt((v1.x-v2.x)**2 + (v1.y-v2.y)**2 + (v1.z-v2.z)**2);
+const faces = []; const found = new Set();
+for(let s=0;s<20;s++)for(let a of neighbors[s])for(let b of neighbors[a])if(b!==s)for(let c of neighbors[b])if(c!==a&&c!==s)for(let d of neighbors[c])if(d!==b&&d!==a&&d!==s&&neighbors[d].includes(s)){
+  const face=[s,a,b,c,d]; const id=[...face].sort((a,b)=>a-b).join(','); if(!found.has(id)){found.add(id);faces.push(face);}
 }
 
-for(let i=0; i<20; i++) {
-    for(let j=i+1; j<20; j++) {
-        const d = dist(vertices[i], vertices[j]);
-        if(d < threshold) {
-            neighbors[i].push(j);
-            neighbors[j].push(i);
-        }
+let angleX=0.3, angleY=0.5, zoom=150, dragging=false, lx=0, ly=0, vx=0, vy=0, pulse=0;
+
+canvas.addEventListener('mousedown', e=>{dragging=true; lx=e.clientX; ly=e.clientY; vx=vy=0;});
+canvas.addEventListener('mousemove', e=>{if(dragging){
+  const dx=e.clientX-lx, dy=e.clientY-ly; vy+=dx*0.005; vx+=dy*0.005; angleY+=vy; angleX+=vx; lx=e.clientX; ly=e.clientY;
+}});
+canvas.addEventListener('mouseup',()=>dragging=false);
+canvas.addEventListener('mouseleave',()=>dragging=false);
+canvas.addEventListener('wheel', e=>{e.preventDefault(); zoom+=e.deltaY*-0.1; zoom=Math.max(50,Math.min(300,zoom));});
+
+function rot(v,ax,ay){
+  let y1=v.y*Math.cos(ax)-v.z*Math.sin(ax), z1=v.y*Math.sin(ax)+v.z*Math.cos(ax);
+  let x2=v.x*Math.cos(ay)-z1*Math.sin(ay), z2=v.x*Math.sin(ay)+z1*Math.cos(ay);
+  return {x:x2,y:y1,z:z2};
+}
+function proj(v){
+  const r=rot(v,angleX,angleY);
+  const scale=600/(600+r.z*100+400);
+  return {x:r.x*zoom*scale+width/2, y:r.y*zoom*scale+height/2, rz:r.z};
+}
+
+function lighting(face){
+  const rv=face.map(i=>rot(vertices[i],angleX,angleY));
+  const v1={x:rv[1].x-rv[0].x, y:rv[1].y-rv[0].y, z:rv[1].z-rv[0].z};
+  const v2={x:rv[2].x-rv[0].x, y:rv[2].y-rv[0].y, z:rv[2].z-rv[0].z};
+  const n={x:v1.y*v2.z-v1.z*v2.y, y:v1.z*v2.x-v1.x*v2.z, z:v1.x*v2.y-v1.y*v2.x};
+  const len=Math.hypot(n.x,n.y,n.z)||1; n.x/=len; n.y/=len; n.z/=len;
+  const L={x:.5,y:-.5,z:-1}; const LL=Math.hypot(L.x,L.y,L.z);
+  return 0.3 + 0.5*Math.max(0, -(n.x*L.x/LL + n.y*L.y/LL + n.z*L.z/LL));
+}
+
+function draw(){
+  ctx.clearRect(0,0,width,height);
+  if(!dragging){ angleX+=0.001; angleY+=0.002; }
+  pulse*=0.95;
+
+  const pv=vertices.map(proj);
+
+  const front=[], back=[], frontE=[], backE=[];
+  faces.forEach(f=>{
+    const pts=f.map(i=>pv[i]);
+    const zAvg=pts.reduce((s,p)=>s+p.rz,0)/5;
+    (zAvg<0?front:back).push({pts,zAvg});
+    for(let i=0;i<5;i++){
+      const a=pts[i], b=pts[(i+1)%5], ez=(a.rz+b.rz)/2;
+      (ez<0?frontE:backE).push({a,b,ez});
     }
+  });
+  [back,front,backE,frontE].forEach(arr=>arr.sort((a,b)=>b.zAvg??b.ez - (a.zAvg??a.ez)));
+
+  // back faces – faint
+  back.forEach(f=>{ ctx.fillStyle='rgba(0,180,200,0.06)'; ctx.beginPath(); f.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill(); });
+
+  // front faces – subtle teal wash
+  front.forEach(f=>{ const l=lighting(f.pts.map(p=>p.rz)); ctx.fillStyle=`rgba(0,170,190,${0.07+0.06*l})`; ctx.beginPath(); f.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill(); });
+
+  // back edges – faint gray
+  ctx.strokeStyle='rgba(0,0,0,0.15)'; ctx.lineWidth=1.2;
+  backE.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
+
+  // front edges – stable xAI teal glow
+  ctx.save();
+  ctx.shadowBlur=12; ctx.shadowColor='#00D4FF';
+  ctx.strokeStyle='#00C4FF'; ctx.lineWidth=2.8;
+  frontE.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
+  ctx.restore();
+
+  // black pentagrams on front faces only
+  ctx.strokeStyle='#000'; ctx.lineWidth=1.8;
+  front.forEach(f=>{ const p=f.pts; ctx.beginPath();
+    ctx.moveTo(p[0].x,p[0].y); ctx.lineTo(p[2].x,p[2].y);
+    ctx.lineTo(p[4].x,p[4].y); ctx.lineTo(p[1].x,p[1].y);
+    ctx.lineTo(p[3].x,p[3].y); ctx.closePath(); ctx.stroke();
+  });
+
+  requestAnimationFrame(draw);
 }
-
-const faces = [];
-const foundFaces = new Set();
-
-for(let start=0; start<20; start++) {
-    for(let n1 of neighbors[start]) {
-        for(let n2 of neighbors[n1]) {
-            if(n2 === start) continue;
-            for(let n3 of neighbors[n2]) {
-                if(n3 === n1 || n3 === start) continue;
-                for(let n4 of neighbors[n3]) {
-                    if(n4 === n2 || n4 === n1 || n4 === start) continue;
-                    if(neighbors[n4].includes(start)) {
-                        const cycle = [start, n1, n2, n3, n4];
-                        const id = [...cycle].sort((a,b)=>a-b).join(',');
-
-                        if(!foundFaces.has(id)) {
-                            foundFaces.add(id);
-                            faces.push(cycle);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-let angleX = 0.3;
-let angleY = 0.5;
-let zoom = 150;
-let isDragging = false;
-let lastMouseX = 0;
-let lastMouseY = 0;
-
-canvas.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
-});
-
-canvas.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-        const deltaX = e.clientX - lastMouseX;
-        const deltaY = e.clientY - lastMouseY;
-        angleY += deltaX * 0.005;
-        angleX += deltaY * 0.005;
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-    }
-});
-
-canvas.addEventListener('mouseup', () => {
-    isDragging = false;
-});
-
-canvas.addEventListener('mouseleave', () => {
-    isDragging = false;
-});
-
-canvas.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    zoom += e.deltaY * -0.1;
-    zoom = Math.max(50, Math.min(300, zoom));
-});
-
-function rotatePoint(v, ax, ay) {
-    let y1 = v.y * Math.cos(ax) - v.z * Math.sin(ax);
-    let z1 = v.y * Math.sin(ax) + v.z * Math.cos(ax);
-
-    let x2 = v.x * Math.cos(ay) - z1 * Math.sin(ay);
-    let z2 = v.x * Math.sin(ay) + z1 * Math.cos(ay);
-
-    return {x: x2, y: y1, z: z2};
-}
-
-function project(v) {
-    const fov = 600;
-    const rotated = rotatePoint(v, angleX, angleY);
-
-    let scale = fov / (fov + rotated.z * 100 + 400);
-    return {
-        x: rotated.x * zoom * scale + width / 2,
-        y: rotated.y * zoom * scale + height / 2,
-        z: rotated.z,
-        rx: rotated.x,
-        ry: rotated.y,
-        rz: rotated.z
-    };
-}
-
-function calculateLighting(faceIndices) {
-    // Get 3D rotated vertices for this face
-    const rotatedVerts = faceIndices.map(i => rotatePoint(vertices[i], angleX, angleY));
-
-    // Calculate face normal using cross product
-    const v1 = {
-        x: rotatedVerts[1].x - rotatedVerts[0].x,
-        y: rotatedVerts[1].y - rotatedVerts[0].y,
-        z: rotatedVerts[1].z - rotatedVerts[0].z
-    };
-    const v2 = {
-        x: rotatedVerts[2].x - rotatedVerts[0].x,
-        y: rotatedVerts[2].y - rotatedVerts[0].y,
-        z: rotatedVerts[2].z - rotatedVerts[0].z
-    };
-
-    const normal = {
-        x: v1.y * v2.z - v1.z * v2.y,
-        y: v1.z * v2.x - v1.x * v2.z,
-        z: v1.x * v2.y - v1.y * v2.x
-    };
-
-    // Normalize
-    const len = Math.sqrt(normal.x**2 + normal.y**2 + normal.z**2);
-    normal.x /= len;
-    normal.y /= len;
-    normal.z /= len;
-
-    // Light direction (from top-right-front)
-    const light = {x: 0.5, y: -0.5, z: -1};
-    const lightLen = Math.sqrt(light.x**2 + light.y**2 + light.z**2);
-    light.x /= lightLen;
-    light.y /= lightLen;
-    light.z /= lightLen;
-
-    // Calculate dot product (how much face points toward light)
-    const intensity = Math.max(0, -(normal.x * light.x + normal.y * light.y + normal.z * light.z));
-
-    return 0.3 + intensity * 0.5; // Range from 0.3 to 0.8
-}
-
-function draw() {
-    ctx.clearRect(0, 0, width, height);
-
-    if(!isDragging) {
-        angleX += 0.003;
-        angleY += 0.007;
-    }
-
-    const projVerts = vertices.map(project);
-
-    const renderList = faces.map(faceIndices => {
-        const p = faceIndices.map(i => projVerts[i]);
-        const zAvg = p.reduce((sum, v) => sum + v.z, 0) / 5;
-        return { indices: faceIndices, points: p, z: zAvg };
-    });
-
-    renderList.sort((a, b) => a.z - b.z);
-
-    renderList.forEach(face => {
-        const pts = face.points;
-
-        ctx.beginPath();
-        ctx.moveTo(pts[0].x, pts[0].y);
-        for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
-        ctx.closePath();
-
-        // Calculate lighting based on face normal
-        const lighting = calculateLighting(face.indices);
-        const baseColor = 200;
-        const litColor = Math.floor(baseColor * lighting);
-
-        ctx.fillStyle = `rgba(${litColor}, 0, 0, 0.5)`;
-        ctx.fill();
-
-        // Glowing red pentagon border
-        ctx.save();
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "rgba(255, 0, 0, 0.8)";
-        ctx.strokeStyle = "rgba(200, 0, 0, 0.9)";
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-        ctx.restore();
-
-        // Black pentagram (no glow)
-        ctx.beginPath();
-        ctx.moveTo(pts[0].x, pts[0].y);
-        ctx.lineTo(pts[2].x, pts[2].y);
-        ctx.lineTo(pts[4].x, pts[4].y);
-        ctx.lineTo(pts[1].x, pts[1].y);
-        ctx.lineTo(pts[3].x, pts[3].y);
-        ctx.closePath();
-
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-    });
-
-    requestAnimationFrame(draw);
-}
-
 draw();
 </script>
 </body>
