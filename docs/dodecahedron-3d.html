@@ -3,120 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grok Dodecahedron - White Page Edition</title>
+    <title>Dodecahedron - Transparent Final</title>
     <style>
-        body { margin:0; background:#ffffff; overflow:hidden; }
-        canvas { display:block; cursor:grab; }
-        canvas:active { cursor:grabbing; }
+        body {
+            background: #000000;
+            margin: 0;
+            overflow: hidden;
+            color: #00D4FF;
+            font-family: monospace;
+        }
+        canvas {
+            display: block;
+            cursor: grab;
+        }
+        canvas:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-
-<script>
+    <canvas id="c"></canvas>
+    <script>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 
 let width, height;
-function resize(){ width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
-window.addEventListener('resize', resize); resize();
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+}
+window.addEventListener('resize', resize);
+resize();
 
+// --- GEOMETRY SETUP ---
 const PHI = 21/13;
 const INV_PHI = 1/PHI;
+
 let vertices = [];
+for(let x of [-1, 1]) for(let y of [-1, 1]) for(let z of [-1, 1]) vertices.push({x, y, z});
+for(let x of [-1, 1]) for(let y of [-1, 1]) vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
+for(let x of [-1, 1]) for(let y of [-1, 1]) vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
+for(let x of [-1, 1]) for(let y of [-1, 1]) vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
 
-for(let x of [-1,1]) for(let y of [-1,1]) for(let z of [-1,1]) vertices.push({x,y,z});
-for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
-for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
-for(let x of [-1,1]) for(let y of [-1,1]) vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
-
-const neighbors = Array(20).fill().map(()=>[]);
+const neighbors = Array(20).fill().map(() => []);
 const threshold = 1.25;
-function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);}
-for(let i=0;i<20;i++)for(let j=i+1;j<20;j++)if(dist(vertices[i],vertices[j])<threshold){neighbors[i].push(j);neighbors[j].push(i);}
 
-const faces = []; const found = new Set();
-for(let s=0;s<20;s++)for(let a of neighbors[s])for(let b of neighbors[a])if(b!==s)for(let c of neighbors[b])if(c!==a&&c!==s)for(let d of neighbors[c])if(d!==b&&d!==a&&d!==s&&neighbors[d].includes(s)){
-  const face=[s,a,b,c,d]; const id=[...face].sort((a,b)=>a-b).join(','); if(!found.has(id)){found.add(id);faces.push(face);}
+function dist(v1, v2) {
+    return Math.sqrt((v1.x-v2.x)**2 + (v1.y-v2.y)**2 + (v1.z-v2.z)**2);
 }
 
-let angleX=0.3, angleY=0.5, zoom=150, dragging=false, lx=0, ly=0, vx=0, vy=0, pulse=0;
-
-canvas.addEventListener('mousedown', e=>{dragging=true; lx=e.clientX; ly=e.clientY; vx=vy=0;});
-canvas.addEventListener('mousemove', e=>{if(dragging){
-  const dx=e.clientX-lx, dy=e.clientY-ly; vy+=dx*0.005; vx+=dy*0.005; angleY+=vy; angleX+=vx; lx=e.clientX; ly=e.clientY;
-}});
-canvas.addEventListener('mouseup',()=>dragging=false);
-canvas.addEventListener('mouseleave',()=>dragging=false);
-canvas.addEventListener('wheel', e=>{e.preventDefault(); zoom+=e.deltaY*-0.1; zoom=Math.max(50,Math.min(300,zoom));});
-
-function rot(v,ax,ay){
-  let y1=v.y*Math.cos(ax)-v.z*Math.sin(ax), z1=v.y*Math.sin(ax)+v.z*Math.cos(ax);
-  let x2=v.x*Math.cos(ay)-z1*Math.sin(ay), z2=v.x*Math.sin(ay)+z1*Math.cos(ay);
-  return {x:x2,y:y1,z:z2};
-}
-function proj(v){
-  const r=rot(v,angleX,angleY);
-  const scale=600/(600+r.z*100+400);
-  return {x:r.x*zoom*scale+width/2, y:r.y*zoom*scale+height/2, rz:r.z};
-}
-
-function lighting(face){
-  const rv=face.map(i=>rot(vertices[i],angleX,angleY));
-  const v1={x:rv[1].x-rv[0].x, y:rv[1].y-rv[0].y, z:rv[1].z-rv[0].z};
-  const v2={x:rv[2].x-rv[0].x, y:rv[2].y-rv[0].y, z:rv[2].z-rv[0].z};
-  const n={x:v1.y*v2.z-v1.z*v2.y, y:v1.z*v2.x-v1.x*v2.z, z:v1.x*v2.y-v1.y*v2.x};
-  const len=Math.hypot(n.x,n.y,n.z)||1; n.x/=len; n.y/=len; n.z/=len;
-  const L={x:.5,y:-.5,z:-1}; const LL=Math.hypot(L.x,L.y,L.z);
-  return 0.3 + 0.5*Math.max(0, -(n.x*L.x/LL + n.y*L.y/LL + n.z*L.z/LL));
-}
-
-function draw(){
-  ctx.clearRect(0,0,width,height);
-  if(!dragging){ angleX+=0.001; angleY+=0.002; }
-  pulse*=0.95;
-
-  const pv=vertices.map(proj);
-
-  const front=[], back=[], frontE=[], backE=[];
-  faces.forEach(f=>{
-    const pts=f.map(i=>pv[i]);
-    const zAvg=pts.reduce((s,p)=>s+p.rz,0)/5;
-    (zAvg<0?front:back).push({pts,zAvg});
-    for(let i=0;i<5;i++){
-      const a=pts[i], b=pts[(i+1)%5], ez=(a.rz+b.rz)/2;
-      (ez<0?frontE:backE).push({a,b,ez});
+for(let i=0; i<20; i++) {
+    for(let j=i+1; j<20; j++) {
+        const d = dist(vertices[i], vertices[j]);
+        if(d < threshold) {
+            neighbors[i].push(j);
+            neighbors[j].push(i);
+        }
     }
-  });
-  [back,front,backE,frontE].forEach(arr=>arr.sort((a,b)=>b.zAvg??b.ez - (a.zAvg??a.ez)));
-
-  // back faces – faint
-  back.forEach(f=>{ ctx.fillStyle='rgba(0,180,200,0.06)'; ctx.beginPath(); f.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill(); });
-
-  // front faces – subtle teal wash
-  front.forEach(f=>{ const l=lighting(f.pts.map(p=>p.rz)); ctx.fillStyle=`rgba(0,170,190,${0.07+0.06*l})`; ctx.beginPath(); f.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill(); });
-
-  // back edges – faint gray
-  ctx.strokeStyle='rgba(0,0,0,0.15)'; ctx.lineWidth=1.2;
-  backE.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
-
-  // front edges – stable xAI teal glow
-  ctx.save();
-  ctx.shadowBlur=12; ctx.shadowColor='#00D4FF';
-  ctx.strokeStyle='#00C4FF'; ctx.lineWidth=2.8;
-  frontE.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
-  ctx.restore();
-
-  // black pentagrams on front faces only
-  ctx.strokeStyle='#000'; ctx.lineWidth=1.8;
-  front.forEach(f=>{ const p=f.pts; ctx.beginPath();
-    ctx.moveTo(p[0].x,p[0].y); ctx.lineTo(p[2].x,p[2].y);
-    ctx.lineTo(p[4].x,p[4].y); ctx.lineTo(p[1].x,p[1].y);
-    ctx.lineTo(p[3].x,p[3].y); ctx.closePath(); ctx.stroke();
-  });
-
-  requestAnimationFrame(draw);
 }
+
+const faces = [];
+const foundFaces = new Set();
+for(let start=0; start<20; start++) {
+    for(let n1 of neighbors[start]) {
+        for(let n2 of neighbors[n1]) {
+            if(n2 === start) continue;
+            for(let n3 of neighbors[n2]) {
+                if(n3 === n1 || n3 === start) continue;
+                for(let n4 of neighbors[n3]) {
+                    if(n4 === n2 || n4 === n1 || n4 === start) continue;
+                    if(neighbors[n4].includes(start)) {
+                        const cycle = [start, n1, n2, n3, n4];
+                        const id = [...cycle].sort((a,b)=>a-b).join(',');
+                        if(!foundFaces.has(id)) {
+                            foundFaces.add(id);
+                            faces.push(cycle);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+let angleX = 0.3;
+let angleY = 0.5;
+let zoom = 150;
+let isDragging = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let velocityX = 0;
+let velocityY = 0;
+let pulse = 0;
+let keys = '';
+
+// Event listeners for interactivity (kept)
+canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+    velocityX = 0;
+    velocityY = 0;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        const deltaX = e.clientX - lastMouseX;
+        const deltaY = e.clientY - lastMouseY;
+        velocityY += deltaX * 0.005;
+        velocityX += deltaY * 0.005;
+        angleY += velocityY;
+        angleX += velocityX;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+    }
+});
+
+canvas.addEventListener('mouseup', () => { isDragging = false; });
+canvas.addEventListener('mouseleave', () => { isDragging = false; });
+canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    zoom += e.deltaY * -0.1;
+    zoom = Math.max(50, Math.min(300, zoom));
+});
+
+document.addEventListener('keydown', (e) => {
+    keys += e.key.toLowerCase();
+    if (keys.includes('truth')) {
+        pulse = 1;
+        keys = '';
+    }
+    if (keys.length > 10) keys = keys.slice(-10);
+});
+
+// --- RENDER FUNCTIONS (UNMODIFIED) ---
+function rotatePoint(v, ax, ay) {
+    let y1 = v.y * Math.cos(ax) - v.z * Math.sin(ax);
+    let z1 = v.y * Math.sin(ax) + v.z * Math.cos(ax);
+    let x2 = v.x * Math.cos(ay) - z1 * Math.sin(ay);
+    let z2 = v.x * Math.sin(ay) + z1 * Math.cos(ay);
+    return {x: x2, y: y1, z: z2};
+}
+
+function project(v) {
+    const fov = 600;
+    const rotated = rotatePoint(v, angleX, angleY);
+    let scale = fov / (fov + rotated.z * 100 + 400);
+    return {
+        x: rotated.x * zoom * scale + width / 2,
+        y: rotated.y * zoom * scale + height / 2,
+        z: rotated.z,
+        rx: rotated.x, ry: rotated.y, rz: rotated.z
+    };
+}
+
+function calculateLighting(faceIndices) {
+    const rotatedVerts = faceIndices.map(i => rotatePoint(vertices[i], angleX, angleY));
+    const v1 = {x: rotatedVerts[1].x - rotatedVerts[0].x, y: rotatedVerts[1].y - rotatedVerts[0].y, z: rotatedVerts[1].z - rotatedVerts[0].z};
+    const v2 = {x: rotatedVerts[2].x - rotatedVerts[0].x, y: rotatedVerts[2].y - rotatedVerts[0].y, z: rotatedVerts[2].z - rotatedVerts[0].z};
+    const normal = {x: v1.y * v2.z - v1.z * v2.y, y: v1.z * v2.x - v1.x * v2.z, z: v1.x * v2.y - v1.y * v2.x};
+    const len = Math.sqrt(normal.x**2 + normal.y**2 + normal.z**2);
+    if (len === 0) return 0.3;
+    normal.x /= len; normal.y /= len; normal.z /= len;
+    const light = {x: 0.5, y: -0.5, z: -1};
+    const lightLen = Math.sqrt(light.x**2 + light.y**2 + light.z**2);
+    light.x /= lightLen; light.y /= lightLen; light.z /= lightLen;
+    const intensity = Math.max(0, -(normal.x * light.x + normal.y * light.y + normal.z * light.z));
+    return 0.3 + intensity * 0.5;
+}
+
+function distortPoint(px, py, intensity) {
+    const dx = (px - width / 2) / width;
+    const dy = (py - height / 2) / height;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const wave = Math.sin(Date.now() * 0.001 + dist * 10) * intensity * 0.5;
+    return {
+        x: px + dx * wave * 10,
+        y: py + dy * wave * 10
+    };
+}
+
+function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    if(!isDragging) {
+        angleX += 0.001;
+        angleY += 0.002;
+    }
+
+    if (pulse > 0) {
+        pulse *= 0.95;
+    }
+
+    const projVerts = vertices.map(project);
+    const frontFaces = [];
+    const backFaces = [];
+    const frontEdges = [];
+    const backEdges = [];
+
+    faces.forEach(faceIndices => {
+        const p = faceIndices.map(i => projVerts[i]);
+        const zAvg = p.reduce((sum, v) => sum + v.rz, 0) / 5;
+        const isFront = zAvg < 0;
+
+        if (isFront) {
+            frontFaces.push({ indices: faceIndices, points: p, z: zAvg });
+        } else {
+            backFaces.push({ indices: faceIndices, points: p, z: zAvg });
+        }
+
+        for (let i = 0; i < 5; i++) {
+            const v1 = p[i];
+            const v2 = p[(i+1)%5];
+            const edgeZ = (v1.rz + v2.rz) / 2;
+            const edge = { p1: v1, p2: v2, z: edgeZ };
+
+            if (edgeZ < 0) {
+                frontEdges.push(edge);
+            } else {
+                backEdges.push(edge);
+            }
+        }
+    });
+
+    backFaces.sort((a, b) => b.z - a.z);
+    frontFaces.sort((a, b) => b.z - a.z);
+    backEdges.sort((a, b) => b.z - a.z);
+    frontEdges.sort((a, b) => b.z - a.z);
+
+    // Draw back and front faces
+    [...backFaces, ...frontFaces].forEach(face => {
+        const pts = face.points;
+        const lighting = calculateLighting(face.indices);
+        const baseColor = 50 + pulse * 50;
+        const litColor = Math.floor(baseColor * lighting);
+        const alpha = face.z < 0 ? 0.3 : 0.1;
+
+        const distortedPts = pts.map(pt => distortPoint(pt.x, pt.y, pulse * 0.1));
+        ctx.beginPath();
+        ctx.moveTo(distortedPts[0].x, distortedPts[0].y);
+        for(let i=1; i<5; i++) ctx.lineTo(distortedPts[i].x, distortedPts[i].y);
+        ctx.closePath();
+
+        ctx.fillStyle = `rgba(${litColor}, ${litColor + 20}, 100, ${alpha})`;
+        ctx.fill();
+    });
+
+    // Draw back edges (faint gray)
+    ctx.strokeStyle = "rgba(100, 100, 100, 0.4)";
+    ctx.lineWidth = 1.5;
+    backEdges.forEach(edge => {
+        ctx.beginPath();
+        ctx.moveTo(edge.p1.x, edge.p1.y);
+        ctx.lineTo(edge.p2.x, edge.p2.y);
+        ctx.stroke();
+    });
+
+    // Draw front edges (bold xAI teal with glow)
+    ctx.save();
+    ctx.shadowBlur = 10 + pulse * 20;
+    ctx.shadowColor = "rgba(0, 212, 255, 0.8)";
+    ctx.strokeStyle = `rgba(0, 212, 255, ${0.9 + pulse * 0.1})`;
+    ctx.lineWidth = 2.5;
+    frontEdges.forEach(edge => {
+        const distortedP1 = distortPoint(edge.p1.x, edge.p1.y, pulse * 0.2);
+        const distortedP2 = distortPoint(edge.p2.x, edge.p2.y, pulse * 0.2);
+        ctx.beginPath();
+        ctx.moveTo(distortedP1.x, distortedP1.y);
+        ctx.lineTo(distortedP2.x, distortedP2.y);
+        ctx.stroke();
+    });
+    ctx.restore();
+
+    // Pentagrams: front only, black, no glow, but distorted
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+    frontFaces.forEach(face => {
+        const pts = face.points;
+        const distortedPts = [0,2,4,1,3].map(i => distortPoint(pts[i].x, pts[i].y, pulse * 0.1));
+
+        ctx.beginPath();
+        ctx.moveTo(distortedPts[0].x, distortedPts[0].y);
+        ctx.lineTo(distortedPts[1].x, distortedPts[1].y);
+        ctx.lineTo(distortedPts[2].x, distortedPts[2].y);
+        ctx.lineTo(distortedPts[3].x, distortedPts[3].y);
+        ctx.lineTo(distortedPts[4].x, distortedPts[4].y);
+        ctx.closePath();
+        ctx.stroke();
+    });
+
+    requestAnimationFrame(draw);
+}
+
 draw();
 </script>
 </body>
