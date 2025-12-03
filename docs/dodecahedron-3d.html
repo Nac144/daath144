@@ -8,41 +8,17 @@
             background: #fff;
             margin: 0;
             overflow: hidden;
-            color: #ffd700;
-            font-family: 'Segoe UI', monospace;
         }
         canvas {
             display: block;
+            cursor: grab;
         }
-        #overlay {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            pointer-events: none;
-            background: rgba(0,0,0,0.7);
-            padding: 15px;
-            border: 1px solid #ffd700;
-        }
-        h1 {
-            margin: 0;
-            font-size: 1.2em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        p {
-            margin: 5px 0 0;
-            font-size: 0.9em;
-            color: #ff00ff;
+        canvas:active {
+            cursor: grabbing;
         }
     </style>
 </head>
 <body>
-    <div id="overlay">
-        <h1>Rational Dodecahedron</h1>
-        <p>Phi Approx: 21/13</p>
-        <p>Faces: Auto-Detected via Geometry</p>
-        <p style="color: #fff">Pentagrams: 12/12 Verified</p>
-    </div>
     <canvas id="c"></canvas>
 
     <script>
@@ -136,28 +112,90 @@
             imageLoaded = true;
         };
 
-        // --- 4. RENDER ENGINE ---
+        // --- 4. MOUSE CONTROLS ---
         let angleX = 0;
         let angleY = 0;
+        let zoom = 150;
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
 
-        function project(v) {
-            const fov = 600;
-            let y1 = v.y * Math.cos(angleX) - v.z * Math.sin(angleX);
-            let z1 = v.y * Math.sin(angleX) + v.z * Math.cos(angleX);
-            let x2 = v.x * Math.cos(angleY) - z1 * Math.sin(angleY);
-            let z2 = v.x * Math.sin(angleY) + z1 * Math.cos(angleY);
-            let scale = fov / (fov + z2 * 100 + 400);
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - lastMouseX;
+                const deltaY = e.clientY - lastMouseY;
+                angleY += deltaX * 0.01;
+                angleX += deltaY * 0.01;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            zoom += e.deltaY * -0.1;
+            zoom = Math.max(50, Math.min(300, zoom));
+        });
+
+        // --- 5. RENDER ENGINE ---
+        function rotateX(v, angle) {
             return {
-                x: x2 * 150 * scale + width / 2,
-                y: y1 * 150 * scale + height / 2,
-                z: z2
+                x: v.x,
+                y: v.y * Math.cos(angle) - v.z * Math.sin(angle),
+                z: v.y * Math.sin(angle) + v.z * Math.cos(angle)
             };
         }
 
-        function drawImageOnPentagon(pts) {
+        function rotateY(v, angle) {
+            return {
+                x: v.x * Math.cos(angle) - v.z * Math.sin(angle),
+                y: v.y,
+                z: v.x * Math.sin(angle) + v.z * Math.cos(angle)
+            };
+        }
+
+        function project(v) {
+            const fov = 600;
+            const rotated = rotateY(rotateX(v, angleX), angleY);
+            let scale = fov / (fov + rotated.z * 100 + 400);
+            return {
+                x: rotated.x * zoom * scale + width / 2,
+                y: rotated.y * zoom * scale + height / 2,
+                z: rotated.z,
+                rx: rotated.x,
+                ry: rotated.y,
+                rz: rotated.z
+            };
+        }
+
+        function drawImageOnPentagon(pts, faceIndices) {
             if(!imageLoaded) return;
 
-            // Calculate center of pentagon
+            // Get 3D rotated positions for proper orientation
+            const v3d = faceIndices.map(i => {
+                const v = vertices[i];
+                return rotateY(rotateX(v, angleX), angleY);
+            });
+
+            // Calculate 3D face normal for proper orientation
+            const v1 = {x: v3d[1].x - v3d[0].x, y: v3d[1].y - v3d[0].y, z: v3d[1].z - v3d[0].z};
+            const v2 = {x: v3d[2].x - v3d[0].x, y: v3d[2].y - v3d[0].y, z: v3d[2].z - v3d[0].z};
+
+            // Calculate center of pentagon in 2D
             const cx = pts.reduce((sum, p) => sum + p.x, 0) / 5;
             const cy = pts.reduce((sum, p) => sum + p.y, 0) / 5;
 
@@ -170,18 +208,18 @@
             }
             avgEdgeLen /= 5;
 
-            // Calculate rotation angle based on first edge
+            // Use the actual edge direction in 3D space projected to 2D
             const dx = pts[1].x - pts[0].x;
             const dy = pts[1].y - pts[0].y;
-            const angle = Math.atan2(dy, dx);
+            const angle = Math.atan2(dy, dx) - Math.PI / 2; // Adjust for pentagram orientation
 
             // Draw the pentagram image
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(angle);
 
-            const size = avgEdgeLen * 1.8; // Scale to fit inside pentagon
-            ctx.globalAlpha = 0.8;
+            const size = avgEdgeLen * 1.8;
+            ctx.globalAlpha = 0.7;
             ctx.drawImage(pentagramImg, -size/2, -size/2, size, size);
             ctx.globalAlpha = 1.0;
 
@@ -208,19 +246,17 @@
             renderList.forEach(face => {
                 const pts = face.points;
 
-                // 1. Draw Pentagon Face
+                // 1. Draw Pentagon Face (transparent, no gold fill)
                 ctx.beginPath();
                 ctx.moveTo(pts[0].x, pts[0].y);
                 for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
                 ctx.closePath();
-                ctx.fillStyle = "rgba(255, 215, 0, 0.1)";
-                ctx.strokeStyle = "rgba(255, 215, 0, 0.4)";
+                ctx.strokeStyle = "rgba(100, 100, 100, 0.3)";
                 ctx.lineWidth = 1;
-                ctx.fill();
                 ctx.stroke();
 
-                // 2. Draw pentagram image on face
-                drawImageOnPentagon(pts);
+                // 2. Draw pentagram image on face (properly tethered)
+                drawImageOnPentagon(pts, face.indices);
 
                 // 3. Draw INSCRIBED PENTAGRAM outline
                 ctx.beginPath();
@@ -230,13 +266,11 @@
                 ctx.lineTo(pts[1].x, pts[1].y);
                 ctx.lineTo(pts[3].x, pts[3].y);
                 ctx.closePath();
-                ctx.strokeStyle = "#ff00ff";
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = "rgba(255, 0, 255, 0.6)";
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
             });
 
-            angleX += 0.003;
-            angleY += 0.007;
             requestAnimationFrame(draw);
         }
 
