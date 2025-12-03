@@ -104,13 +104,21 @@
             }
         }
 
-        // --- 3. LOAD PENTAGRAM IMAGE ---
-        const pentagramImg = new Image();
-        pentagramImg.src = 'https://raw.githubusercontent.com/Nac144/daath144/refs/heads/main/docs/images/imgbin_56d6abf1353d561eae6abf0e4b6de1c8.png';
-        let imageLoaded = false;
-        pentagramImg.onload = () => {
-            imageLoaded = true;
-        };
+        // --- 3. PENTAGRAM COLORS ---
+        const pentagramColors = [
+            '#ff00ff', // Magenta
+            '#00ffff', // Cyan
+            '#ff0080', // Hot Pink
+            '#8000ff', // Purple
+            '#ff8000', // Orange
+            '#00ff80', // Spring Green
+            '#ff0040', // Rose
+            '#4000ff', // Indigo
+            '#ffff00', // Yellow
+            '#00ff00', // Green
+            '#ff00c0', // Deep Pink
+            '#00c0ff'  // Sky Blue
+        ];
 
         // --- 4. MOUSE CONTROLS ---
         let angleX = 0;
@@ -182,49 +190,6 @@
             };
         }
 
-        function drawImageOnPentagon(pts, faceIndices) {
-            if(!imageLoaded) return;
-
-            // Get 3D rotated positions for proper orientation
-            const v3d = faceIndices.map(i => {
-                const v = vertices[i];
-                return rotateY(rotateX(v, angleX), angleY);
-            });
-
-            // Calculate 3D face normal for proper orientation
-            const v1 = {x: v3d[1].x - v3d[0].x, y: v3d[1].y - v3d[0].y, z: v3d[1].z - v3d[0].z};
-            const v2 = {x: v3d[2].x - v3d[0].x, y: v3d[2].y - v3d[0].y, z: v3d[2].z - v3d[0].z};
-
-            // Calculate center of pentagon in 2D
-            const cx = pts.reduce((sum, p) => sum + p.x, 0) / 5;
-            const cy = pts.reduce((sum, p) => sum + p.y, 0) / 5;
-
-            // Calculate average edge length for sizing
-            let avgEdgeLen = 0;
-            for(let i = 0; i < 5; i++) {
-                const p1 = pts[i];
-                const p2 = pts[(i+1) % 5];
-                avgEdgeLen += Math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2);
-            }
-            avgEdgeLen /= 5;
-
-            // Use the actual edge direction in 3D space projected to 2D
-            const dx = pts[1].x - pts[0].x;
-            const dy = pts[1].y - pts[0].y;
-            const angle = Math.atan2(dy, dx) - Math.PI / 2; // Adjust for pentagram orientation
-
-            // Draw the pentagram image
-            ctx.save();
-            ctx.translate(cx, cy);
-            ctx.rotate(angle);
-
-            const size = avgEdgeLen * 1.8;
-            ctx.globalAlpha = 0.7;
-            ctx.drawImage(pentagramImg, -size/2, -size/2, size, size);
-            ctx.globalAlpha = 1.0;
-
-            ctx.restore();
-        }
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
@@ -243,22 +208,21 @@
 
             renderList.sort((a, b) => a.z - b.z);
 
-            renderList.forEach(face => {
+            renderList.forEach((face, index) => {
                 const pts = face.points;
 
-                // 1. Draw Pentagon Face (transparent, no gold fill)
+                // 1. Draw Pentagon Face with gold fill
                 ctx.beginPath();
                 ctx.moveTo(pts[0].x, pts[0].y);
                 for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
                 ctx.closePath();
-                ctx.strokeStyle = "rgba(100, 100, 100, 0.3)";
+                ctx.fillStyle = "rgba(255, 215, 0, 0.15)";
+                ctx.strokeStyle = "rgba(255, 215, 0, 0.5)";
                 ctx.lineWidth = 1;
+                ctx.fill();
                 ctx.stroke();
 
-                // 2. Draw pentagram image on face (properly tethered)
-                drawImageOnPentagon(pts, face.indices);
-
-                // 3. Draw INSCRIBED PENTAGRAM outline
+                // 2. Draw INSCRIBED PENTAGRAM with varied colors
                 ctx.beginPath();
                 ctx.moveTo(pts[0].x, pts[0].y);
                 ctx.lineTo(pts[2].x, pts[2].y);
@@ -266,8 +230,8 @@
                 ctx.lineTo(pts[1].x, pts[1].y);
                 ctx.lineTo(pts[3].x, pts[3].y);
                 ctx.closePath();
-                ctx.strokeStyle = "rgba(255, 0, 255, 0.6)";
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = pentagramColors[index % pentagramColors.length];
+                ctx.lineWidth = 2;
                 ctx.stroke();
             });
 
