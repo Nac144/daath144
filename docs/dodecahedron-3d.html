@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Rational Dodecahedron (Auto-Solved)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodecahedron - φ Spiral</title>
     <style>
         body {
-            background: #fff;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
             margin: 0;
             overflow: hidden;
         }
@@ -21,224 +22,218 @@
 <body>
     <canvas id="c"></canvas>
 
-    <script>
-        const canvas = document.getElementById('c');
-        const ctx = canvas.getContext('2d');
-        let width, height;
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
 
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
+let width, height;
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+}
+window.addEventListener('resize', resize);
+resize();
+
+const PHI = 21/13;
+const INV_PHI = 1/PHI;
+
+let vertices = [];
+
+for(let x of [-1, 1]) for(let y of [-1, 1]) for(let z of [-1, 1])
+    vertices.push({x, y, z});
+
+for(let x of [-1, 1]) for(let y of [-1, 1])
+    vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
+
+for(let x of [-1, 1]) for(let y of [-1, 1])
+    vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
+
+for(let x of [-1, 1]) for(let y of [-1, 1])
+    vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
+
+const neighbors = Array(20).fill().map(() => []);
+const threshold = 1.25;
+
+function dist(v1, v2) {
+    return Math.sqrt((v1.x-v2.x)**2 + (v1.y-v2.y)**2 + (v1.z-v2.z)**2);
+}
+
+for(let i=0; i<20; i++) {
+    for(let j=i+1; j<20; j++) {
+        const d = dist(vertices[i], vertices[j]);
+        if(d < threshold) {
+            neighbors[i].push(j);
+            neighbors[j].push(i);
         }
-        window.addEventListener('resize', resize);
-        resize();
+    }
+}
 
-        // --- 1. DEFINE RATIONAL COORDINATES ---
-        const PHI = 21/13;
-        const INV_PHI = 1/PHI;
-        let vertices = [];
+const faces = [];
+const foundFaces = new Set();
 
-        // Group A: The Cube (+-1, +-1, +-1)
-        for(let x of [-1, 1])
-            for(let y of [-1, 1])
-                for(let z of [-1, 1])
-                    vertices.push({x, y, z});
+for(let start=0; start<20; start++) {
+    for(let n1 of neighbors[start]) {
+        for(let n2 of neighbors[n1]) {
+            if(n2 === start) continue;
+            for(let n3 of neighbors[n2]) {
+                if(n3 === n1 || n3 === start) continue;
+                for(let n4 of neighbors[n3]) {
+                    if(n4 === n2 || n4 === n1 || n4 === start) continue;
+                    if(neighbors[n4].includes(start)) {
+                        const cycle = [start, n1, n2, n3, n4];
+                        const id = [...cycle].sort((a,b)=>a-b).join(',');
 
-        // Group B: The Green Rect (+-1/phi, +-phi, 0)
-        for(let x of [-1, 1])
-            for(let y of [-1, 1])
-                vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
-
-        // Group C: The Pink Rect (+-phi, 0, +-1/phi)
-        for(let x of [-1, 1])
-            for(let y of [-1, 1])
-                vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
-
-        // Group D: The Blue Rect (0, +-1/phi, +-phi)
-        for(let x of [-1, 1])
-            for(let y of [-1, 1])
-                vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
-
-        // --- 2. AUTO-DETECT FACES ---
-        const neighbors = Array(20).fill().map(() => []);
-        const threshold = 1.25;
-
-        function dist(v1, v2) {
-            return Math.sqrt((v1.x-v2.x)**2 + (v1.y-v2.y)**2 + (v1.z-v2.z)**2);
-        }
-
-        for(let i=0; i<20; i++) {
-            for(let j=i+1; j<20; j++) {
-                const d = dist(vertices[i], vertices[j]);
-                if(d < threshold) {
-                    neighbors[i].push(j);
-                    neighbors[j].push(i);
-                }
-            }
-        }
-
-        const faces = [];
-        const foundFaces = new Set();
-
-        for(let start=0; start<20; start++) {
-            for(let n1 of neighbors[start]) {
-                for(let n2 of neighbors[n1]) {
-                    if(n2 === start) continue;
-                    for(let n3 of neighbors[n2]) {
-                        if(n3 === n1 || n3 === start) continue;
-                        for(let n4 of neighbors[n3]) {
-                            if(n4 === n2 || n4 === n1 || n4 === start) continue;
-                            if(neighbors[n4].includes(start)) {
-                                const cycle = [start, n1, n2, n3, n4];
-                                const id = [...cycle].sort((a,b)=>a-b).join(',');
-                                if(!foundFaces.has(id)) {
-                                    foundFaces.add(id);
-                                    faces.push(cycle);
-                                }
-                            }
+                        if(!foundFaces.has(id)) {
+                            foundFaces.add(id);
+                            faces.push(cycle);
                         }
                     }
                 }
             }
         }
+    }
+}
 
-        // --- 3. PENTAGRAM COLORS ---
-        const pentagramColors = [
-            '#ff00ff', // Magenta
-            '#00ffff', // Cyan
-            '#ff0080', // Hot Pink
-            '#8000ff', // Purple
-            '#ff8000', // Orange
-            '#00ff80', // Spring Green
-            '#ff0040', // Rose
-            '#4000ff', // Indigo
-            '#ffff00', // Yellow
-            '#00ff00', // Green
-            '#ff00c0', // Deep Pink
-            '#00c0ff'  // Sky Blue
-        ];
+let angleX = 0.3;
+let angleY = 0.5;
+let isDragging = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
 
-        // --- 4. MOUSE CONTROLS ---
-        let angleX = 0;
-        let angleY = 0;
-        let zoom = 150;
-        let isDragging = false;
-        let lastMouseX = 0;
-        let lastMouseY = 0;
+canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+});
 
-        canvas.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-        });
+canvas.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        const deltaX = e.clientX - lastMouseX;
+        const deltaY = e.clientY - lastMouseY;
+        angleY += deltaX * 0.005;
+        angleX += deltaY * 0.005;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+    }
+});
 
-        canvas.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                const deltaX = e.clientX - lastMouseX;
-                const deltaY = e.clientY - lastMouseY;
-                angleY += deltaX * 0.01;
-                angleX += deltaY * 0.01;
-                lastMouseX = e.clientX;
-                lastMouseY = e.clientY;
-            }
-        });
+canvas.addEventListener('mouseup', () => {
+    isDragging = false;
+});
 
-        canvas.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
+canvas.addEventListener('mouseleave', () => {
+    isDragging = false;
+});
 
-        canvas.addEventListener('mouseleave', () => {
-            isDragging = false;
-        });
+function project(v) {
+    const fov = 600;
 
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            zoom += e.deltaY * -0.1;
-            zoom = Math.max(50, Math.min(300, zoom));
-        });
+    let y1 = v.y * Math.cos(angleX) - v.z * Math.sin(angleX);
+    let z1 = v.y * Math.sin(angleX) + v.z * Math.cos(angleX);
 
-        // --- 5. RENDER ENGINE ---
-        function rotateX(v, angle) {
-            return {
-                x: v.x,
-                y: v.y * Math.cos(angle) - v.z * Math.sin(angle),
-                z: v.y * Math.sin(angle) + v.z * Math.cos(angle)
-            };
-        }
+    let x2 = v.x * Math.cos(angleY) - z1 * Math.sin(angleY);
+    let z2 = v.x * Math.sin(angleY) + z1 * Math.cos(angleY);
 
-        function rotateY(v, angle) {
-            return {
-                x: v.x * Math.cos(angle) - v.z * Math.sin(angle),
-                y: v.y,
-                z: v.x * Math.sin(angle) + v.z * Math.cos(angle)
-            };
-        }
+    let scale = fov / (fov + z2 * 100 + 400);
+    return {
+        x: x2 * 150 * scale + width / 2,
+        y: y1 * 150 * scale + height / 2,
+        z: z2
+    };
+}
 
-        function project(v) {
-            const fov = 600;
-            const rotated = rotateY(rotateX(v, angleX), angleY);
-            let scale = fov / (fov + rotated.z * 100 + 400);
-            return {
-                x: rotated.x * zoom * scale + width / 2,
-                y: rotated.y * zoom * scale + height / 2,
-                z: rotated.z,
-                rx: rotated.x,
-                ry: rotated.y,
-                rz: rotated.z
-            };
-        }
+function drawPhiSpiral(pts) {
+    ctx.save();
 
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.closePath();
+    ctx.clip();
 
-        function draw() {
-            ctx.clearRect(0, 0, width, height);
+    const minX = Math.min(...pts.map(p => p.x));
+    const maxX = Math.max(...pts.map(p => p.x));
+    const minY = Math.min(...pts.map(p => p.y));
+    const maxY = Math.max(...pts.map(p => p.y));
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const size = Math.max(maxX - minX, maxY - minY);
 
-            const projVerts = vertices.map(project);
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const spiralTurns = 3;
+    const spiralPoints = 100;
+    for(let i = 0; i <= spiralPoints; i++) {
+        const t = i / spiralPoints;
+        const angle = t * spiralTurns * Math.PI * 2;
+        const radius = (size / 4) * Math.pow(PHI, t * 2 - 1);
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        if(i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
 
-            const renderList = faces.map(faceIndices => {
-                const p = faceIndices.map(i => projVerts[i]);
-                const zAvg = p.reduce((sum, v) => sum + v.z, 0) / 5;
-                return {
-                    indices: faceIndices,
-                    points: p,
-                    z: zAvg
-                };
-            });
+    ctx.restore();
+}
 
-            renderList.sort((a, b) => a.z - b.z);
+function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, width, height);
 
-            renderList.forEach((face, index) => {
-                const pts = face.points;
+    if(!isDragging) {
+        angleX += 0.003;
+        angleY += 0.007;
+    }
 
-                // 1. Draw Pentagon Face with gold fill
-                ctx.beginPath();
-                ctx.moveTo(pts[0].x, pts[0].y);
-                for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
-                ctx.closePath();
-                ctx.fillStyle = "rgba(255, 215, 0, 0.15)";
-                ctx.strokeStyle = "rgba(255, 215, 0, 0.5)";
-                ctx.lineWidth = 1;
-                ctx.fill();
-                ctx.stroke();
+    const projVerts = vertices.map(project);
 
-                // 2. Draw INSCRIBED PENTAGRAM with varied colors
-                ctx.beginPath();
-                ctx.moveTo(pts[0].x, pts[0].y);
-                ctx.lineTo(pts[2].x, pts[2].y);
-                ctx.lineTo(pts[4].x, pts[4].y);
-                ctx.lineTo(pts[1].x, pts[1].y);
-                ctx.lineTo(pts[3].x, pts[3].y);
-                ctx.closePath();
-                ctx.strokeStyle = pentagramColors[index % pentagramColors.length];
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            });
+    const renderList = faces.map(faceIndices => {
+        const p = faceIndices.map(i => projVerts[i]);
+        const zAvg = p.reduce((sum, v) => sum + v.z, 0) / 5;
+        return { indices: faceIndices, points: p, z: zAvg };
+    });
 
-            requestAnimationFrame(draw);
-        }
+    renderList.sort((a, b) => a.z - b.z);
 
-        draw();
-    </script>
+    renderList.forEach(face => {
+        const pts = face.points;
+
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
+        ctx.closePath();
+
+        const brightness = 100 + (face.z + 1) * 50;
+        ctx.fillStyle = `rgba(${brightness}, ${brightness * 0.5}, 0, 0.3)`;
+        ctx.fill();
+
+        drawPhiSpiral(pts);
+
+        ctx.strokeStyle = "rgba(255, 215, 0, 0.6)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        ctx.lineTo(pts[2].x, pts[2].y);
+        ctx.lineTo(pts[4].x, pts[4].y);
+        ctx.lineTo(pts[1].x, pts[1].y);
+        ctx.lineTo(pts[3].x, pts[3].y);
+        ctx.closePath();
+
+        ctx.strokeStyle = "#ff0000";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    });
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
 </body>
 </html>
