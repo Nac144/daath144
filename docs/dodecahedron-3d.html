@@ -234,10 +234,16 @@ function draw() {
         ctx.fillStyle = `rgba(${litColor}, 0, 0, 0.5)`;
         ctx.fill();
 
-        ctx.strokeStyle = "rgba(120, 0, 0, 0.7)";
-        ctx.lineWidth = 1.5;
+        // Glowing red pentagon border
+        ctx.save();
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "rgba(255, 0, 0, 0.8)";
+        ctx.strokeStyle = "rgba(200, 0, 0, 0.9)";
+        ctx.lineWidth = 2.5;
         ctx.stroke();
+        ctx.restore();
 
+        // Black pentagram (no glow)
         ctx.beginPath();
         ctx.moveTo(pts[0].x, pts[0].y);
         ctx.lineTo(pts[2].x, pts[2].y);
