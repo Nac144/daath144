@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Pentagram Fractal</title>
+    <style>
+        /* CSS: Sets up the drawing area and BLACK background for the original neon effect */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000000; /* Original Black Background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script>
+        // --- SETUP & UTILITIES ---
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Constants: Golden Ratio (PHI) and PI
+        const PHI = (1 + Math.sqrt(5)) / 2; // φ ≈ 1.618034
+        const PI = Math.PI;
+
+        // *** RESTORED ORIGINAL SCALING FACTOR (PHI⁻²) ***
+        // This factor creates the dramatic, interlocking look you preferred.
+        function calculateNextRadius(r) {
+            return r / (PHI * PHI);
+        }
+
+        // --- FRACTAL DRAWING FUNCTION (RECURSIVE) ---
+
+        /**
+         * Draws the original interlocking, color-cycling fractal.
+         */
+        function star_fractal_web(x, y, r, depth, orientation) {
+            if (r < 1.0) return;
+
+            // Dynamic Color Shift: Hue cycles based on time and depth (Original HSL)
+            const hue = (depth * 15 + performance.now() * 0.01) % 360;
+            ctx.strokeStyle = `hsl(${hue}, 95%, 75%)`;
+
+            // Line width and Neon Glow Effect
+            ctx.lineWidth = Math.max(0.7, 1 + r / 800);
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = `hsl(${hue}, 95%, 60%)`;
+
+            let vertices = [];
+            const currentStartAngle = orientation;
+
+            for (let i = 0; i < 5; i++) {
+                let angle = currentStartAngle + i * (2 * PI / 5);
+                let px = x + r * Math.cos(angle);
+                let py = y + r * Math.sin(angle);
+                vertices.push({x: px, y: py});
+            }
+
+            // Draw the 5-pointed star (Pentagram)
+            ctx.beginPath();
+            ctx.moveTo(vertices[0].x, vertices[0].y);
+            ctx.lineTo(vertices[2].x, vertices[2].y);
+            ctx.lineTo(vertices[4].x, vertices[4].y);
+            ctx.lineTo(vertices[1].x, vertices[1].y);
+            ctx.lineTo(vertices[3].x, vertices[3].y);
+            ctx.closePath();
+            ctx.stroke();
+
+            // Recursive Call: Scales down AND flips orientation by 180 degrees (Original interlocking behavior)
+            const next_r = calculateNextRadius(r);
+            star_fractal_web(x, y, next_r, depth + 1, orientation + PI);
+        }
+
+        // --- ANIMATION LOOP ---
+        let currentOrientation = -PI / 2; // Initial direction (90 degrees up)
+
+        function drawLoop() {
+            // RESTORED: Clear with a semi-transparent black overlay for the "smoky" trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+
+            const center_x = width / 2;
+            const center_y = height / 2;
+            const maxRadius = Math.min(width, height) * 0.48;
+
+            star_fractal_web(center_x, center_y, maxRadius, 1, currentOrientation);
+
+            // Apply subtle continuous rotation
+            currentOrientation += 0.0005;
+
+            requestAnimationFrame(drawLoop);
+        }
+
+        drawLoop();
+    </script>
+</body>
+</html>
