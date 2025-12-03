@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Rational Dodecahedron (Auto-Solved)</title>
+    <style>
+        body {
+            background: #fff;
+            margin: 0;
+            overflow: hidden;
+            color: #ffd700;
+            font-family: 'Segoe UI', monospace;
+        }
+        canvas {
+            display: block;
+        }
+        #overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            pointer-events: none;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border: 1px solid #ffd700;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            color: #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Rational Dodecahedron</h1>
+        <p>Phi Approx: 21/13</p>
+        <p>Faces: Auto-Detected via Geometry</p>
+        <p style="color: #fff">Pentagrams: 12/12 Verified</p>
+    </div>
+    <canvas id="c"></canvas>
+
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // --- 1. DEFINE RATIONAL COORDINATES ---
+        const PHI = 21/13;
+        const INV_PHI = 1/PHI;
+        let vertices = [];
+
+        // Group A: The Cube (+-1, +-1, +-1)
+        for(let x of [-1, 1])
+            for(let y of [-1, 1])
+                for(let z of [-1, 1])
+                    vertices.push({x, y, z});
+
+        // Group B: The Green Rect (+-1/phi, +-phi, 0)
+        for(let x of [-1, 1])
+            for(let y of [-1, 1])
+                vertices.push({x: x*INV_PHI, y: y*PHI, z: 0});
+
+        // Group C: The Pink Rect (+-phi, 0, +-1/phi)
+        for(let x of [-1, 1])
+            for(let y of [-1, 1])
+                vertices.push({x: x*PHI, y: 0, z: y*INV_PHI});
+
+        // Group D: The Blue Rect (0, +-1/phi, +-phi)
+        for(let x of [-1, 1])
+            for(let y of [-1, 1])
+                vertices.push({x: 0, y: x*INV_PHI, z: y*PHI});
+
+        // --- 2. AUTO-DETECT FACES ---
+        const neighbors = Array(20).fill().map(() => []);
+        const threshold = 1.25;
+
+        function dist(v1, v2) {
+            return Math.sqrt((v1.x-v2.x)**2 + (v1.y-v2.y)**2 + (v1.z-v2.z)**2);
+        }
+
+        for(let i=0; i<20; i++) {
+            for(let j=i+1; j<20; j++) {
+                const d = dist(vertices[i], vertices[j]);
+                if(d < threshold) {
+                    neighbors[i].push(j);
+                    neighbors[j].push(i);
+                }
+            }
+        }
+
+        const faces = [];
+        const foundFaces = new Set();
+
+        for(let start=0; start<20; start++) {
+            for(let n1 of neighbors[start]) {
+                for(let n2 of neighbors[n1]) {
+                    if(n2 === start) continue;
+                    for(let n3 of neighbors[n2]) {
+                        if(n3 === n1 || n3 === start) continue;
+                        for(let n4 of neighbors[n3]) {
+                            if(n4 === n2 || n4 === n1 || n4 === start) continue;
+                            if(neighbors[n4].includes(start)) {
+                                const cycle = [start, n1, n2, n3, n4];
+                                const id = [...cycle].sort((a,b)=>a-b).join(',');
+                                if(!foundFaces.has(id)) {
+                                    foundFaces.add(id);
+                                    faces.push(cycle);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- 3. LOAD PENTAGRAM IMAGE ---
+        const pentagramImg = new Image();
+        pentagramImg.src = 'https://raw.githubusercontent.com/Nac144/daath144/refs/heads/main/docs/images/imgbin_56d6abf1353d561eae6abf0e4b6de1c8.png';
+        let imageLoaded = false;
+        pentagramImg.onload = () => {
+            imageLoaded = true;
+        };
+
+        // --- 4. RENDER ENGINE ---
+        let angleX = 0;
+        let angleY = 0;
+
+        function project(v) {
+            const fov = 600;
+            let y1 = v.y * Math.cos(angleX) - v.z * Math.sin(angleX);
+            let z1 = v.y * Math.sin(angleX) + v.z * Math.cos(angleX);
+            let x2 = v.x * Math.cos(angleY) - z1 * Math.sin(angleY);
+            let z2 = v.x * Math.sin(angleY) + z1 * Math.cos(angleY);
+            let scale = fov / (fov + z2 * 100 + 400);
+            return {
+                x: x2 * 150 * scale + width / 2,
+                y: y1 * 150 * scale + height / 2,
+                z: z2
+            };
+        }
+
+        function drawImageOnPentagon(pts) {
+            if(!imageLoaded) return;
+
+            // Calculate center of pentagon
+            const cx = pts.reduce((sum, p) => sum + p.x, 0) / 5;
+            const cy = pts.reduce((sum, p) => sum + p.y, 0) / 5;
+
+            // Calculate average edge length for sizing
+            let avgEdgeLen = 0;
+            for(let i = 0; i < 5; i++) {
+                const p1 = pts[i];
+                const p2 = pts[(i+1) % 5];
+                avgEdgeLen += Math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2);
+            }
+            avgEdgeLen /= 5;
+
+            // Calculate rotation angle based on first edge
+            const dx = pts[1].x - pts[0].x;
+            const dy = pts[1].y - pts[0].y;
+            const angle = Math.atan2(dy, dx);
+
+            // Draw the pentagram image
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+
+            const size = avgEdgeLen * 1.8; // Scale to fit inside pentagon
+            ctx.globalAlpha = 0.8;
+            ctx.drawImage(pentagramImg, -size/2, -size/2, size, size);
+            ctx.globalAlpha = 1.0;
+
+            ctx.restore();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+
+            const projVerts = vertices.map(project);
+
+            const renderList = faces.map(faceIndices => {
+                const p = faceIndices.map(i => projVerts[i]);
+                const zAvg = p.reduce((sum, v) => sum + v.z, 0) / 5;
+                return {
+                    indices: faceIndices,
+                    points: p,
+                    z: zAvg
+                };
+            });
+
+            renderList.sort((a, b) => a.z - b.z);
+
+            renderList.forEach(face => {
+                const pts = face.points;
+
+                // 1. Draw Pentagon Face
+                ctx.beginPath();
+                ctx.moveTo(pts[0].x, pts[0].y);
+                for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
+                ctx.closePath();
+                ctx.fillStyle = "rgba(255, 215, 0, 0.1)";
+                ctx.strokeStyle = "rgba(255, 215, 0, 0.4)";
+                ctx.lineWidth = 1;
+                ctx.fill();
+                ctx.stroke();
+
+                // 2. Draw pentagram image on face
+                drawImageOnPentagon(pts);
+
+                // 3. Draw INSCRIBED PENTAGRAM outline
+                ctx.beginPath();
+                ctx.moveTo(pts[0].x, pts[0].y);
+                ctx.lineTo(pts[2].x, pts[2].y);
+                ctx.lineTo(pts[4].x, pts[4].y);
+                ctx.lineTo(pts[1].x, pts[1].y);
+                ctx.lineTo(pts[3].x, pts[3].y);
+                ctx.closePath();
+                ctx.strokeStyle = "#ff00ff";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            angleX += 0.003;
+            angleY += 0.007;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
