@@ -98,6 +98,7 @@ for(let start=0; start<20; start++) {
 
 let angleX = 0.3;
 let angleY = 0.5;
+let zoom = 150;
 let isDragging = false;
 let lastMouseX = 0;
 let lastMouseY = 0;
@@ -127,57 +128,76 @@ canvas.addEventListener('mouseleave', () => {
     isDragging = false;
 });
 
+canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    zoom += e.deltaY * -0.1;
+    zoom = Math.max(50, Math.min(300, zoom));
+});
+
+function rotatePoint(v, ax, ay) {
+    let y1 = v.y * Math.cos(ax) - v.z * Math.sin(ax);
+    let z1 = v.y * Math.sin(ax) + v.z * Math.cos(ax);
+
+    let x2 = v.x * Math.cos(ay) - z1 * Math.sin(ay);
+    let z2 = v.x * Math.sin(ay) + z1 * Math.cos(ay);
+
+    return {x: x2, y: y1, z: z2};
+}
+
 function project(v) {
     const fov = 600;
+    const rotated = rotatePoint(v, angleX, angleY);
 
-    let y1 = v.y * Math.cos(angleX) - v.z * Math.sin(angleX);
-    let z1 = v.y * Math.sin(angleX) + v.z * Math.cos(angleX);
-
-    let x2 = v.x * Math.cos(angleY) - z1 * Math.sin(angleY);
-    let z2 = v.x * Math.sin(angleY) + z1 * Math.cos(angleY);
-
-    let scale = fov / (fov + z2 * 100 + 400);
+    let scale = fov / (fov + rotated.z * 100 + 400);
     return {
-        x: x2 * 150 * scale + width / 2,
-        y: y1 * 150 * scale + height / 2,
-        z: z2
+        x: rotated.x * zoom * scale + width / 2,
+        y: rotated.y * zoom * scale + height / 2,
+        z: rotated.z,
+        rx: rotated.x,
+        ry: rotated.y,
+        rz: rotated.z
     };
 }
 
-function drawPhiSpiral(pts) {
-    ctx.save();
+function calculateLighting(faceIndices) {
+    // Get 3D rotated vertices for this face
+    const rotatedVerts = faceIndices.map(i => rotatePoint(vertices[i], angleX, angleY));
 
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
-    ctx.closePath();
-    ctx.clip();
+    // Calculate face normal using cross product
+    const v1 = {
+        x: rotatedVerts[1].x - rotatedVerts[0].x,
+        y: rotatedVerts[1].y - rotatedVerts[0].y,
+        z: rotatedVerts[1].z - rotatedVerts[0].z
+    };
+    const v2 = {
+        x: rotatedVerts[2].x - rotatedVerts[0].x,
+        y: rotatedVerts[2].y - rotatedVerts[0].y,
+        z: rotatedVerts[2].z - rotatedVerts[0].z
+    };
 
-    const minX = Math.min(...pts.map(p => p.x));
-    const maxX = Math.max(...pts.map(p => p.x));
-    const minY = Math.min(...pts.map(p => p.y));
-    const maxY = Math.max(...pts.map(p => p.y));
-    const centerX = (minX + maxX) / 2;
-    const centerY = (minY + maxY) / 2;
-    const size = Math.max(maxX - minX, maxY - minY);
+    const normal = {
+        x: v1.y * v2.z - v1.z * v2.y,
+        y: v1.z * v2.x - v1.x * v2.z,
+        z: v1.x * v2.y - v1.y * v2.x
+    };
 
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    const spiralTurns = 3;
-    const spiralPoints = 100;
-    for(let i = 0; i <= spiralPoints; i++) {
-        const t = i / spiralPoints;
-        const angle = t * spiralTurns * Math.PI * 2;
-        const radius = (size / 4) * Math.pow(PHI, t * 2 - 1);
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-        if(i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
+    // Normalize
+    const len = Math.sqrt(normal.x**2 + normal.y**2 + normal.z**2);
+    normal.x /= len;
+    normal.y /= len;
+    normal.z /= len;
 
-    ctx.restore();
+    // Light direction (from top-right-front)
+    const light = {x: 0.5, y: -0.5, z: -1};
+    const lightLen = Math.sqrt(light.x**2 + light.y**2 + light.z**2);
+    light.x /= lightLen;
+    light.y /= lightLen;
+    light.z /= lightLen;
+
+    // Calculate dot product (how much face points toward light)
+    const intensity = Math.max(0, -(normal.x * light.x + normal.y * light.y + normal.z * light.z));
+
+    return 0.3 + intensity * 0.5; // Range from 0.3 to 0.8
 }
 
 function draw() {
@@ -206,14 +226,15 @@ function draw() {
         for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
         ctx.closePath();
 
-        // Solid red pentagons with depth-based shading
-        const brightness = 0.6 + (face.z + 1) * 0.2;
-        ctx.fillStyle = `rgba(200, 0, 0, ${brightness})`;
+        // Calculate lighting based on face normal
+        const lighting = calculateLighting(face.indices);
+        const baseColor = 200;
+        const litColor = Math.floor(baseColor * lighting);
+
+        ctx.fillStyle = `rgba(${litColor}, 0, 0, 0.5)`;
         ctx.fill();
 
-        drawPhiSpiral(pts);
-
-        ctx.strokeStyle = "rgba(150, 0, 0, 0.8)";
+        ctx.strokeStyle = "rgba(120, 0, 0, 0.7)";
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
