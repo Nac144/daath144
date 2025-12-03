@@ -6,7 +6,7 @@
     <title>Dodecahedron - φ Spiral</title>
     <style>
         body {
-            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            background: #ffffff;
             margin: 0;
             overflow: hidden;
         }
@@ -181,8 +181,7 @@ function drawPhiSpiral(pts) {
 }
 
 function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    ctx.fillRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height);
 
     if(!isDragging) {
         angleX += 0.003;
@@ -207,14 +206,15 @@ function draw() {
         for(let i=1; i<5; i++) ctx.lineTo(pts[i].x, pts[i].y);
         ctx.closePath();
 
-        const brightness = 100 + (face.z + 1) * 50;
-        ctx.fillStyle = `rgba(${brightness}, ${brightness * 0.5}, 0, 0.3)`;
+        // Solid red pentagons with depth-based shading
+        const brightness = 0.6 + (face.z + 1) * 0.2;
+        ctx.fillStyle = `rgba(200, 0, 0, ${brightness})`;
         ctx.fill();
 
         drawPhiSpiral(pts);
 
-        ctx.strokeStyle = "rgba(255, 215, 0, 0.6)";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(150, 0, 0, 0.8)";
+        ctx.lineWidth = 1.5;
         ctx.stroke();
 
         ctx.beginPath();
@@ -225,8 +225,8 @@ function draw() {
         ctx.lineTo(pts[3].x, pts[3].y);
         ctx.closePath();
 
-        ctx.strokeStyle = "#ff0000";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2.5;
         ctx.stroke();
     });
 
