@@ -462,12 +462,10 @@
 </head>
 <body>
   <!-- Index-header.html iframe at top -->
-  <iframe id="indexFrame" src="index-header.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 300px; border: none; z-index: 1000; transition: height 0.3s ease;"></iframe>
+  <iframe id="indexFrame" src="index-header.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; border: none; z-index: 1000; transition: height 0.3s ease, opacity 0.3s ease;"></iframe>
 
   <!-- DAATH Content Container (collapsible) -->
-  <div id="daathContent" style="transition: opacity 0.3s ease, visibility 0.3s ease;">
-    <!-- Spacer to push content below iframe -->
-    <div style="height: 300px;"></div>
+  <div id="daathContent" style="transition: opacity 0.3s ease, visibility 0.3s ease; opacity: 0; visibility: hidden; pointer-events: none;">
 
     <canvas id="matrixBackground"></canvas>
     <div class="binary-rain" id="binaryRain"></div>
@@ -1507,27 +1505,29 @@
 
   <script>
     // Matrix Terminal Toggle Functionality - Listen for messages from iframe
-    let isCollapsed = false;
+    let isDaathExpanded = false;
     const daathContent = document.getElementById('daathContent');
     const indexFrame = document.getElementById('indexFrame');
 
     // Listen for toggle messages from the iframe
     window.addEventListener('message', function(event) {
       if (event.data && event.data.type === 'TOGGLE_DAATH_CONTENT') {
-        isCollapsed = !isCollapsed;
+        isDaathExpanded = !isDaathExpanded;
 
-        if (isCollapsed) {
-          // Collapse: Hide DAATH content, expand iframe to full height
+        if (isDaathExpanded) {
+          // Expand DAATH: Show black content, hide iframe
+          daathContent.style.opacity = '1';
+          daathContent.style.visibility = 'visible';
+          daathContent.style.pointerEvents = 'auto';
+          indexFrame.style.height = '0';
+          indexFrame.style.opacity = '0';
+        } else {
+          // Collapse DAATH: Hide black content, show Wikipedia navigation full screen
           daathContent.style.opacity = '0';
           daathContent.style.visibility = 'hidden';
           daathContent.style.pointerEvents = 'none';
           indexFrame.style.height = '100vh';
-        } else {
-          // Expand: Show DAATH content, return iframe to 300px
-          daathContent.style.opacity = '1';
-          daathContent.style.visibility = 'visible';
-          daathContent.style.pointerEvents = 'auto';
-          indexFrame.style.height = '300px';
+          indexFrame.style.opacity = '1';
         }
       }
     });
