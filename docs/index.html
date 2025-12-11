@@ -1506,31 +1506,31 @@
   <!-- End DAATH Content Container -->
 
   <script>
-    // Matrix Terminal Toggle Functionality
+    // Matrix Terminal Toggle Functionality - Listen for messages from iframe
     let isCollapsed = false;
     const daathContent = document.getElementById('daathContent');
     const indexFrame = document.getElementById('indexFrame');
-    const terminalToggle = document.getElementById('terminalToggle');
 
-    if (terminalToggle) {
-      terminalToggle.addEventListener('click', function() {
+    // Listen for toggle messages from the iframe
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'TOGGLE_DAATH_CONTENT') {
         isCollapsed = !isCollapsed;
 
         if (isCollapsed) {
           // Collapse: Hide DAATH content, expand iframe to full height
           daathContent.style.opacity = '0';
           daathContent.style.visibility = 'hidden';
+          daathContent.style.pointerEvents = 'none';
           indexFrame.style.height = '100vh';
-          terminalToggle.textContent = '▼ EXPAND NULL POINT';
         } else {
           // Expand: Show DAATH content, return iframe to 300px
           daathContent.style.opacity = '1';
           daathContent.style.visibility = 'visible';
+          daathContent.style.pointerEvents = 'auto';
           indexFrame.style.height = '300px';
-          terminalToggle.textContent = '✕';
         }
-      });
-    }
+      }
+    });
   </script>
 
   <script>
