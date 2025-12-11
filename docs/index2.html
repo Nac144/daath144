@@ -461,12 +461,18 @@
   </style>
 </head>
 <body>
+  <!-- Index.html iframe at top -->
+  <iframe id="indexFrame" src="index.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 300px; border: none; z-index: 1000;"></iframe>
+
+  <!-- Spacer to push content below iframe -->
+  <div style="height: 300px;"></div>
+
   <canvas id="matrixBackground"></canvas>
   <div class="binary-rain" id="binaryRain"></div>
   <div class="reality-static" id="realityStatic"></div>
-  
+
   <canvas id="mouseTrail"></canvas>
-  
+
   <div class="nav-dots">
     <div class="nav-dot active" data-section="header"></div>
     <div class="nav-dot" data-section="nullpoint"></div>
