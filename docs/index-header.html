@@ -316,6 +316,15 @@
             }
         });
     })();
+
+    // Matrix Terminal Toggle - Send message to parent window
+    const terminalToggle = document.getElementById('terminalToggle');
+    if (terminalToggle) {
+        terminalToggle.addEventListener('click', function() {
+            // Send toggle message to parent window
+            window.parent.postMessage({ type: 'TOGGLE_DAATH_CONTENT' }, '*');
+        });
+    }
     </script>
 </body>
 </html>
